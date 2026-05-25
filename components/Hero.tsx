@@ -2,10 +2,28 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+// Scene overlay definitions — keyed to video timecodes
+const OVERLAYS = [
+  {
+    start: 0,
+    end: 4.2,
+    headline: 'Your Property,\nPerfectly Managed.',
+    sub: "Bakersfield's trusted rental experts",
+  },
+  {
+    start: 9.2,
+    end: 11.8,
+    headline: 'Tenants Who Stay.\nProperties That Thrive.',
+    sub: 'Full-service management, local roots',
+  },
+]
+
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [muted, setMuted] = useState(true)
+  const [currentTime, setCurrentTime] = useState(0)
 
   // Detect mobile
   useEffect(() => {
@@ -22,7 +40,28 @@ export default function Hero() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const [muted, setMuted] = useState(true)
+  // Track video time for scene overlays
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const onTimeUpdate = () => setCurrentTime(video.currentTime)
+    video.addEventListener('timeupdate', onTimeUpdate)
+    return () => video.removeEventListener('timeupdate', onTimeUpdate)
+  }, [])
+
+  // Fix: imperatively toggle muted — React's muted prop doesn't reliably
+  // update the DOM attribute after mount in all browsers
+  const handleSoundToggle = () => {
+    const video = videoRef.current
+    if (video) {
+      video.muted = !video.muted
+      setMuted(video.muted)
+    }
+  }
+
+  const activeOverlay = OVERLAYS.find(
+    (o) => currentTime >= o.start && currentTime < o.end
+  )
 
   return (
     <section
@@ -36,7 +75,7 @@ export default function Hero() {
           className="absolute inset-0 w-full h-full object-cover"
           src="/hero.mp4"
           autoPlay
-          muted={muted}
+          muted
           loop
           playsInline
           preload="auto"
@@ -55,7 +94,7 @@ export default function Hero() {
         />
       )}
 
-      {/* Subtle vignette — darkens edges slightly for depth, does not cover video text */}
+      {/* Subtle vignette — darkens edges slightly for depth */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -63,6 +102,49 @@ export default function Hero() {
             'radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.18) 100%)',
         }}
       />
+
+      {/* Scene overlay text — centred, fades in/out with each scene */}
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        style={{
+          opacity: activeOverlay ? 1 : 0,
+          transition: 'opacity 0.7s ease',
+          zIndex: 5,
+        }}
+      >
+        {activeOverlay && (
+          <div className="text-center px-6" style={{ maxWidth: '640px' }}>
+            <h1
+              style={{
+                fontFamily: 'Playfair Display, Georgia, serif',
+                fontSize: 'clamp(2rem, 5vw, 3.4rem)',
+                fontWeight: 700,
+                color: '#F7F5F0',
+                lineHeight: 1.18,
+                letterSpacing: '-0.02em',
+                whiteSpace: 'pre-line',
+                textShadow: '0 2px 28px rgba(0,0,0,0.6)',
+                marginBottom: '14px',
+              }}
+            >
+              {activeOverlay.headline}
+            </h1>
+            <p
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 'clamp(0.7rem, 1.4vw, 0.85rem)',
+                fontWeight: 300,
+                color: 'rgba(247,245,240,0.7)',
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                textShadow: '0 1px 12px rgba(0,0,0,0.45)',
+              }}
+            >
+              {activeOverlay.sub}
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Brand name — top-left corner, clear of video action area */}
       <div
@@ -92,7 +174,7 @@ export default function Hero() {
       {/* Sound toggle — bottom-right */}
       {!isMobile && (
         <button
-          onClick={() => setMuted(m => !m)}
+          onClick={handleSoundToggle}
           className="absolute bottom-8 right-6 md:right-10 flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 hover:scale-105"
           style={{
             backgroundColor: 'rgba(247,245,240,0.15)',
