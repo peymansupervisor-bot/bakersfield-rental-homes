@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -59,15 +60,35 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Contact link */}
-        <a
-          href="#contact"
-          onClick={scrollToContact}
-          className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-          style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}
-        >
-          Contact
-        </a>
+        {/* Nav links */}
+        <div className="flex items-center gap-5">
+          <Link
+            href="/listings"
+            className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+            style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}
+          >
+            Rentals
+          </Link>
+          <a
+            href="#contact"
+            onClick={scrollToContact}
+            className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+            style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}
+          >
+            Contact
+          </a>
+          <Link
+            href="/list"
+            className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full transition-all duration-300 hover:opacity-90"
+            style={{
+              backgroundColor: '#C9A961',
+              color: '#1C3D5A',
+              letterSpacing: '0.12em',
+            }}
+          >
+            List Your Home
+          </Link>
+        </div>
       </div>
     </motion.nav>
   )
