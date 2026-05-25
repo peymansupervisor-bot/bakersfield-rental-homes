@@ -51,7 +51,7 @@ function SuccessContent() {
         <p className="text-base font-light mb-8" style={{ color: 'rgba(43,43,43,0.7)' }}>
           {ready
             ? 'Your rental listing is now visible to Bakersfield renters.'
-            : 'We're activating your listing — this takes just a moment.'}
+            : "We're activating your listing — this takes just a moment."}
         </p>
 
         {ready && listingId && (
