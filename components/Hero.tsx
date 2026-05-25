@@ -7,12 +7,6 @@ const OVERLAYS = [
   {
     start: 0,
     end: 4.2,
-    headline: 'Your Property,\nPerfectly Managed.',
-    sub: "Bakersfield's trusted rental experts",
-  },
-  {
-    start: 9.2,
-    end: 11.8,
     headline: 'Tenants Who Stay.\nProperties That Thrive.',
     sub: 'Full-service management, local roots',
   },
