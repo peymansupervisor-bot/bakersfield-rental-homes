@@ -15,7 +15,11 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Replace with your form handler (Formspree, Resend, etc.)
+    const subject = encodeURIComponent('Property Inquiry — Bakersfield Rental Homes')
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+    )
+    window.location.href = `mailto:peymansupervisor@gmail.com?subject=${subject}&body=${body}`
     setSubmitted(true)
   }
 
