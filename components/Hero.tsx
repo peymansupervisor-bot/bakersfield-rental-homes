@@ -1,45 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion'
-
-interface HeroOverlay {
-  startPct: number
-  endPct: number
-  text: string
-  sub?: string
-}
-
-const OVERLAYS: HeroOverlay[] = [
-  { startPct: 0.15, endPct: 0.28, text: 'DISTANCE SHOULDN\'T MEAN WORRY', sub: 'Your property is far. Your anxiety doesn\'t have to be.' },
-  { startPct: 0.40, endPct: 0.53, text: 'LOCAL EXPERTS. ON YOUR PROPERTY.', sub: 'Gardeners, pool techs, HVAC, handymen — Bakersfield\'s best, on call.' },
-  { startPct: 0.68, endPct: 0.81, text: 'MAINTAINED. OCCUPIED. PROFITABLE.', sub: 'Every detail handled. Every month, on time.' },
-  { startPct: 0.90, endPct: 1.00, text: 'INVEST FROM ANYWHERE.', sub: 'Your Bakersfield team. Your peace of mind.' },
-]
-
-function clamp(val: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, val))
-}
-
-function overlayOpacity(progress: number, start: number, end: number): number {
-  const fadeIn = start
-  const fullIn = start + 0.04
-  const fullOut = end - 0.04
-  const fadeOut = end
-
-  if (progress < fadeIn) return 0
-  if (progress < fullIn) return (progress - fadeIn) / (fullIn - fadeIn)
-  if (progress < fullOut) return 1
-  if (progress < fadeOut) return 1 - (progress - fullOut) / (fadeOut - fullOut)
-  return 0
-}
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [progress, setProgress] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-  const [videoDuration, setVideoDuration] = useState(0)
+  const [scrolled, setScrolled] = useState(false)
 
   // Detect mobile
   useEffect(() => {
@@ -49,149 +15,104 @@ export default function Hero() {
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  // Load video metadata
+  // Fade out scroll indicator on scroll
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    const onMeta = () => setVideoDuration(video.duration)
-    video.addEventListener('loadedmetadata', onMeta)
-    if (video.readyState >= 1) onMeta()
-    return () => video.removeEventListener('loadedmetadata', onMeta)
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  // GSAP-style scroll sync via rAF
-  useEffect(() => {
-    if (isMobile) return
-
-    let rafId: number
-
-    const onScroll = () => {
-      const container = containerRef.current
-      const video = videoRef.current
-      if (!container || !video || !videoDuration) return
-
-      const rect = container.getBoundingClientRect()
-      const containerHeight = container.offsetHeight
-      const viewportH = window.innerHeight
-
-      // Progress: 0 when top enters viewport, 1 when bottom exits
-      const scrolled = -rect.top
-      const scrollable = containerHeight - viewportH
-      const pct = clamp(scrolled / scrollable, 0, 1)
-
-      setProgress(pct)
-      video.currentTime = pct * videoDuration
-    }
-
-    const tick = () => {
-      onScroll()
-      rafId = requestAnimationFrame(tick)
-    }
-    rafId = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafId)
-  }, [isMobile, videoDuration])
 
   return (
     <section
-      ref={containerRef}
-      style={{ height: '400vh', backgroundColor: '#F7F5F0' }}
+      className="relative w-full overflow-hidden"
+      style={{ height: '100vh', backgroundColor: '#0a0a0a' }}
     >
-      {/* Sticky video frame */}
-      <div className="sticky top-0 h-screen overflow-hidden" style={{ backgroundColor: '#F7F5F0' }}>
+      {/* Desktop: autoplay video */}
+      {!isMobile && (
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+      )}
 
-        {/* Desktop: scroll-synced video */}
-        {!isMobile && (
-          <video
-            ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ backgroundColor: '#F7F5F0' }}
-            src="/hero.mp4"
-            muted
-            playsInline
-            preload="auto"
-          />
-        )}
-
-        {/* Mobile: static fallback image */}
-        {isMobile && (
-          <div
-            className="absolute inset-0 w-full h-full"
-            style={{
-              backgroundImage: 'url(/hero-mobile.jpg)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundColor: '#F7F5F0',
-            }}
-          />
-        )}
-
-        {/* Overlay gradient (subtle bottom fade for readability) */}
+      {/* Mobile: static fallback image */}
+      {isMobile && (
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 w-full h-full"
           style={{
-            background: 'linear-gradient(to bottom, transparent 40%, rgba(247,245,240,0.3) 100%)',
+            backgroundImage: 'url(/hero-mobile.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
         />
+      )}
 
-        {/* Text overlays */}
-        {OVERLAYS.map((overlay, i) => {
-          const opacity = overlayOpacity(progress, overlay.startPct, overlay.endPct)
-          return (
-            <div
-              key={i}
-              className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center pointer-events-none"
-              style={{ opacity, transition: 'opacity 0.1s linear' }}
-            >
-              <p
-                className="text-xs font-semibold tracking-widest uppercase mb-4"
-                style={{ color: '#C9A961', letterSpacing: '0.2em' }}
-              >
-                Bakersfield Rental Homes
-              </p>
-              <h1
-                className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 max-w-4xl"
-                style={{
-                  fontFamily: 'Playfair Display, Georgia, serif',
-                  color: '#1C3D5A',
-                  lineHeight: 1.1,
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {overlay.text}
-              </h1>
-              {overlay.sub && (
-                <p
-                  className="text-base md:text-lg max-w-xl font-light"
-                  style={{ color: '#2B2B2B', opacity: 0.75 }}
-                >
-                  {overlay.sub}
-                </p>
-              )}
-            </div>
-          )
-        })}
+      {/* Subtle vignette — darkens edges slightly for depth, does not cover video text */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.18) 100%)',
+        }}
+      />
 
-        {/* Watermark cover — hides bottom-right corner branding */}
-        <div
-          className="absolute bottom-0 right-0 pointer-events-none"
-          style={{
-            width: '220px',
-            height: '72px',
-            background: 'linear-gradient(to top left, rgba(247,245,240,0.97) 35%, transparent 100%)',
-            zIndex: 10,
-          }}
-        />
-
-        {/* Scroll indicator — fades out after 10% scroll */}
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          style={{ opacity: clamp(1 - progress * 10, 0, 1) }}
+      {/* Brand name — top-left corner, clear of video action area */}
+      <div
+        className="absolute top-20 left-6 md:left-10 pointer-events-none"
+        style={{ opacity: 0.92 }}
+      >
+        <p
+          className="text-xs font-semibold tracking-widest uppercase"
+          style={{ color: '#C9A961', letterSpacing: '0.22em', fontFamily: 'Inter, sans-serif' }}
         >
-          <p className="text-xs tracking-widest uppercase" style={{ color: '#1C3D5A', opacity: 0.5 }}>
-            Scroll
-          </p>
-          <div className="w-px h-8 bg-gradient-to-b from-transparent" style={{ background: 'linear-gradient(to bottom, transparent, #C9A961)' }} />
-        </div>
+          Bakersfield Rental Homes
+        </p>
+      </div>
+
+      {/* Tagline — bottom-left, clear of video content */}
+      <div
+        className="absolute bottom-16 left-6 md:left-10 max-w-xs pointer-events-none"
+      >
+        <p
+          className="text-sm md:text-base font-light"
+          style={{ color: 'rgba(247,245,240,0.82)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}
+        >
+          Your property. Our people.<br />Bakersfield&rsquo;s finest, on call.
+        </p>
+      </div>
+
+      {/* Watermark cover — bottom-right corner */}
+      <div
+        className="absolute bottom-0 right-0 pointer-events-none"
+        style={{
+          width: '220px',
+          height: '72px',
+          background: 'linear-gradient(to top left, rgba(10,10,10,0.97) 35%, transparent 100%)',
+          zIndex: 10,
+        }}
+      />
+
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-500"
+        style={{ opacity: scrolled ? 0 : 1 }}
+      >
+        <p
+          className="text-xs tracking-widest uppercase"
+          style={{ color: 'rgba(247,245,240,0.5)', fontFamily: 'Inter, sans-serif' }}
+        >
+          Scroll
+        </p>
+        <div
+          className="w-px h-8"
+          style={{ background: 'linear-gradient(to bottom, transparent, #C9A961)' }}
+        />
       </div>
     </section>
   )
