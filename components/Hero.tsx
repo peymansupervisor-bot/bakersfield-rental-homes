@@ -171,6 +171,17 @@ export default function Hero() {
           )
         })}
 
+        {/* Watermark cover — hides bottom-right corner branding */}
+        <div
+          className="absolute bottom-0 right-0 pointer-events-none"
+          style={{
+            width: '220px',
+            height: '72px',
+            background: 'linear-gradient(to top left, rgba(247,245,240,0.97) 35%, transparent 100%)',
+            zIndex: 10,
+          }}
+        />
+
         {/* Scroll indicator — fades out after 10% scroll */}
         <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
