@@ -7,8 +7,8 @@ const OVERLAYS = [
   {
     start: 0,
     end: 4.2,
-    headline: 'Tenants Who Stay.\nProperties That Thrive.',
-    sub: 'Full-service management, local roots',
+    headline: 'This website connects\ntenants to landlords directly.',
+    sub: '',
   },
 ]
 
