@@ -16,7 +16,11 @@
     "framer-motion": "^11.3.8",
     "@supabase/supabase-js": "^2.44.2",
     "stripe": "^16.2.0",
-    "@stripe/stripe-js": "^4.1.0"
+    "@stripe/stripe-js": "^4.1.0",
+    "next-sanity": "^9",
+    "sanity": "^3",
+    "@sanity/image-url": "^1",
+    "@sanity/vision": "^3"
   },
   "devDependencies": {
     "@types/node": "^20",
