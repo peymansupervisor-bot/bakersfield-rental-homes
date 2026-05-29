@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -63,14 +62,17 @@ const inputCls = `
   placeholder:text-[#aaa] font-[Inter,sans-serif]
 `.trim()
 
-const labelCls = 'block text-xs font-semibold tracking-widest uppercase text-[#1C3D5A] mb-2'
+const labelCls = 'text-xs font-semibold tracking-widest uppercase text-[#1C3D5A]'
 const sectionCls = 'space-y-6'
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className={labelCls}>{label}</label>
-      {children}
+      {/* Implicit label association: any form control inside <label> is automatically linked */}
+      <label className={labelCls} style={{ display: 'block', cursor: 'default' }}>
+        <span className="block mb-2">{label}</span>
+        {children}
+      </label>
     </div>
   )
 }
@@ -149,7 +151,7 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
         </Field>
         <Field label="Lease Term">
           <select className={inputCls} value={form.lease_term} onChange={e => set('lease_term', e.target.value)}>
-            {['Month-to-Month', '6 Months', '12 Months', '24 Months'].map(t => (
+            {['Month-to-Month', '3 Months', '6 Months', '12 Months'].map(t => (
               <option key={t}>{t}</option>
             ))}
           </select>
@@ -169,6 +171,7 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
             {[true, false].map(v => (
               <button key={String(v)} type="button"
                 onClick={() => set('pets_allowed', v)}
+                aria-pressed={form.pets_allowed === v}
                 className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
                 style={{
                   backgroundColor: form.pets_allowed === v ? '#1C3D5A' : 'white',
@@ -212,6 +215,7 @@ function Step2({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
             const active = form.amenities.includes(a)
             return (
               <button key={a} type="button" onClick={() => toggleAmenity(a)}
+                aria-pressed={active}
                 className="px-3 py-2 rounded-full text-xs font-medium transition-all duration-200"
                 style={{
                   backgroundColor: active ? '#C9A961' : '#f4f2ed',
@@ -258,9 +262,13 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           {count >= 10 && <span style={{ color: '#2D7A4F' }}> ✓ requirement met</span>}
         </label>
 
-        {/* Drop zone */}
+        {/* Drop zone — keyboard accessible via role="button" + tabIndex + onKeyDown */}
         <div
+          role="button"
+          tabIndex={0}
+          aria-label="Click or press Enter to upload photos"
           onClick={() => inputRef.current?.click()}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inputRef.current?.click() } }}
           onDragOver={e => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files) }}
@@ -287,6 +295,7 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
             type="file"
             accept="image/*"
             multiple
+            aria-label="Upload property photos"
             className="hidden"
             onChange={e => addFiles(e.target.files)}
           />
@@ -309,11 +318,12 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
                 {/* Remove button */}
                 <button
                   type="button"
+                  aria-label={`Remove photo ${i + 1}`}
                   onClick={() => removePhoto(i)}
                   className="absolute top-1 right-1 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                   style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '12px' }}
                 >
-                  ×
+                  <span aria-hidden="true">×</span>
                 </button>
               </div>
             ))}
@@ -395,7 +405,7 @@ function Step4({ form, set, onSubmit, loading }: {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between text-sm gap-4">
-      <span style={{ color: '#888' }}>{label}</span>
+      <span style={{ color: '#616161' }}>{label}</span>
       <span className="text-right font-medium" style={{ color: '#2B2B2B' }}>{value}</span>
     </div>
   )
@@ -536,7 +546,7 @@ export default function ListPage() {
   const isUploading = loading && uploadProgress > 0 && uploadProgress < 100
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F7F5F0' }}>
+    <main className="min-h-screen" id="main-content" style={{ backgroundColor: '#F7F5F0' }}>
       {/* Header */}
       <div
         className="py-16 px-6 text-center"
@@ -557,20 +567,23 @@ export default function ListPage() {
 
       {/* Step indicator */}
       <div className="max-w-2xl mx-auto px-6 pt-10 pb-2">
-        <div className="flex items-center gap-0">
+        <nav aria-label="Form progress" className="flex items-center gap-0">
           {STEPS.map((s, i) => (
             <div key={s} className="flex items-center flex-1 last:flex-none">
               <div className="flex flex-col items-center">
                 <div
                   className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
+                  aria-current={i === step ? 'step' : undefined}
+                  aria-label={i < step ? `${s} — completed` : i === step ? `${s} — current step` : `${s} — not yet reached`}
                   style={{
                     backgroundColor: i < step ? '#2D7A4F' : i === step ? '#C9A961' : '#e0ddd8',
                     color: i <= step ? '#fff' : '#aaa',
                   }}
                 >
-                  {i < step ? '✓' : i + 1}
+                  <span aria-hidden="true">{i < step ? '✓' : i + 1}</span>
                 </div>
                 <span className="text-[10px] mt-1 font-medium whitespace-nowrap hidden sm:block"
+                  aria-hidden="true"
                   style={{ color: i === step ? '#1C3D5A' : '#aaa' }}>
                   {s}
                 </span>
@@ -581,7 +594,7 @@ export default function ListPage() {
               )}
             </div>
           ))}
-        </div>
+        </nav>
       </div>
 
       {/* Form card */}
@@ -593,47 +606,37 @@ export default function ListPage() {
             {STEPS[step]}
           </h2>
 
-          {/* Animated step content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={step}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.25 }}
-            >
-              {step === 0 && <Step1 form={form} set={set} />}
-              {step === 1 && <Step2 form={form} set={set} />}
-              {step === 2 && <Step3 form={form} set={set} />}
-              {step === 3 && <Step4 form={form} set={set} onSubmit={handleSubmit} loading={loading} />}
-            </motion.div>
-          </AnimatePresence>
+          {/* Step content */}
+          <div key={step} className="card-animate">
+            {step === 0 && <Step1 form={form} set={set} />}
+            {step === 1 && <Step2 form={form} set={set} />}
+            {step === 2 && <Step3 form={form} set={set} />}
+            {step === 3 && <Step4 form={form} set={set} onSubmit={handleSubmit} loading={loading} />}
+          </div>
 
-          {/* Error message */}
+          {/* Error message — role="alert" ensures screen readers announce it */}
           {error && (
-            <motion.p
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-4 text-sm px-4 py-3 rounded-xl"
+            <p
+              role="alert"
+              aria-live="assertive"
+              className="mt-4 text-sm px-4 py-3 rounded-xl card-animate"
               style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}
             >
               {error}
-            </motion.p>
+            </p>
           )}
 
           {/* Upload progress */}
           {isUploading && (
             <div className="mt-4">
-              <div className="flex justify-between text-xs mb-1" style={{ color: '#888' }}>
+              <div className="flex justify-between text-xs mb-1" style={{ color: '#616161' }}>
                 <span>Uploading photos…</span>
                 <span>{uploadProgress}%</span>
               </div>
               <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#e0ddd8' }}>
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: '#C9A961' }}
-                  animate={{ width: `${uploadProgress}%` }}
-                  transition={{ duration: 0.3 }}
+                <div
+                  className="h-full rounded-full transition-all duration-300"
+                  style={{ backgroundColor: '#C9A961', width: `${uploadProgress}%` }}
                 />
               </div>
             </div>
@@ -658,6 +661,6 @@ export default function ListPage() {
           )}
         </div>
       </div>
-    </div>
+    </main>
   )
 }

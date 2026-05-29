@@ -3,6 +3,7 @@
 export default function Footer() {
   return (
     <footer
+      aria-label="Site footer"
       className="py-12 px-6 md:px-10"
       style={{
         backgroundColor: '#F7F5F0',
@@ -10,13 +11,13 @@ export default function Footer() {
       }}
     >
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-6 text-center">
-        {/* Logo mark */}
-        <div className="flex items-center gap-3">
+        {/* Logo mark — decorative */}
+        <div className="flex items-center gap-3" aria-hidden="true">
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center"
             style={{ backgroundColor: '#C9A961' }}
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
               <path d="M8 2L14 6V14H10V10H6V14H2V6L8 2Z" fill="#1C3D5A" />
             </svg>
           </div>
@@ -46,12 +47,13 @@ export default function Footer() {
             opacity: 0.7,
           }}
         >
-          Your Team. Your Property. Your Peace of Mind.
+          Homes people want to stay in. Properties that run themselves.
         </p>
 
-        {/* Divider */}
+        {/* Divider — decorative */}
         <div
           className="w-24 h-px"
+          aria-hidden="true"
           style={{ background: 'linear-gradient(to right, transparent, #C9A961, transparent)' }}
         />
 
