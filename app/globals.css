@@ -26,12 +26,13 @@
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.reveal-left  { opacity: 0; }
-.reveal-right { opacity: 0; }
-.reveal-up    { opacity: 0; }
-.in-view.reveal-left  { animation: fadeSlideInLeft  0.7s ease forwards; }
-.in-view.reveal-right { animation: fadeSlideInRight 0.7s ease forwards; }
-.in-view.reveal-up    { animation: fadeSlideInUp    0.5s ease forwards; }
+/* reveal-* classes: content visible by default (no opacity:0 trap).
+   Animation plays if/when IntersectionObserver adds .in-view.
+   This ensures content is accessible even if JS does not fire. */
+.reveal-left, .reveal-right, .reveal-up { }
+.in-view.reveal-left  { animation: fadeSlideInLeft  0.7s ease both; }
+.in-view.reveal-right { animation: fadeSlideInRight 0.7s ease both; }
+.in-view.reveal-up    { animation: fadeSlideInUp    0.5s ease both; }
 
 /* ── Niko photo crossfade ─────────────────────────────────────────── */
 @keyframes nikoFadeIn {
