@@ -7,12 +7,14 @@ const OVERLAYS = [
   {
     start: 0,
     end: 4.2,
-    headline: 'This website connects\ntenants to landlords directly.',
+    headline: heroHeadline || 'This website connects\ntenants to landlords directly.',
     sub: '',
   },
 ]
 
-export default function Hero() {
+interface HeroProps { heroHeadline?: string }
+
+export default function Hero({ heroHeadline }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [scrolled, setScrolled] = useState(false)
