@@ -41,7 +41,7 @@ function SuccessContent() {
         </div>
 
         <p className="text-xs font-semibold tracking-widest uppercase mb-4"
-          style={{ color: '#C9A961', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}>
+          style={{ color: '#1C3D5A', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}>
           Payment Confirmed
         </p>
         <h1 className="text-4xl font-bold mb-4"
@@ -65,7 +65,7 @@ function SuccessContent() {
         )}
 
         <div className="block mt-4">
-          <Link href="/listings" className="text-sm" style={{ color: '#C9A961' }}>
+          <Link href="/listings" className="text-sm underline" style={{ color: '#1C3D5A' }}>
             Browse all listings
           </Link>
         </div>
