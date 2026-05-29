@@ -57,7 +57,10 @@ const services = [
   },
 ]
 
-export default function Services() {
+interface ServiceCms { title?: string; description?: string }
+interface ServicesProps { services?: ServiceCms[] }
+
+export default function Services({ services: cmsServices }: ServicesProps) {
   const ref = useRef<HTMLElement>(null)
   const [inView, setInView] = useState(false)
 
@@ -276,10 +279,10 @@ export default function Services() {
                 className="text-xl font-semibold mb-3"
                 style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}
               >
-                {svc.title}
+                {cmsServices?.[i]?.title || svc.title}
               </h3>
               <p className="text-sm leading-relaxed font-light" style={{ color: '#2B2B2B', opacity: 0.75 }}>
-                {svc.description}
+                {cmsServices?.[i]?.description || svc.description}
               </p>
             </div>
           ))}

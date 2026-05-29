@@ -2,7 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-export default function Contact() {
+const DEFAULT_HEADLINE = "Let's Make It\nSimple from Here."
+const DEFAULT_DESC = "Whether you're a tenant looking for a home that's actually taken care of, or an investor who's tired of managing from a distance — we handle it. Tell us where you are and we'll take it from there."
+
+interface ContactProps { headline?: string; description?: string }
+
+export default function Contact({ headline, description }: ContactProps) {
+  const displayHeadline = headline || DEFAULT_HEADLINE
+  const displayDesc = description || DEFAULT_DESC
+
   const ref = useRef<HTMLElement>(null)
   const [inView, setInView] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -32,26 +40,15 @@ export default function Contact() {
   }
 
   const inputBase = {
-    width: '100%',
-    padding: '14px 18px',
-    borderRadius: '10px',
-    border: '1px solid rgba(28,61,90,0.15)',
-    backgroundColor: 'white',
-    color: '#2B2B2B',
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '15px',
-    outline: 'none',
-    transition: 'border-color 0.2s',
+    width: '100%', padding: '14px 18px', borderRadius: '10px',
+    border: '1px solid rgba(28,61,90,0.15)', backgroundColor: 'white',
+    color: '#2B2B2B', fontFamily: 'Inter, sans-serif', fontSize: '15px',
+    outline: 'none', transition: 'border-color 0.2s',
   }
 
   return (
-    <section
-      ref={ref}
-      id="contact"
-      aria-labelledby="contact-heading"
-      className="py-28 px-6 md:px-10"
-      style={{ backgroundColor: '#F7F5F0' }}
-    >
+    <section ref={ref} id="contact" aria-labelledby="contact-heading"
+      className="py-28 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }}>
       <div className="max-w-xl mx-auto">
         <div className={`text-center mb-12 reveal-up ${inView ? 'in-view' : ''}`}>
           <p className="text-xs font-semibold tracking-widest uppercase mb-4"
@@ -60,18 +57,18 @@ export default function Contact() {
           </p>
           <h2 id="contact-heading" className="text-4xl md:text-5xl font-bold mb-5"
             style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A', letterSpacing: '-0.02em' }}>
-            Let's Make It<br />Simple from Here.
+            {displayHeadline.split('\n').map((line, i, arr) => (
+              <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+            ))}
           </h2>
-          <p className="text-base font-light" style={{ color: '#2B2B2B', opacity: 0.7 }}>
-            Whether you're a tenant looking for a home that's actually taken care of, or an investor who's tired of managing from a distance — we handle it. Tell us where you are and we'll take it from there.
-          </p>
+          <p className="text-base font-light" style={{ color: '#2B2B2B', opacity: 0.7 }}>{displayDesc}</p>
         </div>
 
         {submitted ? (
           <div className="text-center py-16 card-animate" role="status" aria-live="polite">
             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
               style={{ backgroundColor: 'rgba(45,122,79,0.1)' }} aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                 <path d="M6 14L11 19L22 9" stroke="#2D7A4F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
@@ -84,23 +81,20 @@ export default function Contact() {
             </p>
           </div>
         ) : (
-          <form
-            onSubmit={handleSubmit}
+          <form onSubmit={handleSubmit}
             className={`flex flex-col gap-4 reveal-up ${inView ? 'in-view' : ''}`}
             style={{ animationDelay: inView ? '0.2s' : '0s' }}
-            noValidate
-            aria-label="Contact form"
-          >
+            noValidate aria-label="Contact form">
             <div>
               <label htmlFor="contact-name" className="sr-only">Your full name</label>
-              <input id="contact-name" type="text" name="name" placeholder="Your Name" required
+              <input id="contact-name" type="text" name="name" placeholder="Your full name" required
                 autoComplete="name" value={form.name} onChange={handleChange} style={inputBase}
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(28,61,90,0.15)')} />
             </div>
             <div>
               <label htmlFor="contact-email" className="sr-only">Your email address</label>
-              <input id="contact-email" type="email" name="email" placeholder="Email Address" required
+              <input id="contact-email" type="email" name="email" placeholder="Your email address" required
                 autoComplete="email" value={form.email} onChange={handleChange} style={inputBase}
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(28,61,90,0.15)')} />
@@ -108,16 +102,15 @@ export default function Contact() {
             <div>
               <label htmlFor="contact-message" className="sr-only">Your message</label>
               <textarea id="contact-message" name="message" rows={5} required
-                placeholder="Looking for a home, or need help managing your property? Tell us a little about your situation..."
+                placeholder="Your message"
                 value={form.message} onChange={handleChange}
                 style={{ ...inputBase, resize: 'vertical' }}
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(28,61,90,0.15)')} />
             </div>
             <button type="submit"
-              className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01] active:scale-[0.99]"
-              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', fontFamily: 'Inter, sans-serif',
-                letterSpacing: '0.12em', border: 'none', cursor: 'pointer' }}>
+              className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01]"
+              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', fontFamily: 'Inter, sans-serif', letterSpacing: '0.12em', border: 'none', cursor: 'pointer' }}>
               Send Message
             </button>
           </form>
