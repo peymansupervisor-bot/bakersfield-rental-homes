@@ -7,7 +7,7 @@ const OVERLAYS = [
   {
     start: 0,
     end: 4.2,
-    headline: heroHeadline || 'This website connects\ntenants to landlords directly.',
+    headline: 'This website connects\ntenants to landlords directly.',
     sub: '',
   },
 ]
@@ -55,6 +55,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
     }
   }
 
+  const headline = heroHeadline || OVERLAYS[0].headline
   const activeOverlay = OVERLAYS.find(
     (o) => currentTime >= o.start && currentTime < o.end
   )
@@ -123,7 +124,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
                 marginBottom: '14px',
               }}
             >
-              {activeOverlay.headline}
+              {headline}
             </h1>
             <p
               style={{
