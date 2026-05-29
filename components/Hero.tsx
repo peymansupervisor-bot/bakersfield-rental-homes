@@ -216,19 +216,42 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-500"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 transition-opacity duration-500"
         style={{ opacity: scrolled ? 0 : 1 }}
+        aria-hidden="true"
       >
         <p
-          className="text-xs tracking-widest uppercase"
-          style={{ color: 'rgba(247,245,240,0.5)', fontFamily: 'Inter, sans-serif' }}
+          className="text-xs font-semibold tracking-widest uppercase"
+          style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif', letterSpacing: '0.18em' }}
         >
           Scroll
         </p>
-        <div
-          className="w-px h-8"
-          style={{ background: 'linear-gradient(to bottom, transparent, #C9A961)' }}
-        />
+        {/* Animated chevron arrows */}
+        <div className="flex flex-col items-center" style={{ gap: '2px' }}>
+          {[0, 1, 2].map((i) => (
+            <svg
+              key={i}
+              width="18" height="10"
+              viewBox="0 0 18 10"
+              fill="none"
+              style={{
+                animation: `scrollChevron 1.4s ease infinite`,
+                animationDelay: `${i * 0.18}s`,
+                opacity: 0,
+              }}
+            >
+              <path d="M1 1L9 9L17 1" stroke="#C9A961" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ))}
+        </div>
+        <style>{`
+          @keyframes scrollChevron {
+            0%   { opacity: 0;   transform: translateY(-4px); }
+            40%  { opacity: 1;   transform: translateY(0px); }
+            80%  { opacity: 0;   transform: translateY(4px); }
+            100% { opacity: 0;   transform: translateY(4px); }
+          }
+        `}</style>
       </div>
     </section>
   )
