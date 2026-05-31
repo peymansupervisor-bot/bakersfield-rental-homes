@@ -423,6 +423,7 @@ function PostCard({ post, currentUser, onDeleted }: { post: Post; currentUser: U
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function CommunityPage() {
   const [user, setUser]               = useState<User | null>(null)
+  const [displayName, setDisplayName] = useState<string>('')
   const [showAuth, setShowAuth]       = useState(false)
   const [posts, setPosts]             = useState<Post[]>([])
   const [loading, setLoading]         = useState(true)
@@ -431,12 +432,28 @@ export default function CommunityPage() {
   const [showNotifs, setShowNotifs]   = useState(false)
   const userPostIds                   = useRef<Set<string>>(new Set())
 
+  // Fetch display name from profiles table
+  const fetchDisplayName = useCallback(async (uid: string) => {
+    const res = await fetch(`/api/community/posts`) // reuse service client access
+    // Fetch directly from profiles via supabase
+    const { data } = await supabase.from('profiles').select('display_name').eq('id', uid).single()
+    if (data?.display_name) setDisplayName(data.display_name)
+  }, [])
+
   // Check existing session
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null))
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => setUser(s?.user ?? null))
+    supabase.auth.getSession().then(({ data }) => {
+      const u = data.session?.user ?? null
+      setUser(u)
+      if (u) fetchDisplayName(u.id)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
+      const u = s?.user ?? null
+      setUser(u)
+      if (u) fetchDisplayName(u.id)
+    })
     return () => subscription.unsubscribe()
-  }, [])
+  }, [fetchDisplayName])
 
   // Real-time notifications — watch for new comments on user's own posts
   useEffect(() => {
@@ -507,7 +524,7 @@ export default function CommunityPage() {
         {user ? (
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <span className="text-sm" style={{ color: 'rgba(247,245,240,0.8)' }}>
-              Signed in as <strong>{user.user_metadata?.display_name ?? user.email?.split('@')[0]}</strong>
+              Signed in as <strong>{displayName || user.email?.split('@')[0]}</strong>
             </span>
 
             {/* Notification bell */}
