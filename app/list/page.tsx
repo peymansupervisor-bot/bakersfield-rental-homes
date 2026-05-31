@@ -105,20 +105,20 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
     if (val.length < 5) { setSuggestions([]); setOpen(false); return }
     timerRef.current = setTimeout(async () => {
       try {
-        const query = encodeURIComponent(`${val}, Bakersfield, CA, USA`)
+        const query = encodeURIComponent(`${val}, California, USA`)
         const res = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5&countrycodes=us`,
           { headers: { 'Accept-Language': 'en' } }
         )
         const data = await res.json()
         const results: Suggestion[] = data
-          .filter((r: any) => r.address)
+          .filter((r: any) => r.address && r.address.state === 'California')
           .map((r: any) => {
             const a = r.address
             const streetNum = a.house_number ?? ''
             const streetName = a.road ?? ''
             const street = [streetNum, streetName].filter(Boolean).join(' ')
-            const city = a.city ?? a.town ?? a.village ?? 'Bakersfield'
+            const city = a.city ?? a.town ?? a.village ?? ''
             const zip = a.postcode ?? ''
             return { display: r.display_name, address: street, city, zip }
           })
@@ -181,6 +181,9 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           value={form.title} onChange={e => set('title', e.target.value)} />
       </Field>
 
+      <p className="text-xs px-3 py-2 rounded-lg mb-1" style={{ backgroundColor: 'rgba(201,169,97,0.1)', color: '#8a6d1f' }}>
+        🏡 California properties only
+      </p>
       <AddressAutocomplete
         inputCls={inputCls}
         address={form.address}
