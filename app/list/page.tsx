@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -77,6 +77,100 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
+// ─── Address Autocomplete ─────────────────────────────────────────────────────
+
+type Suggestion = { display: string; address: string; city: string; zip: string }
+
+function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
+  inputCls: string
+  address: string
+  onAddressChange: (v: string) => void
+  onSelect: (address: string, city: string, zip: string) => void
+}) {
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([])
+  const [open, setOpen] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const lookup = (val: string) => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    if (val.length < 5) { setSuggestions([]); setOpen(false); return }
+    timerRef.current = setTimeout(async () => {
+      try {
+        const query = encodeURIComponent(`${val}, Bakersfield, CA, USA`)
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5&countrycodes=us`,
+          { headers: { 'Accept-Language': 'en' } }
+        )
+        const data = await res.json()
+        const results: Suggestion[] = data
+          .filter((r: any) => r.address)
+          .map((r: any) => {
+            const a = r.address
+            const streetNum = a.house_number ?? ''
+            const streetName = a.road ?? ''
+            const street = [streetNum, streetName].filter(Boolean).join(' ')
+            const city = a.city ?? a.town ?? a.village ?? 'Bakersfield'
+            const zip = a.postcode ?? ''
+            return { display: r.display_name, address: street, city, zip }
+          })
+          .filter((r: Suggestion) => r.address)
+        setSuggestions(results)
+        setOpen(results.length > 0)
+      } catch { setSuggestions([]); setOpen(false) }
+    }, 350)
+  }
+
+  return (
+    <div ref={wrapRef} style={{ position: 'relative' }}>
+      <label className="text-xs font-semibold tracking-widest uppercase block mb-2"
+        style={{ color: '#1C3D5A', cursor: 'default' }}>
+        Street Address
+      </label>
+      <input
+        className={inputCls}
+        placeholder="123 Oak Street"
+        value={address}
+        autoComplete="off"
+        onChange={e => { onAddressChange(e.target.value); lookup(e.target.value) }}
+        onFocus={() => suggestions.length > 0 && setOpen(true)}
+        aria-label="Street address"
+        aria-autocomplete="list"
+        aria-expanded={open}
+      />
+      {open && suggestions.length > 0 && (
+        <ul
+          role="listbox"
+          className="absolute left-0 right-0 z-50 rounded-xl overflow-hidden shadow-lg mt-1"
+          style={{ backgroundColor: 'white', border: '1px solid #e0ddd8', top: '100%' }}
+        >
+          {suggestions.map((s, i) => (
+            <li key={i} role="option" aria-selected={false}>
+              <button
+                type="button"
+                className="w-full text-left px-4 py-3 text-sm transition-colors hover:bg-[#f7f5f0]"
+                style={{ color: '#2B2B2B', borderBottom: i < suggestions.length - 1 ? '1px solid #f0ece4' : 'none' }}
+                onClick={() => { onSelect(s.address, s.city, s.zip); setOpen(false) }}
+              >
+                <span className="font-medium">{s.address}</span>
+                <span className="text-xs ml-2" style={{ color: '#aaa' }}>{s.city}{s.zip ? `, ${s.zip}` : ''}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 // ─── Step components ─────────────────────────────────────────────────────────
 
 function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any) => void }) {
@@ -87,10 +181,16 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           value={form.title} onChange={e => set('title', e.target.value)} />
       </Field>
 
-      <Field label="Street Address">
-        <input className={inputCls} placeholder="123 Oak Street"
-          value={form.address} onChange={e => set('address', e.target.value)} />
-      </Field>
+      <AddressAutocomplete
+        inputCls={inputCls}
+        address={form.address}
+        onAddressChange={val => set('address', val)}
+        onSelect={(address, city, zip) => {
+          set('address', address)
+          set('city', city)
+          set('zip', zip)
+        }}
+      />
 
       <div className="grid grid-cols-2 gap-4">
         <Field label="City">
