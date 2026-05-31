@@ -365,7 +365,7 @@ function PostCard({ post, currentUser, onDeleted }: { post: Post; currentUser: U
           <a href={`mailto:${post.contact_email}`}
             className="inline-flex items-center gap-1.5 mt-3 text-xs font-medium px-3 py-1.5 rounded-lg transition-all hover:opacity-80"
             style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#8a6d1f' }}>
-            ✉️ Contact: {post.contact_email}
+            ✉️ Send Message
           </a>
         )}
 
