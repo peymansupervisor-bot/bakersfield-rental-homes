@@ -41,8 +41,18 @@ export type Vendor = {
   insurance_certificate_path: string | null
 }
 
+export function generateSlug(address: string): string {
+  return address
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')  // strip special chars
+    .trim()
+    .replace(/\s+/g, '-')           // spaces → hyphens
+    .replace(/-+/g, '-')            // collapse multiple hyphens
+}
+
 export type Listing = {
   id: string
+  slug: string | null
   created_at: string
   status: 'pending' | 'active'
   stripe_session_id: string | null

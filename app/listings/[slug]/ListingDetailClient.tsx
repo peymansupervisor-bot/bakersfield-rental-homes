@@ -87,6 +87,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                       sizes="(max-width: 1024px) 100vw, 66vw"
                       className="object-cover"
                       priority={photoIndex === 0}
+                      unoptimized
                     />
                   )}
                   <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full text-xs"
@@ -151,6 +152,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                       fill
                       sizes="72px"
                       className="object-cover"
+                      unoptimized
                     />
                   </button>
                 ))}
@@ -283,7 +285,6 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 )}
                 <DetailRow label="Lease" value={listing.lease_term} />
                 <DetailRow label="Pets" value={listing.pets_allowed ? 'Allowed' : 'Not allowed'} />
-                <DetailRow label="Parking" value={listing.parking} />
               </div>
 
               <a

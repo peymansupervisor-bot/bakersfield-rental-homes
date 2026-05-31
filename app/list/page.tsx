@@ -21,6 +21,7 @@ type FormData = {
   available_date: string
   lease_term: string
   pets_allowed: boolean
+  solar: boolean
   parking: string
   // Step 2 — Description & amenities
   description: string
@@ -38,7 +39,7 @@ const INITIAL: FormData = {
   title: '', address: '', city: '', state: 'CA', zip: '',
   bedrooms: '', bathrooms: '', living_area_sqft: '', lot_size_sqft: '',
   monthly_rent: '', deposit: '',
-  available_date: '', lease_term: '12 months', pets_allowed: false, parking: 'Street',
+  available_date: '', lease_term: '12 months', pets_allowed: false, solar: false, parking: 'Street',
   description: '', amenities: [],
   photoFiles: [], photoPreviewUrls: [],
   contact_name: '', contact_email: '', contact_phone: '',
@@ -105,9 +106,10 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
     if (val.length < 5) { setSuggestions([]); setOpen(false); return }
     timerRef.current = setTimeout(async () => {
       try {
-        const query = encodeURIComponent(`${val}, California, USA`)
+        const query = encodeURIComponent(`${val}, Bakersfield, California, USA`)
+        // viewbox covers Kern County; bounded=0 allows fallback outside the box
         const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5&countrycodes=us`,
+          `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5&countrycodes=us&viewbox=-119.5,35.2,-118.5,35.6&bounded=0`,
           { headers: { 'Accept-Language': 'en' } }
         )
         const data = await res.json()
@@ -287,6 +289,24 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           </div>
         </Field>
       </div>
+
+      <Field label="Solar Panels">
+        <div className="flex gap-3 mt-1">
+          {[true, false].map(v => (
+            <button key={String(v)} type="button"
+              onClick={() => set('solar', v)}
+              aria-pressed={form.solar === v}
+              className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
+              style={{
+                backgroundColor: form.solar === v ? '#1C3D5A' : 'white',
+                color: form.solar === v ? '#F7F5F0' : '#2B2B2B',
+                border: `1px solid ${form.solar === v ? '#1C3D5A' : '#e0ddd8'}`,
+              }}>
+              {v ? 'Yes' : 'No'}
+            </button>
+          ))}
+        </div>
+      </Field>
     </div>
   )
 }
@@ -335,15 +355,81 @@ function Step2({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
   )
 }
 
+/** Read EXIF orientation tag from raw bytes (value 1–8, or 1 if absent). */
+function readExifOrientation(buf: ArrayBuffer): number {
+  const view = new DataView(buf)
+  if (view.getUint16(0) !== 0xFFD8) return 1 // not JPEG
+  let offset = 2
+  while (offset < view.byteLength - 4) {
+    const marker = view.getUint16(offset)
+    const len = view.getUint16(offset + 2)
+    if (marker === 0xFFE1) { // APP1 (EXIF)
+      if (view.getUint32(offset + 4) !== 0x45786966) break // 'Exif'
+      const tiffOffset = offset + 10
+      const le = view.getUint16(tiffOffset) === 0x4949
+      const rd16 = (o: number) => le ? view.getUint16(tiffOffset + o, true) : view.getUint16(tiffOffset + o)
+      const rd32 = (o: number) => le ? view.getUint32(tiffOffset + o, true) : view.getUint32(tiffOffset + o)
+      const ifdOffset = rd32(4)
+      const entries = rd16(ifdOffset)
+      for (let i = 0; i < entries; i++) {
+        const entryOffset = ifdOffset + 2 + i * 12
+        if (rd16(entryOffset) === 0x0112) return rd16(entryOffset + 8)
+      }
+      break
+    }
+    offset += 2 + len
+  }
+  return 1
+}
+
+/** Return a corrected-orientation Blob for the given image File. */
+async function correctOrientation(file: File): Promise<Blob> {
+  const buf = await file.arrayBuffer()
+  const orientation = readExifOrientation(buf)
+  if (orientation <= 1) return file // already upright
+
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      const { naturalWidth: w, naturalHeight: h } = img
+      const swap = orientation >= 5
+      const canvas = document.createElement('canvas')
+      canvas.width  = swap ? h : w
+      canvas.height = swap ? w : h
+      const ctx = canvas.getContext('2d')!
+      // Apply the transform that maps EXIF orientation → upright pixels
+      switch (orientation) {
+        case 2: ctx.transform(-1, 0, 0, 1, w, 0); break
+        case 3: ctx.transform(-1, 0, 0, -1, w, h); break
+        case 4: ctx.transform(1, 0, 0, -1, 0, h); break
+        case 5: ctx.transform(0, 1, 1, 0, 0, 0); break
+        case 6: ctx.transform(0, 1, -1, 0, h, 0); break
+        case 7: ctx.transform(0, -1, -1, 0, h, w); break
+        case 8: ctx.transform(0, -1, 1, 0, 0, w); break
+      }
+      ctx.drawImage(img, 0, 0)
+      canvas.toBlob(b => b ? resolve(b) : reject(new Error('canvas toBlob failed')), 'image/jpeg', 0.92)
+    }
+    img.onerror = reject
+    img.src = URL.createObjectURL(file)
+  })
+}
+
 function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any) => void }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = useState(false)
 
-  const addFiles = useCallback((files: FileList | null) => {
+  const addFiles = useCallback(async (files: FileList | null) => {
     if (!files) return
-    const newFiles = Array.from(files).filter(f => f.type.startsWith('image/'))
-    const newUrls = newFiles.map(f => URL.createObjectURL(f))
-    set('photoFiles', [...form.photoFiles, ...newFiles])
+    const originals = Array.from(files).filter(f => f.type.startsWith('image/'))
+    const corrected = await Promise.all(
+      originals.map(async (f) => {
+        const blob = await correctOrientation(f)
+        return new File([blob], f.name, { type: 'image/jpeg' })
+      })
+    )
+    const newUrls = corrected.map(f => URL.createObjectURL(f))
+    set('photoFiles', [...form.photoFiles, ...corrected])
     set('photoPreviewUrls', [...form.photoPreviewUrls, ...newUrls])
   }, [form.photoFiles, form.photoPreviewUrls, set])
 
@@ -374,7 +460,7 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inputRef.current?.click() } }}
           onDragOver={e => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
-          onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files) }}
+          onDrop={e => { e.preventDefault(); setDragging(false); void addFiles(e.dataTransfer.files) }}
           className="border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 mb-4"
           style={{
             borderColor: dragging ? '#C9A961' : '#d5d0c8',
@@ -400,7 +486,7 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
             multiple
             aria-label="Upload property photos"
             className="hidden"
-            onChange={e => addFiles(e.target.files)}
+            onChange={e => { void addFiles(e.target.files) }}
           />
         </div>
 
@@ -617,7 +703,7 @@ export default function ListPage() {
           lease_term: form.lease_term,
           pets_allowed: form.pets_allowed,
           parking: form.parking,
-          amenities: form.amenities,
+          amenities: form.solar ? [...form.amenities, 'Solar'] : form.amenities,
           photos: photoUrls,
           contact_name: form.contact_name,
           contact_email: form.contact_email,

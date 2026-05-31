@@ -5,12 +5,17 @@ import { notFound } from 'next/navigation'
 import type { Listing } from '@/lib/supabase'
 import ListingDetailClient from './ListingDetailClient'
 
-async function getListing(id: string): Promise<Listing | null> {
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+async function getListing(slug: string): Promise<Listing | null> {
   try {
-    const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
-    const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    // Try slug first, fall back to UUID for existing listings
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)
+    const filter = isUuid ? `id=eq.${slug}` : `slug=eq.${slug}`
+
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?id=eq.${id}&select=*&limit=1`,
+      `${SUPABASE_URL}/rest/v1/listings?${filter}&select=*&limit=1`,
       {
         headers: {
           apikey: SUPABASE_KEY,
@@ -27,12 +32,13 @@ async function getListing(id: string): Promise<Listing | null> {
   }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const listing = await getListing(params.id)
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const listing = await getListing(params.slug)
   if (!listing) return { title: 'Listing Not Found' }
   const description = listing.description?.slice(0, 160) ??
     `${listing.bedrooms} bed, ${listing.bathrooms} bath home for rent in ${listing.city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
-  const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${params.id}`
+  const urlSlug = listing.slug ?? listing.id
+  const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
   const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-default.jpg'
   return {
     title: `${listing.title} — ${listing.address}`,
@@ -55,16 +61,18 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   }
 }
 
-export default async function ListingDetailPage({ params }: { params: { id: string } }) {
-  const listing = await getListing(params.id)
+export default async function ListingDetailPage({ params }: { params: { slug: string } }) {
+  const listing = await getListing(params.slug)
   if (!listing) notFound()
+
+  const urlSlug = listing.slug ?? listing.id
 
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'RentAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: `https://bakersfieldrentalhomes.com/listings/${params.id}`,
+      urlTemplate: `https://bakersfieldrentalhomes.com/listings/${urlSlug}`,
     },
     object: {
       '@type': 'Accommodation',

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServiceClient } from '@/lib/supabase'
+import { createServiceClient, generateSlug } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
@@ -64,19 +64,37 @@ export async function POST(req: NextRequest) {
 
     const db = createServiceClient()
     const today = new Date().toISOString().split('T')[0]
+
+    // Generate a unique slug from the address (e.g. "717 Monterey St" → "717-monterey-st")
+    const baseSlug = generateSlug(body.address as string)
+    // Check for conflicts and append a counter if needed
+    let slug = baseSlug
+    let attempt = 0
+    while (true) {
+      const { data: existing } = await db
+        .from('listings')
+        .select('id')
+        .eq('slug', slug)
+        .maybeSingle()
+      if (!existing) break
+      attempt++
+      slug = `${baseSlug}-${attempt}`
+    }
+
     const { data, error } = await db
       .from('listings')
       .insert({
         ...body,
+        slug,
         status: 'pending',
         state: 'CA',
         listed_date: today,
       })
-      .select('id')
+      .select('id, slug')
       .single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-    return NextResponse.json({ id: data.id })
+    return NextResponse.json({ id: data.id, slug: data.slug })
   } catch {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }

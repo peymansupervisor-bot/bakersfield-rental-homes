@@ -78,6 +78,11 @@ video {
   display: block;
 }
 
+/* Respect EXIF orientation data in photos taken on mobile devices */
+img {
+  image-orientation: from-image;
+}
+
 /* Gold underline utility */
 .gold-underline {
   text-decoration: underline;

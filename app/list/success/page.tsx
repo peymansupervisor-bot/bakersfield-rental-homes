@@ -9,6 +9,7 @@ function SuccessContent() {
   const searchParams = useSearchParams()
   const listingId = searchParams.get('listing_id')
   const [ready, setReady] = useState(false)
+  const [listingSlug, setListingSlug] = useState<string | null>(null)
 
   // Poll until listing is active (webhook may take a second or two)
   useEffect(() => {
@@ -17,7 +18,10 @@ function SuccessContent() {
       try {
         const res = await fetch(`/api/listings/${listingId}`)
         const { listing } = await res.json()
-        if (listing?.status === 'active') setReady(true)
+        if (listing?.status === 'active') {
+          setListingSlug(listing.slug ?? listingId)
+          setReady(true)
+        }
       } catch {}
     }
     check()
@@ -54,9 +58,9 @@ function SuccessContent() {
             : "We're activating your listing — this takes just a moment."}
         </p>
 
-        {ready && listingId && (
+        {ready && listingSlug && (
           <Link
-            href={`/listings/${listingId}`}
+            href={`/listings/${listingSlug}`}
             className="inline-block px-8 py-4 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 mb-4"
             style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.12em' }}
           >

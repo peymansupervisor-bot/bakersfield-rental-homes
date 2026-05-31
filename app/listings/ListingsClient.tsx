@@ -33,7 +33,7 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
   const isPriority = index < 3
   return (
     <div className="card-animate" style={{ animationDelay: `${index * 0.06}s` }}>
-      <Link href={`/listings/${listing.id}`} className="block group">
+      <Link href={`/listings/${listing.slug ?? listing.id}`} className="block group">
         <div className="bg-white rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg"
           style={{ border: '1px solid rgba(201,169,97,0.12)' }}>
           {/* Photo */}
