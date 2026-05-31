@@ -276,6 +276,7 @@ type Comment = {
   id: string
   created_at: string
   body: string
+  user_id: string
   profiles: { display_name: string }
 }
 
