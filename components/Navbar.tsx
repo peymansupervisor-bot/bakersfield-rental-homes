@@ -33,8 +33,14 @@ export default function Navbar() {
     }
   }
 
+  // Pages whose hero is dark navy — navbar text must be white until scrolled
+  const darkHeroPages = ['/vendors', '/community']
+  const hasDarkHero = darkHeroPages.some(p => pathname.startsWith(p))
+
   const navBg     = scrolled || menuOpen ? 'rgba(247,245,240,0.95)' : 'transparent'
   const navBorder = scrolled || menuOpen ? '1px solid rgba(201,169,97,0.2)' : 'none'
+  const textColor = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#F7F5F0' : '#1C3D5A'
+  const hamColor  = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#F7F5F0' : '#1C3D5A'
 
   return (
     <>
@@ -62,7 +68,7 @@ export default function Navbar() {
               </div>
               <div className="leading-none" aria-hidden="true">
                 <p className="text-xs font-semibold tracking-widest uppercase"
-                  style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
+                  style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
                 <p className="text-xs tracking-wider uppercase"
                   style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
               </div>
@@ -73,16 +79,16 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-5" role="list">
             <Link href="/listings" role="listitem"
               className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}>Find a Home</Link>
+              style={{ color: textColor, letterSpacing: '0.15em' }}>Find a Home</Link>
             <Link href="/vendors" role="listitem"
               className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}>Vendors</Link>
+              style={{ color: textColor, letterSpacing: '0.15em' }}>Vendors</Link>
             <Link href="/community" role="listitem"
               className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}>Community</Link>
+              style={{ color: textColor, letterSpacing: '0.15em' }}>Community</Link>
             <a href="/#contact" role="listitem" onClick={handleContact}
               className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}>Contact</a>
+              style={{ color: textColor, letterSpacing: '0.15em' }}>Contact</a>
             <Link href="/list" role="listitem"
               className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full transition-all duration-300 hover:opacity-90"
               style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.12em' }}>
@@ -99,9 +105,9 @@ export default function Navbar() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
           >
-            <span className="block transition-all duration-300" style={{ width: 20, height: 2, backgroundColor: '#1C3D5A', borderRadius: 2, transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', marginBottom: menuOpen ? 0 : 4 }} />
-            <span className="block transition-all duration-300" style={{ width: 20, height: 2, backgroundColor: '#1C3D5A', borderRadius: 2, opacity: menuOpen ? 0 : 1, marginBottom: menuOpen ? 0 : 4 }} />
-            <span className="block transition-all duration-300" style={{ width: 20, height: 2, backgroundColor: '#1C3D5A', borderRadius: 2, transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none' }} />
+            <span className="block transition-all duration-300" style={{ width: 20, height: 2, backgroundColor: hamColor, borderRadius: 2, transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', marginBottom: menuOpen ? 0 : 4 }} />
+            <span className="block transition-all duration-300" style={{ width: 20, height: 2, backgroundColor: hamColor, borderRadius: 2, opacity: menuOpen ? 0 : 1, marginBottom: menuOpen ? 0 : 4 }} />
+            <span className="block transition-all duration-300" style={{ width: 20, height: 2, backgroundColor: hamColor, borderRadius: 2, transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none' }} />
           </button>
         </div>
 
