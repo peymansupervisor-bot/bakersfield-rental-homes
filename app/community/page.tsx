@@ -176,7 +176,6 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
   const [category, setCategory] = useState('')
   const [title, setTitle]       = useState('')
   const [body, setBody]         = useState('')
-  const [email, setEmail]       = useState(user.email ?? '')
   const [photo, setPhoto]       = useState<File | null>(null)
   const [preview, setPreview]   = useState<string | null>(null)
   const [loading, setLoading]   = useState(false)
@@ -204,7 +203,7 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
       const res = await fetch('/api/community/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: user.id, category, title: title.trim(), body: body.trim(), photo_url, contact_email: email }),
+        body: JSON.stringify({ user_id: user.id, category, title: title.trim(), body: body.trim(), photo_url }),
       })
       const j = await res.json()
       if (j.error) throw new Error(j.error)
@@ -247,11 +246,6 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
           <textarea id="post-body" className={inputCls + ' resize-none'} style={inputStyle} rows={4}
             placeholder="Tell the community more details…"
             value={body} onChange={e => setBody(e.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="post-email" className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>Contact Email (shown on post)</label>
-          <input id="post-email" type="email" className={inputCls} style={inputStyle}
-            value={email} onChange={e => setEmail(e.target.value)} />
         </div>
         <div>
           <label className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>Photo (optional)</label>
@@ -361,13 +355,6 @@ function PostCard({ post, currentUser, onDeleted }: { post: Post; currentUser: U
         </h3>
         <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: '#444' }}>{post.body}</p>
 
-        {post.contact_email && (
-          <a href={`mailto:${post.contact_email}`}
-            className="inline-flex items-center gap-1.5 mt-3 text-xs font-medium px-3 py-1.5 rounded-lg transition-all hover:opacity-80"
-            style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#8a6d1f' }}>
-            ✉️ Send Message
-          </a>
-        )}
 
         {/* Actions */}
         <div className="flex items-center gap-4 mt-4 pt-4" style={{ borderTop: '1px solid #f0ece4' }}>
