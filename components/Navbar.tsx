@@ -74,6 +74,9 @@ export default function Navbar() {
             <Link href="/vendors" role="listitem"
               className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
               style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}>Vendors</Link>
+            <Link href="/community" role="listitem"
+              className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+              style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}>Community</Link>
             <a href="/#contact" role="listitem" onClick={handleContact}
               className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
               style={{ color: '#1C3D5A', letterSpacing: '0.15em' }}>Contact</a>
@@ -121,6 +124,11 @@ export default function Navbar() {
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Vendors
+            </Link>
+            <Link href="/community" onClick={() => setMenuOpen(false)}
+              className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
+              style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
+              Community
             </Link>
             <a href="/#contact" onClick={handleContact}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
