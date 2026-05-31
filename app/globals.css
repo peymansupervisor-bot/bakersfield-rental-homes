@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide Vercel Toolbar */
+vercel-toolbar, #vercel-toolbar, [data-vercel-toolbar] { display: none !important; }
+
 /* Fonts are self-hosted via next/font — no external Google Fonts request needed */
 
 /* ── Card entrance animation (replaces framer-motion) ─────────────── */
