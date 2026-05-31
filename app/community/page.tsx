@@ -507,7 +507,7 @@ export default function CommunityPage() {
         {user ? (
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <span className="text-sm" style={{ color: 'rgba(247,245,240,0.8)' }}>
-              Signed in as <strong>{user.email}</strong>
+              Signed in as <strong>{user.user_metadata?.display_name ?? user.email?.split('@')[0]}</strong>
             </span>
 
             {/* Notification bell */}
