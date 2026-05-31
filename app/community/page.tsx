@@ -70,13 +70,14 @@ function Avatar({ name, size = 36 }: { name: string; size?: number }) {
 
 // ── Auth Modal ───────────────────────────────────────────────────────────────
 function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User) => void }) {
-  const [mode, setMode]       = useState<'signin' | 'signup'>('signup')
-  const [email, setEmail]     = useState('')
+  const [mode, setMode]         = useState<'signin' | 'signup'>('signup')
+  const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName]       = useState('')
-  const [error, setError]     = useState('')
-  const [loading, setLoading] = useState(false)
-  const [sent, setSent]       = useState(false)
+  const [showPw, setShowPw]     = useState(false)
+  const [name, setName]         = useState('')
+  const [error, setError]       = useState('')
+  const [loading, setLoading]   = useState(false)
+  const [sent, setSent]         = useState(false)
 
   const submit = async () => {
     setError(''); setLoading(true)
@@ -137,9 +138,17 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
               <label htmlFor="auth-password" className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>
                 Password
               </label>
-              <input id="auth-password" type="password" className={inputCls} style={inputStyle} placeholder="Min 6 characters"
-                value={password} onChange={e => setPassword(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && submit()} />
+              <div className="relative">
+                <input id="auth-password" type={showPw ? 'text' : 'password'} className={inputCls} style={{ ...inputStyle, paddingRight: '3rem' }} placeholder="Min 6 characters"
+                  value={password} onChange={e => setPassword(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && submit()} />
+                <button type="button" onClick={() => setShowPw(v => !v)}
+                  aria-label={showPw ? 'Hide password' : 'Show password'}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold transition-opacity hover:opacity-70"
+                  style={{ color: '#C9A961' }}>
+                  {showPw ? 'Hide' : 'Show'}
+                </button>
+              </div>
             </div>
             {error && <p role="alert" className="text-sm px-3 py-2 rounded-lg" style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}>{error}</p>}
             <button onClick={submit} disabled={loading || !email || !password}
