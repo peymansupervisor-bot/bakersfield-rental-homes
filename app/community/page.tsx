@@ -6,16 +6,18 @@ import type { User } from '@supabase/supabase-js'
 
 // ── Categories ───────────────────────────────────────────────────────────────
 const CATEGORIES = [
-  { id: 'all',           label: 'All Posts',           emoji: '🏘️' },
-  { id: 'furniture',     label: 'Furniture & Appliances', emoji: '🛋️' },
-  { id: 'repairs',       label: 'Home Repairs & Services', emoji: '🔧' },
-  { id: 'jobs',          label: 'Jobs & Work',          emoji: '💼' },
-  { id: 'free',          label: 'Free Items',           emoji: '🎁' },
+  { id: 'all',           label: 'All Posts',                    emoji: '🏘️' },
+  { id: 'events',        label: 'Social Events',                emoji: '🎉' },
+  { id: 'furniture',     label: 'Furniture & Appliances',       emoji: '🛋️' },
+  { id: 'repairs',       label: 'Home Repairs & Services',      emoji: '🔧' },
+  { id: 'jobs',          label: 'Jobs & Work',                  emoji: '💼' },
+  { id: 'free',          label: 'Free Items',                   emoji: '🎁' },
   { id: 'housing',       label: 'Housing — Swap, Lease, Buy, Sell', emoji: '🏠' },
-  { id: 'cars',          label: 'Cars & Vehicles',      emoji: '🚗' },
-  { id: 'farm',          label: 'Farm & Ranch',         emoji: '🐴' },
-  { id: 'local-goods',   label: 'Local Goods & Produce', emoji: '🌱' },
-  { id: 'community',     label: 'Community Help',       emoji: '🤝' },
+  { id: 'cars',          label: 'Cars & Vehicles',              emoji: '🚗' },
+  { id: 'farm',          label: 'Farm & Ranch',                 emoji: '🐴' },
+  { id: 'farm-tools',    label: 'Farming Tools & Equipment',    emoji: '🚜' },
+  { id: 'local-goods',   label: 'Local Goods & Produce',        emoji: '🌱' },
+  { id: 'community',     label: 'Community Help',               emoji: '🤝' },
 ]
 
 type Post = {
@@ -469,10 +471,10 @@ export default function CommunityPage() {
         </p>
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
-          Community Board
+          Bakersfield Neighbor Board
         </h1>
         <p className="text-sm font-light mb-6" style={{ color: 'rgba(247,245,240,0.65)' }}>
-          Buy, sell, trade, help, and connect with Bakersfield neighbors
+          Your local board for events, trades, farm goods, jobs, and everything Bakersfield
         </p>
         {user ? (
           <div className="flex items-center justify-center gap-3">

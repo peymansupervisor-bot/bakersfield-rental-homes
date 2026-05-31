@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Community Board — Bakersfield Neighbors',
-  description: 'Connect with Bakersfield neighbors. Buy, sell, trade furniture, appliances, cars, farm goods, find jobs, home repair help, and more. Free to join.',
+  title: 'Bakersfield Neighbor Board — Events, Farm, Jobs & More',
+  description: 'Your local Bakersfield neighborhood board. Post social events, farm tools, ranch animals, free items, jobs, cars, housing swaps, home repair help and more. Free to join.',
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/community' },
   openGraph: {
     title: 'Bakersfield Community Board',
