@@ -63,7 +63,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
   return (
     <section
       className="relative w-full overflow-hidden"
-      style={{ height: '100vh', backgroundColor: '#0a0a0a' }}
+      style={{ height: '100vh', backgroundColor: '#d6cfc4' }}
     >
       {/* Desktop: autoplay video */}
       {!isMobile && (
