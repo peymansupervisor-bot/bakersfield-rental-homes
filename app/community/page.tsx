@@ -471,7 +471,7 @@ export default function CommunityPage() {
         </p>
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
-          Bakersfield Neighbor Board
+          Bakersfield Community Board
         </h1>
         <p className="text-sm font-light mb-6" style={{ color: 'rgba(247,245,240,0.65)' }}>
           Your local board for events, trades, farm goods, jobs, and everything Bakersfield
