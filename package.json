@@ -15,6 +15,7 @@
     "gsap": "^3.12.5",
     "framer-motion": "^11.3.8",
     "@supabase/supabase-js": "^2.44.2",
+    "sharp": "^0.33.4",
     "stripe": "^16.2.0",
     "@stripe/stripe-js": "^4.1.0",
     "next-sanity": "^9",

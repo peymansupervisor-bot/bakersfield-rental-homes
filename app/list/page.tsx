@@ -463,22 +463,20 @@ export default function ListPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  // ── Photo upload to Supabase Storage ──────────────────────────────────────
+  // ── Photo upload via server route (rotates EXIF + resizes before storing) ──
   const uploadPhotos = async (): Promise<string[]> => {
     const urls: string[] = []
     const total = form.photoFiles.length
     for (let i = 0; i < total; i++) {
       const file = form.photoFiles[i]
-      const ext = file.name.split('.').pop()
-      const path = `listings/${Date.now()}_${i}.${ext}`
-      const { error } = await supabase.storage
-        .from('listing-photos')
-        .upload(path, file, { upsert: false })
-      if (error) throw new Error(`Photo upload failed: ${error.message}`)
-      const { data: { publicUrl } } = supabase.storage
-        .from('listing-photos')
-        .getPublicUrl(path)
-      urls.push(publicUrl)
+      const path = `listings/${Date.now()}_${i}.jpg`
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('path', path)
+      const res = await fetch('/api/upload-photo', { method: 'POST', body: fd })
+      const { url, error } = await res.json()
+      if (error || !url) throw new Error(`Photo upload failed: ${error ?? 'unknown error'}`)
+      urls.push(url)
       setUploadProgress(Math.round(((i + 1) / total) * 100))
     }
     return urls
