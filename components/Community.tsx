@@ -77,7 +77,7 @@ export default function Community({ headline, description, facebookUrl }: Commun
 
           <div className={`flex flex-col gap-5 w-full md:w-64 reveal-right ${inView ? 'in-view' : ''}`}>
             {[
-              { value: '1,000s', label: 'Active Members', desc: 'Bakersfield tenants & owners' },
+              { value: '11.9K+', label: 'Active Members', desc: 'Bakersfield tenants & owners' },
               { value: 'Daily',  label: 'New Posts',      desc: 'Real questions, real answers' },
               { value: '100%',   label: 'Local',          desc: 'Only Bakersfield — no noise' },
             ].map((item, i) => (
