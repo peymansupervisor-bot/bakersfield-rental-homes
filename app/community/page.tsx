@@ -534,6 +534,14 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
   const [commentText, setCommentText]   = useState('')
   const [loadingC, setLoadingC]         = useState(false)
   const [submitting, setSubmitting]     = useState(false)
+  // Post editing
+  const [editingPost, setEditingPost]   = useState(false)
+  const [editTitle, setEditTitle]       = useState(post.title)
+  const [editBody, setEditBody]         = useState(post.body)
+  const [savingPost, setSavingPost]     = useState(false)
+  // Comment editing
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null)
+  const [editingCommentText, setEditingCommentText] = useState('')
   const cat = CATEGORIES.find(c => c.id === post.category)
   const commentCount = post.community_comments?.[0]?.count ?? 0
 
@@ -569,6 +577,37 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
     onDeleted()
   }
 
+  const savePost = async () => {
+    if (!editTitle.trim() || !editBody.trim()) return
+    setSavingPost(true)
+    await fetch('/api/community/posts', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: post.id, user_id: currentUser?.id, title: editTitle.trim(), body: editBody.trim() }),
+    })
+    post.title = editTitle.trim()
+    post.body = editBody.trim()
+    setEditingPost(false)
+    setSavingPost(false)
+  }
+
+  const deleteComment = async (commentId: string) => {
+    if (!confirm('Delete this comment?')) return
+    await fetch(`/api/community/comments?id=${commentId}&user_id=${currentUser?.id}`, { method: 'DELETE' })
+    setComments(prev => prev.filter(c => c.id !== commentId))
+  }
+
+  const saveComment = async (commentId: string) => {
+    if (!editingCommentText.trim()) return
+    await fetch('/api/community/comments', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: commentId, user_id: currentUser?.id, body: editingCommentText.trim() }),
+    })
+    setComments(prev => prev.map(c => c.id === commentId ? { ...c, body: editingCommentText.trim() } : c))
+    setEditingCommentId(null)
+  }
+
   return (
     <article className="bg-white rounded-2xl overflow-hidden mb-4" style={{ border: '1px solid rgba(201,169,97,0.12)', boxShadow: '0 2px 8px rgba(28,61,90,0.04)' }}>
       {post.photo_url && (
@@ -592,10 +631,33 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
         </div>
 
         {/* Content */}
-        <h3 className="font-semibold text-base mb-2" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-          {post.title}
-        </h3>
-        <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: '#444' }}>{post.body}</p>
+        {editingPost ? (
+          <div className="space-y-2 mb-3">
+            <input className="w-full px-3 py-2 rounded-xl text-sm border outline-none focus:border-[#C9A961]"
+              style={{ borderColor: '#e0ddd8' }} value={editTitle} onChange={e => setEditTitle(e.target.value)} />
+            <textarea className="w-full px-3 py-2 rounded-xl text-sm border outline-none focus:border-[#C9A961] resize-none"
+              style={{ borderColor: '#e0ddd8' }} rows={4} value={editBody} onChange={e => setEditBody(e.target.value)} />
+            <div className="flex gap-2">
+              <button onClick={savePost} disabled={savingPost}
+                className="px-4 py-1.5 rounded-xl text-xs font-semibold transition-all hover:opacity-90 disabled:opacity-50"
+                style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
+                {savingPost ? 'Saving…' : 'Save'}
+              </button>
+              <button onClick={() => setEditingPost(false)}
+                className="px-4 py-1.5 rounded-xl text-xs font-semibold transition-all hover:opacity-70"
+                style={{ border: '1px solid #e0ddd8', color: '#616161' }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h3 className="font-semibold text-base mb-2" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+              {post.title}
+            </h3>
+            <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: '#444' }}>{post.body}</p>
+          </>
+        )}
 
 
         {/* Actions */}
@@ -615,10 +677,13 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
             </button>
           )}
           {currentUser?.id === post.user_id && (
-            <button onClick={deletePost} className="ml-auto text-xs transition-all hover:opacity-70" style={{ color: '#B03A2E' }}
-              aria-label="Delete post">
-              Delete
-            </button>
+            <div className="ml-auto flex gap-3">
+              <button onClick={() => { setEditTitle(post.title); setEditBody(post.body); setEditingPost(true) }}
+                className="text-xs transition-all hover:opacity-70" style={{ color: '#1C3D5A' }}
+                aria-label="Edit post">Edit</button>
+              <button onClick={deletePost} className="text-xs transition-all hover:opacity-70" style={{ color: '#B03A2E' }}
+                aria-label="Delete post">Delete</button>
+            </div>
           )}
         </div>
 
@@ -633,9 +698,38 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
               <div key={c.id} className="flex gap-2.5">
                 <Avatar name={c.profiles?.display_name ?? '?'} size={28} />
                 <div className="flex-1 px-3 py-2 rounded-xl text-sm" style={{ backgroundColor: '#f7f5f0' }}>
-                  <span className="font-semibold mr-2" style={{ color: '#1C3D5A' }}>{c.profiles?.display_name}</span>
-                  <span style={{ color: '#444' }}>{c.body}</span>
-                  <span className="ml-2 text-[10px]" style={{ color: '#bbb' }}>{timeAgo(c.created_at)}</span>
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <span className="font-semibold mr-2" style={{ color: '#1C3D5A' }}>{c.profiles?.display_name}</span>
+                      {editingCommentId === c.id ? (
+                        <div className="mt-1 space-y-1">
+                          <input className="w-full px-2 py-1 rounded-lg text-sm border outline-none focus:border-[#C9A961]"
+                            style={{ borderColor: '#e0ddd8' }}
+                            value={editingCommentText} onChange={e => setEditingCommentText(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && saveComment(c.id)} />
+                          <div className="flex gap-2">
+                            <button onClick={() => saveComment(c.id)}
+                              className="text-[10px] font-semibold px-2 py-0.5 rounded-lg"
+                              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>Save</button>
+                            <button onClick={() => setEditingCommentId(null)}
+                              className="text-[10px] font-semibold px-2 py-0.5 rounded-lg"
+                              style={{ border: '1px solid #e0ddd8', color: '#616161' }}>Cancel</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <span style={{ color: '#444' }}>{c.body}</span>
+                      )}
+                      <span className="ml-2 text-[10px]" style={{ color: '#bbb' }}>{timeAgo(c.created_at)}</span>
+                    </div>
+                    {currentUser?.id === c.user_id && editingCommentId !== c.id && (
+                      <div className="flex gap-2 flex-shrink-0">
+                        <button onClick={() => { setEditingCommentId(c.id); setEditingCommentText(c.body) }}
+                          className="text-[10px] transition-all hover:opacity-70" style={{ color: '#1C3D5A' }}>Edit</button>
+                        <button onClick={() => deleteComment(c.id)}
+                          className="text-[10px] transition-all hover:opacity-70" style={{ color: '#B03A2E' }}>Delete</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

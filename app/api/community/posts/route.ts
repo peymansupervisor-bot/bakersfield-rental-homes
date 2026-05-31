@@ -39,6 +39,19 @@ export async function POST(req: NextRequest) {
   }
 }
 
+export async function PATCH(req: NextRequest) {
+  try {
+    const { id, user_id, title, body } = await req.json()
+    if (!id || !user_id) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
+    const db = createServiceClient()
+    const { error } = await db.from('community_posts').update({ title, body }).eq('id', id).eq('user_id', user_id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ success: true })
+  } catch {
+    return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id')
