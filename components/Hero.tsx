@@ -143,18 +143,6 @@ export default function Hero({ heroHeadline }: HeroProps) {
         )}
       </div>
 
-      {/* Brand name — top-left corner, clear of video action area */}
-      <div
-        className="absolute top-20 left-6 md:left-10 pointer-events-none"
-        style={{ opacity: 0.92 }}
-      >
-        <p
-          className="text-xs font-semibold tracking-widest uppercase"
-          style={{ color: '#C9A961', letterSpacing: '0.22em', fontFamily: 'Inter, sans-serif' }}
-        >
-          Bakersfield Rental Homes
-        </p>
-      </div>
 
       {/* Tagline — bottom-left, clear of video content */}
       {/* Sound toggle — bottom-right */}
