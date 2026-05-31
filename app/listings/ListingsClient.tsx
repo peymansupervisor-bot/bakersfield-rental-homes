@@ -247,7 +247,7 @@ export default function ListingsClient({ initialListings }: { initialListings: L
           }}
         >
           <Image
-            src="/niko/niko-1.png"
+            src="/niko/niko-1.jpg"
             alt="Niko, our pet-friendly mascot"
             width={48}
             height={48}
