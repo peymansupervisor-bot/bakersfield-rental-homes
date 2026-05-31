@@ -189,7 +189,8 @@ export default function Hero({ heroHeadline }: HeroProps) {
         style={{
           width: '220px',
           height: '72px',
-          background: 'linear-gradient(to top left, rgba(10,10,10,0.97) 35%, transparent 100%)',
+          background: 'linear-gradient(to top left, rgba(201,169,97,0.55) 35%, transparent 100%)',
+          backdropFilter: 'blur(6px)',
           zIndex: 10,
         }}
       />
