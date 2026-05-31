@@ -53,6 +53,7 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2 group" aria-label="Bakersfield Rental Homes — home">
+
               <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: '#C9A961' }} aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -66,12 +67,6 @@ export default function Navbar() {
                   style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
               </div>
             </Link>
-            <a href="tel:+16613811818"
-              className="hidden sm:flex items-center gap-1 text-xs font-semibold transition-all hover:opacity-70"
-              style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}
-              aria-label="Call us at (661) 381-1818">
-              <span style={{ color: '#C9A961' }}>📞</span> (661) 381-1818
-            </a>
           </div>
 
           {/* Desktop nav */}
