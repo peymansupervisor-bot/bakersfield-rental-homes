@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <footer
@@ -55,6 +57,9 @@ export default function Footer() {
           <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.3)' }}>
             Owned by Bakersfield Brokers &nbsp;|&nbsp; DRE #01726653
           </p>
+          <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>
