@@ -50,7 +50,7 @@ export default function Footer() {
             color: '#ffffff',
           }}
         >
-          One community. One Bakersfield. Together we grow stronger.
+          One Bakersfield. One community. Together we grow stronger.
         </p>
         <p
           className="text-sm font-light max-w-lg leading-relaxed"
