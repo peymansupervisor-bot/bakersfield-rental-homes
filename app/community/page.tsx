@@ -4,6 +4,229 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
 
+// ── Types ─────────────────────────────────────────────────────────────────────
+type DM = {
+  id: string
+  created_at: string
+  sender_id: string
+  receiver_id: string
+  body: string
+  read: boolean
+  sender: { id: string; display_name: string }
+  receiver: { id: string; display_name: string }
+}
+
+type ChatPartner = { id: string; display_name: string }
+
+// ── Chat Window ───────────────────────────────────────────────────────────────
+function ChatWindow({ currentUser, partner, onClose }: {
+  currentUser: User
+  partner: ChatPartner
+  onClose: () => void
+}) {
+  const [messages, setMessages] = useState<DM[]>([])
+  const [text, setText]         = useState('')
+  const [sending, setSending]   = useState(false)
+  const bottomRef               = useRef<HTMLDivElement>(null)
+
+  const loadMessages = useCallback(async () => {
+    const res = await fetch(`/api/community/messages?user_id=${currentUser.id}&other_id=${partner.id}`)
+    const { messages: data } = await res.json()
+    setMessages(data ?? [])
+  }, [currentUser.id, partner.id])
+
+  useEffect(() => { loadMessages() }, [loadMessages])
+
+  // Auto-scroll to bottom
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
+
+  // Real-time incoming messages
+  useEffect(() => {
+    const channel = supabase
+      .channel(`dm-${currentUser.id}-${partner.id}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'direct_messages' }, payload => {
+        const msg = payload.new as DM
+        if (
+          (msg.sender_id === partner.id && msg.receiver_id === currentUser.id) ||
+          (msg.sender_id === currentUser.id && msg.receiver_id === partner.id)
+        ) {
+          setMessages(prev => [...prev, msg])
+        }
+      })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [currentUser.id, partner.id])
+
+  const send = async () => {
+    if (!text.trim() || sending) return
+    setSending(true)
+    await fetch('/api/community/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sender_id: currentUser.id, receiver_id: partner.id, body: text.trim() }),
+    })
+    setText('')
+    setSending(false)
+  }
+
+  return (
+    <div className="fixed bottom-0 right-4 z-50 flex flex-col rounded-t-2xl shadow-2xl overflow-hidden"
+      style={{ width: 320, height: 440, backgroundColor: 'white', border: '1px solid #e0ddd8' }}>
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3"
+        style={{ backgroundColor: '#1C3D5A' }}>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#4ade80' }} />
+          <p className="text-sm font-semibold" style={{ color: '#F7F5F0' }}>{partner.display_name}</p>
+        </div>
+        <button onClick={onClose} aria-label="Close chat"
+          className="text-white opacity-60 hover:opacity-100 text-lg leading-none">×</button>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2" style={{ backgroundColor: '#F7F5F0' }}>
+        {messages.length === 0 && (
+          <p className="text-xs text-center mt-8" style={{ color: '#aaa' }}>
+            No messages yet — say hello!
+          </p>
+        )}
+        {messages.map(m => {
+          const isMine = m.sender_id === currentUser.id
+          return (
+            <div key={m.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
+              <div className="max-w-[75%] px-3 py-2 rounded-2xl text-sm leading-snug"
+                style={{
+                  backgroundColor: isMine ? '#1C3D5A' : 'white',
+                  color: isMine ? '#F7F5F0' : '#2B2B2B',
+                  borderBottomRightRadius: isMine ? 4 : undefined,
+                  borderBottomLeftRadius: !isMine ? 4 : undefined,
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+                }}>
+                {m.body}
+              </div>
+            </div>
+          )
+        })}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Input */}
+      <div className="flex gap-2 px-3 py-2 border-t" style={{ borderColor: '#e0ddd8' }}>
+        <input
+          className="flex-1 px-3 py-2 rounded-xl text-sm border outline-none focus:border-[#C9A961]"
+          style={{ borderColor: '#e0ddd8' }}
+          placeholder="Type a message…"
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
+          aria-label="Type a message"
+        />
+        <button onClick={send} disabled={sending || !text.trim()}
+          className="px-3 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-90 disabled:opacity-40"
+          style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
+          →
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Inbox ─────────────────────────────────────────────────────────────────────
+function InboxPanel({ currentUser, onStartChat, onClose }: {
+  currentUser: User
+  onStartChat: (partner: ChatPartner) => void
+  onClose: () => void
+}) {
+  const [conversations, setConversations] = useState<DM[]>([])
+  const [allUsers, setAllUsers]           = useState<ChatPartner[]>([])
+  const [search, setSearch]               = useState('')
+  const [tab, setTab]                     = useState<'chats' | 'users'>('chats')
+
+  useEffect(() => {
+    fetch(`/api/community/messages?user_id=${currentUser.id}&inbox=1`)
+      .then(r => r.json()).then(d => setConversations(d.conversations ?? []))
+    fetch(`/api/community/users`)
+      .then(r => r.json()).then(d => setAllUsers((d.users ?? []).filter((u: ChatPartner) => u.id !== currentUser.id)))
+  }, [currentUser.id])
+
+  const filtered = allUsers.filter(u => u.display_name.toLowerCase().includes(search.toLowerCase()))
+
+  return (
+    <div className="fixed bottom-0 right-4 z-50 flex flex-col rounded-t-2xl shadow-2xl overflow-hidden"
+      style={{ width: 320, height: 440, backgroundColor: 'white', border: '1px solid #e0ddd8' }}>
+      <div className="flex items-center justify-between px-4 py-3" style={{ backgroundColor: '#1C3D5A' }}>
+        <p className="text-sm font-semibold" style={{ color: '#F7F5F0' }}>Messages</p>
+        <button onClick={onClose} aria-label="Close inbox"
+          className="text-white opacity-60 hover:opacity-100 text-lg leading-none">×</button>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex border-b" style={{ borderColor: '#e0ddd8' }}>
+        {(['chats', 'users'] as const).map(t => (
+          <button key={t} onClick={() => setTab(t)}
+            className="flex-1 py-2 text-xs font-semibold tracking-widest uppercase transition-all"
+            style={{
+              color: tab === t ? '#1C3D5A' : '#aaa',
+              borderBottom: tab === t ? '2px solid #C9A961' : '2px solid transparent',
+            }}>
+            {t === 'chats' ? 'Conversations' : 'All Users'}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex-1 overflow-y-auto">
+        {tab === 'chats' ? (
+          conversations.length === 0 ? (
+            <p className="text-xs text-center mt-8" style={{ color: '#aaa' }}>No conversations yet.<br />Go to All Users to start one.</p>
+          ) : conversations.map(c => {
+            const partner = c.sender_id === currentUser.id ? c.receiver : c.sender
+            return (
+              <button key={c.id} onClick={() => { onStartChat(partner); onClose() }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-[#f7f5f0] transition-colors border-b"
+                style={{ borderColor: '#f0ece4' }}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                  style={{ backgroundColor: '#1C3D5A' }}>
+                  {partner?.display_name?.slice(0, 1).toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold truncate" style={{ color: '#1C3D5A' }}>{partner?.display_name}</p>
+                  <p className="text-xs truncate" style={{ color: '#aaa' }}>{c.body}</p>
+                </div>
+                {!c.read && c.receiver_id === currentUser.id && (
+                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: '#C9A961' }} />
+                )}
+              </button>
+            )
+          })
+        ) : (
+          <div>
+            <div className="px-3 pt-3 pb-2">
+              <input className="w-full px-3 py-2 rounded-xl text-sm border outline-none focus:border-[#C9A961]"
+                style={{ borderColor: '#e0ddd8' }}
+                placeholder="Search users…"
+                value={search} onChange={e => setSearch(e.target.value)}
+                aria-label="Search users" />
+            </div>
+            {filtered.length === 0 ? (
+              <p className="text-xs text-center mt-4" style={{ color: '#aaa' }}>No users found</p>
+            ) : filtered.map(u => (
+              <button key={u.id} onClick={() => { onStartChat(u); onClose() }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-[#f7f5f0] transition-colors border-b"
+                style={{ borderColor: '#f0ece4' }}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                  style={{ backgroundColor: '#1C3D5A' }}>
+                  {u.display_name.slice(0, 1).toUpperCase()}
+                </div>
+                <p className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>{u.display_name}</p>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ── Categories ───────────────────────────────────────────────────────────────
 const CATEGORIES = [
   { id: 'all',           label: 'All Posts',                    emoji: '🏘️' },
@@ -289,7 +512,7 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
 }
 
 // ── Post Card ─────────────────────────────────────────────────────────────────
-function PostCard({ post, currentUser, onDeleted }: { post: Post; currentUser: User | null; onDeleted: () => void }) {
+function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; currentUser: User | null; onDeleted: () => void; onMessage?: (p: ChatPartner) => void }) {
   const [showComments, setShowComments] = useState(false)
   const [comments, setComments]         = useState<Comment[]>([])
   const [commentText, setCommentText]   = useState('')
@@ -367,6 +590,14 @@ function PostCard({ post, currentUser, onDeleted }: { post: Post; currentUser: U
             aria-expanded={showComments}>
             💬 {commentCount > 0 ? `${commentCount} comment${commentCount !== 1 ? 's' : ''}` : 'Comment'}
           </button>
+          {currentUser && currentUser.id !== post.user_id && onMessage && (
+            <button
+              onClick={() => onMessage({ id: post.user_id, display_name: post.profiles?.display_name ?? 'User' })}
+              className="flex items-center gap-1 text-sm transition-all hover:opacity-70"
+              style={{ color: '#C9A961' }}>
+              ✉️ Message
+            </button>
+          )}
           {currentUser?.id === post.user_id && (
             <button onClick={deletePost} className="ml-auto text-xs transition-all hover:opacity-70" style={{ color: '#B03A2E' }}
               aria-label="Delete post">
@@ -433,6 +664,9 @@ export default function CommunityPage() {
   const [category, setCategory]       = useState('all')
   const [notifications, setNotifications] = useState<{ id: string; postTitle: string; commenterName: string }[]>([])
   const [showNotifs, setShowNotifs]   = useState(false)
+  const [chatPartner, setChatPartner] = useState<ChatPartner | null>(null)
+  const [showInbox, setShowInbox]     = useState(false)
+  const [unreadDMs, setUnreadDMs]     = useState(0)
   const userPostIds                   = useRef<Set<string>>(new Set())
 
   // Fetch display name from profiles table
@@ -498,7 +732,26 @@ export default function CommunityPage() {
 
   useEffect(() => { fetchPosts() }, [fetchPosts])
 
-  const signOut = async () => { await supabase.auth.signOut(); setUser(null) }
+  const signOut = async () => { await supabase.auth.signOut(); setUser(null); setDisplayName('') }
+
+  // Real-time unread DM count
+  useEffect(() => {
+    if (!user) return
+    fetch(`/api/community/messages?user_id=${user.id}&inbox=1`)
+      .then(r => r.json())
+      .then(d => {
+        const unread = (d.conversations ?? []).filter((c: DM) => !c.read && c.receiver_id === user.id).length
+        setUnreadDMs(unread)
+      })
+    const channel = supabase
+      .channel(`dm-notify-${user.id}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'direct_messages',
+        filter: `receiver_id=eq.${user.id}` }, () => {
+        setUnreadDMs(v => v + 1)
+      })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [user])
 
   return (
     <main className="min-h-screen" id="main-content" style={{ backgroundColor: '#F7F5F0' }}>
@@ -529,6 +782,24 @@ export default function CommunityPage() {
             <span className="text-sm" style={{ color: 'rgba(247,245,240,0.8)' }}>
               Signed in as <strong>{displayName || user.email?.split('@')[0]}</strong>
             </span>
+
+            {/* Messages icon */}
+            <div className="relative">
+              <button
+                onClick={() => { setShowInbox(v => !v); setUnreadDMs(0) }}
+                aria-label={`Messages — ${unreadDMs} unread`}
+                className="relative flex items-center justify-center w-9 h-9 rounded-full transition-all hover:opacity-80"
+                style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: '#F7F5F0' }}
+              >
+                💬
+                {unreadDMs > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center"
+                    style={{ backgroundColor: '#C9A961', color: '#1C3D5A' }}>
+                    {unreadDMs > 9 ? '9+' : unreadDMs}
+                  </span>
+                )}
+              </button>
+            </div>
 
             {/* Notification bell */}
             <div className="relative">
@@ -642,11 +913,28 @@ export default function CommunityPage() {
         ) : (
           <div>
             {posts.map(p => (
-              <PostCard key={p.id} post={p} currentUser={user} onDeleted={fetchPosts} />
+              <PostCard key={p.id} post={p} currentUser={user} onDeleted={fetchPosts} onMessage={p => setChatPartner(p)} />
             ))}
           </div>
         )}
       </div>
+      {/* Inbox panel */}
+      {showInbox && user && (
+        <InboxPanel
+          currentUser={user}
+          onStartChat={p => { setChatPartner(p); setShowInbox(false) }}
+          onClose={() => setShowInbox(false)}
+        />
+      )}
+
+      {/* Chat window */}
+      {chatPartner && user && (
+        <ChatWindow
+          currentUser={user}
+          partner={chatPartner}
+          onClose={() => setChatPartner(null)}
+        />
+      )}
     </main>
   )
 }
