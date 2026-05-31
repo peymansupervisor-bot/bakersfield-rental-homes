@@ -157,17 +157,6 @@ export default function Hero({ heroHeadline }: HeroProps) {
       </div>
 
       {/* Tagline — bottom-left, clear of video content */}
-      <div
-        className="absolute bottom-16 left-6 md:left-10 max-w-xs pointer-events-none"
-      >
-        <p
-          className="text-sm md:text-base font-light"
-          style={{ color: 'rgba(247,245,240,0.82)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}
-        >
-          Your property. Our people.<br />Bakersfield&rsquo;s finest, on call.
-        </p>
-      </div>
-
       {/* Sound toggle — bottom-right */}
       {!isMobile && (
         <button
