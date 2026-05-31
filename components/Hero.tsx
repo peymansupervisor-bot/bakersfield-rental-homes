@@ -219,33 +219,38 @@ export default function Hero({ heroHeadline }: HeroProps) {
 
       {/* Scroll indicator */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 transition-opacity duration-500"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-500"
         style={{ opacity: scrolled ? 0 : 1 }}
         aria-hidden="true"
       >
-        <p
-          className="text-xs font-semibold tracking-widest uppercase"
-          style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif', letterSpacing: '0.18em' }}
+        <div
+          className="flex flex-col items-center gap-2 px-5 py-3 rounded-full"
+          style={{ backgroundColor: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)', border: '1px solid rgba(201,169,97,0.4)' }}
         >
-          Scroll
-        </p>
-        {/* Animated chevron arrows */}
-        <div className="flex flex-col items-center" style={{ gap: '2px' }}>
-          {[0, 1, 2].map((i) => (
-            <svg
-              key={i}
-              width="18" height="10"
-              viewBox="0 0 18 10"
-              fill="none"
-              style={{
-                animation: `scrollChevron 1.4s ease infinite`,
-                animationDelay: `${i * 0.18}s`,
-                opacity: 0,
-              }}
-            >
-              <path d="M1 1L9 9L17 1" stroke="#C9A961" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          ))}
+          <p
+            className="text-xs font-semibold tracking-widest uppercase"
+            style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif', letterSpacing: '0.18em' }}
+          >
+            Scroll
+          </p>
+          {/* Animated chevron arrows */}
+          <div className="flex flex-col items-center" style={{ gap: '2px' }}>
+            {[0, 1, 2].map((i) => (
+              <svg
+                key={i}
+                width="18" height="10"
+                viewBox="0 0 18 10"
+                fill="none"
+                style={{
+                  animation: `scrollChevron 1.4s ease infinite`,
+                  animationDelay: `${i * 0.18}s`,
+                  opacity: 0,
+                }}
+              >
+                <path d="M1 1L9 9L17 1" stroke="#C9A961" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ))}
+          </div>
         </div>
         <style>{`
           @keyframes scrollChevron {
