@@ -422,11 +422,14 @@ function PostCard({ post, currentUser, onDeleted }: { post: Post; currentUser: U
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function CommunityPage() {
-  const [user, setUser]           = useState<User | null>(null)
-  const [showAuth, setShowAuth]   = useState(false)
-  const [posts, setPosts]         = useState<Post[]>([])
-  const [loading, setLoading]     = useState(true)
-  const [category, setCategory]   = useState('all')
+  const [user, setUser]               = useState<User | null>(null)
+  const [showAuth, setShowAuth]       = useState(false)
+  const [posts, setPosts]             = useState<Post[]>([])
+  const [loading, setLoading]         = useState(true)
+  const [category, setCategory]       = useState('all')
+  const [notifications, setNotifications] = useState<{ id: string; postTitle: string; commenterName: string }[]>([])
+  const [showNotifs, setShowNotifs]   = useState(false)
+  const userPostIds                   = useRef<Set<string>>(new Set())
 
   // Check existing session
   useEffect(() => {
@@ -435,14 +438,43 @@ export default function CommunityPage() {
     return () => subscription.unsubscribe()
   }, [])
 
+  // Real-time notifications — watch for new comments on user's own posts
+  useEffect(() => {
+    if (!user) return
+    const channel = supabase
+      .channel('community-comments-notify')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_comments' },
+        async (payload) => {
+          const comment = payload.new as { post_id: string; user_id: string; body: string }
+          if (comment.user_id === user.id) return // ignore own comments
+          if (!userPostIds.current.has(comment.post_id)) return // not their post
+          // Fetch post title and commenter name
+          const [postRes, profileRes] = await Promise.all([
+            fetch(`/api/community/posts`).then(r => r.json()),
+            fetch(`/api/community/comments?post_id=${comment.post_id}`).then(r => r.json()),
+          ])
+          const post = (postRes.posts ?? []).find((p: Post) => p.id === comment.post_id)
+          const postTitle = post?.title ?? 'your post'
+          const commenterName = profileRes.comments?.slice(-1)[0]?.profiles?.display_name ?? 'Someone'
+          setNotifications(prev => [{ id: Date.now().toString(), postTitle, commenterName }, ...prev.slice(0, 9)])
+        }
+      )
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [user])
+
   const fetchPosts = useCallback(async () => {
     setLoading(true)
     const url = category === 'all' ? '/api/community/posts' : `/api/community/posts?category=${category}`
     const res = await fetch(url)
     const { posts: data } = await res.json()
-    setPosts(data ?? [])
+    const fetched = data ?? []
+    setPosts(fetched)
+    if (user) {
+      userPostIds.current = new Set(fetched.filter((p: Post) => p.user_id === user.id).map((p: Post) => p.id))
+    }
     setLoading(false)
-  }, [category])
+  }, [category, user])
 
   useEffect(() => { fetchPosts() }, [fetchPosts])
 
@@ -473,10 +505,53 @@ export default function CommunityPage() {
           Your local board for events, trades, farm goods, jobs, and everything Bakersfield
         </p>
         {user ? (
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-3 flex-wrap">
             <span className="text-sm" style={{ color: 'rgba(247,245,240,0.8)' }}>
               Signed in as <strong>{user.email}</strong>
             </span>
+
+            {/* Notification bell */}
+            <div className="relative">
+              <button
+                onClick={() => { setShowNotifs(v => !v); }}
+                aria-label={`Notifications — ${notifications.length} unread`}
+                className="relative flex items-center justify-center w-9 h-9 rounded-full transition-all hover:opacity-80"
+                style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: '#F7F5F0' }}
+              >
+                🔔
+                {notifications.length > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center"
+                    style={{ backgroundColor: '#B22234', color: 'white' }}>
+                    {notifications.length > 9 ? '9+' : notifications.length}
+                  </span>
+                )}
+              </button>
+
+              {showNotifs && (
+                <div className="absolute right-0 mt-2 w-72 rounded-2xl shadow-xl overflow-hidden z-50"
+                  style={{ backgroundColor: 'white', border: '1px solid #e0ddd8', top: '100%' }}>
+                  <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: '#f0ece4' }}>
+                    <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: '#1C3D5A' }}>Notifications</p>
+                    {notifications.length > 0 && (
+                      <button onClick={() => setNotifications([])} className="text-xs" style={{ color: '#aaa' }}>Clear all</button>
+                    )}
+                  </div>
+                  {notifications.length === 0 ? (
+                    <p className="text-sm text-center py-6" style={{ color: '#aaa' }}>No new notifications</p>
+                  ) : (
+                    <ul className="max-h-64 overflow-y-auto">
+                      {notifications.map(n => (
+                        <li key={n.id} className="px-4 py-3 border-b text-sm" style={{ borderColor: '#f0ece4', color: '#2B2B2B' }}>
+                          <span className="font-semibold" style={{ color: '#1C3D5A' }}>{n.commenterName}</span> replied to your post:{' '}
+                          <span style={{ color: '#616161' }}>"{n.postTitle}"</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+
             <button onClick={signOut}
               className="text-xs px-3 py-1.5 rounded-full transition-all hover:opacity-80"
               style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: '#F7F5F0' }}>
