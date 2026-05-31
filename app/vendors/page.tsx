@@ -20,6 +20,7 @@ const CATEGORIES = [
   'Flooring',
   'Appliance Repair',
   'Cleaning Services',
+  'Other',
 ]
 
 type DocKey = 'w9' | 'drivers_license' | 'business_license' | 'insurance_certificate'
