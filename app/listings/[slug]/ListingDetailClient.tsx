@@ -275,7 +275,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 {listing.lot_size_sqft ? (
                   <StatBox label="Lot Size" value={`${listing.lot_size_sqft.toLocaleString()} sqft`} />
                 ) : (
-                  <StatBox label="Parking" value={listing.parking} />
+                  <StatBox label="Solar" value={listing.amenities?.includes('Solar') ? 'Yes' : 'No'} />
                 )}
               </div>
 
