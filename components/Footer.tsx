@@ -38,7 +38,7 @@ export default function Footer() {
         {/* Tagline */}
         <p className="text-xl md:text-2xl font-semibold max-w-xl leading-relaxed"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#ffffff' }}>
-          One Bakersfield. One community.<br />Together we grow stronger.
+          1 Bakersfield. 1 community.<br />Together we grow stronger.
         </p>
 
         <p className="text-sm font-light max-w-lg leading-relaxed"
