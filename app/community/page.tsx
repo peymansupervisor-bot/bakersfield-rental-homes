@@ -46,10 +46,8 @@ function ChatWindow({ currentUser, partner, onClose }: {
       .channel(`dm-${currentUser.id}-${partner.id}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'direct_messages' }, payload => {
         const msg = payload.new as DM
-        if (
-          (msg.sender_id === partner.id && msg.receiver_id === currentUser.id) ||
-          (msg.sender_id === currentUser.id && msg.receiver_id === partner.id)
-        ) {
+        // Only add incoming messages — outgoing are handled optimistically
+        if (msg.sender_id === partner.id && msg.receiver_id === currentUser.id) {
           setMessages(prev => [...prev, msg])
         }
       })
@@ -59,13 +57,31 @@ function ChatWindow({ currentUser, partner, onClose }: {
 
   const send = async () => {
     if (!text.trim() || sending) return
+    const body = text.trim()
     setSending(true)
-    await fetch('/api/community/messages', {
+    setText('')
+    // Show message immediately (optimistic)
+    const optimistic: DM = {
+      id: `temp-${Date.now()}`,
+      created_at: new Date().toISOString(),
+      sender_id: currentUser.id,
+      receiver_id: partner.id,
+      body,
+      read: false,
+      sender: { id: currentUser.id, display_name: '' },
+      receiver: { id: partner.id, display_name: partner.display_name },
+    }
+    setMessages(prev => [...prev, optimistic])
+    const res = await fetch('/api/community/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sender_id: currentUser.id, receiver_id: partner.id, body: text.trim() }),
+      body: JSON.stringify({ sender_id: currentUser.id, receiver_id: partner.id, body }),
     })
-    setText('')
+    const { message } = await res.json()
+    // Replace optimistic with real message
+    if (message) {
+      setMessages(prev => prev.map(m => m.id === optimistic.id ? message : m))
+    }
     setSending(false)
   }
 
