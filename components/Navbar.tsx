@@ -51,20 +51,28 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group" aria-label="Bakersfield Rental Homes — home">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: '#C9A961' }} aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M8 2L14 6V14H10V10H6V14H2V6L8 2Z" fill="#1C3D5A" />
-              </svg>
-            </div>
-            <div className="leading-none" aria-hidden="true">
-              <p className="text-xs font-semibold tracking-widest uppercase"
-                style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
-              <p className="text-xs tracking-wider uppercase"
-                style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
-            </div>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 group" aria-label="Bakersfield Rental Homes — home">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: '#C9A961' }} aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 2L14 6V14H10V10H6V14H2V6L8 2Z" fill="#1C3D5A" />
+                </svg>
+              </div>
+              <div className="leading-none" aria-hidden="true">
+                <p className="text-xs font-semibold tracking-widest uppercase"
+                  style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
+                <p className="text-xs tracking-wider uppercase"
+                  style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
+              </div>
+            </Link>
+            <a href="tel:+16613811818"
+              className="hidden sm:flex items-center gap-1 text-xs font-semibold transition-all hover:opacity-70"
+              style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}
+              aria-label="Call us at (661) 381-1818">
+              <span style={{ color: '#C9A961' }}>📞</span> (661) 381-1818
+            </a>
+          </div>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-5" role="list">
