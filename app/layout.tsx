@@ -39,12 +39,39 @@ export const metadata: Metadata = {
   alternates: { canonical: SITE_URL },
 }
 
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: 'Bakersfield Rental Homes',
+  url: 'https://bakersfieldrentalhomes.com',
+  logo: 'https://bakersfieldrentalhomes.com/og-image.jpg',
+  image: 'https://bakersfieldrentalhomes.com/og-image.jpg',
+  description: 'Find quality houses and homes for rent in Bakersfield, CA. Single-family rentals, pet-friendly homes, and long-term leases in Kern County.',
+  telephone: '+16613811818',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bakersfield',
+    addressRegion: 'CA',
+    postalCode: '93301',
+    addressCountry: 'US',
+  },
+  areaServed: {
+    '@type': 'City',
+    name: 'Bakersfield',
+  },
+  sameAs: [],
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
         <link rel="preconnect" href="https://uosxqpoxpzrqfazphhhd.supabase.co" />
         <link rel="dns-prefetch" href="https://uosxqpoxpzrqfazphhhd.supabase.co" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
       </head>
       <body>
         <a href="#main-content" className="skip-link">Skip to main content</a>

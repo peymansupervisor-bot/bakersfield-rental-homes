@@ -58,5 +58,48 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 export default async function ListingDetailPage({ params }: { params: { id: string } }) {
   const listing = await getListing(params.id)
   if (!listing) notFound()
-  return <ListingDetailClient listing={listing} />
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'RentAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `https://bakersfieldrentalhomes.com/listings/${params.id}`,
+    },
+    object: {
+      '@type': 'Accommodation',
+      name: listing.title,
+      description: listing.description,
+      numberOfRooms: listing.bedrooms,
+      floorSize: listing.living_area_sqft
+        ? { '@type': 'QuantitativeValue', value: listing.living_area_sqft, unitCode: 'FTK' }
+        : undefined,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: listing.address,
+        addressLocality: listing.city,
+        addressRegion: listing.state ?? 'CA',
+        postalCode: listing.zip,
+        addressCountry: 'US',
+      },
+      image: listing.photos ?? [],
+      petsAllowed: listing.pets_allowed,
+    },
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: listing.monthly_rent,
+      priceCurrency: 'USD',
+      unitText: 'MON',
+    },
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <ListingDetailClient listing={listing} />
+    </>
+  )
 }
