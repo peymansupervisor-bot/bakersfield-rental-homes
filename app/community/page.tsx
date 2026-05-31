@@ -518,15 +518,7 @@ export default function CommunityPage() {
         </div>
 
         {/* Post button / form */}
-        {user ? (
-          <NewPostForm user={user} onPosted={fetchPosts} />
-        ) : (
-          <button onClick={() => setShowAuth(true)}
-            className="w-full py-4 rounded-2xl text-sm font-semibold tracking-widest uppercase mb-6 transition-all hover:opacity-90"
-            style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.1em' }}>
-            Sign In to Post
-          </button>
-        )}
+        {user && <NewPostForm user={user} onPosted={fetchPosts} />}
 
         {/* Posts feed */}
         {loading ? (
