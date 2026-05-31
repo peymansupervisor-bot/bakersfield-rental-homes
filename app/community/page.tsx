@@ -497,20 +497,22 @@ export default function CommunityPage() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8">
-        {/* Category tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-3 mb-6 scrollbar-hide" role="tablist" aria-label="Filter by category">
+        {/* Category grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6" role="tablist" aria-label="Filter by category">
           {CATEGORIES.map(c => (
             <button key={c.id}
               role="tab"
               aria-selected={category === c.id}
               onClick={() => setCategory(c.id)}
-              className="flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 whitespace-nowrap"
+              className="flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 text-left"
               style={{
                 backgroundColor: category === c.id ? '#1C3D5A' : 'white',
-                color: category === c.id ? '#F7F5F0' : '#555',
+                color: category === c.id ? '#F7F5F0' : '#444',
                 border: `1.5px solid ${category === c.id ? '#1C3D5A' : '#e0ddd8'}`,
+                boxShadow: category === c.id ? '0 2px 8px rgba(28,61,90,0.15)' : 'none',
               }}>
-              {c.emoji} {c.label}
+              <span style={{ fontSize: 18 }}>{c.emoji}</span>
+              <span className="leading-tight text-xs font-semibold">{c.label}</span>
             </button>
           ))}
         </div>
