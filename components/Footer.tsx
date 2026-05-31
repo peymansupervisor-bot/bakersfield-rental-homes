@@ -12,9 +12,6 @@ export default function Footer() {
     >
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-7 text-center">
 
-        {/* Star — subtle patriotic nod */}
-        <div aria-hidden="true" style={{ color: '#B22234', fontSize: 28, lineHeight: 1 }}>★</div>
-
         {/* Logo mark */}
         <div className="flex items-center gap-3" aria-hidden="true">
           <div className="w-9 h-9 rounded-full flex items-center justify-center"
