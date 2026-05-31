@@ -81,6 +81,9 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
 
   const submit = async () => {
     setError(''); setLoading(true)
+    if (mode === 'signup' && !name.trim()) {
+      setError('Please enter your name.'); setLoading(false); return
+    }
     if (mode === 'signup') {
       const { data, error: e } = await supabase.auth.signUp({ email, password,
         options: { data: { display_name: name || email.split('@')[0] } }
@@ -121,9 +124,9 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
             {mode === 'signup' && (
               <div>
                 <label htmlFor="auth-name" className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>
-                  Display Name (optional)
+                  Your Name <span style={{ color: '#B22234' }}>*</span>
                 </label>
-                <input id="auth-name" className={inputCls} style={inputStyle} placeholder="How others will see you"
+                <input id="auth-name" className={inputCls} style={inputStyle} placeholder="How others will see you" required
                   value={name} onChange={e => setName(e.target.value)} />
               </div>
             )}
@@ -151,7 +154,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
               </div>
             </div>
             {error && <p role="alert" className="text-sm px-3 py-2 rounded-lg" style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}>{error}</p>}
-            <button onClick={submit} disabled={loading || !email || !password}
+            <button onClick={submit} disabled={loading || !email || !password || (mode === 'signup' && !name.trim())}
               className="w-full py-3.5 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all hover:opacity-90 disabled:opacity-50"
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
               {loading ? 'Please wait…' : mode === 'signup' ? 'Create Account' : 'Sign In'}
