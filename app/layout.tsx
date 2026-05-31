@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   },
   description: 'Find houses and homes for rent in Bakersfield, CA. Bakersfield Rental Homes offers quality single-family rentals, short-term rentals, and long-term leases in Kern County. Browse available properties now.',
   robots: { index: true, follow: true },
+  verification: { google: 'qHesuDsAQNBfL8wULF0DGs-LNlNpAbQ2rrxfg53PDS8' },
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
