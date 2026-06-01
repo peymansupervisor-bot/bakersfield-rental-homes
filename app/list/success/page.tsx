@@ -44,10 +44,6 @@ function SuccessContent() {
           </svg>
         </div>
 
-        <p className="text-xs font-semibold tracking-widest uppercase mb-4"
-          style={{ color: '#1C3D5A', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}>
-          Payment Confirmed
-        </p>
         <h1 className="text-4xl font-bold mb-4"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
           Your Listing is {ready ? 'Live!' : 'Publishing…'}
