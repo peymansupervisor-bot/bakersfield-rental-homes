@@ -294,7 +294,18 @@ function timeAgo(dateStr: string) {
   return `${Math.floor(h / 24)}d ago`
 }
 
-function Avatar({ name, size = 36 }: { name: string; size?: number }) {
+function Avatar({ name, size = 36, url }: { name: string; size?: number; url?: string | null }) {
+  if (url) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={url}
+        alt={name}
+        className="flex-shrink-0 rounded-full object-cover"
+        style={{ width: size, height: size }}
+      />
+    )
+  }
   const initials = name.slice(0, 2).toUpperCase()
   const hue = name.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360
   return (
@@ -304,6 +315,103 @@ function Avatar({ name, size = 36 }: { name: string; size?: number }) {
       aria-hidden="true"
     >
       {initials}
+    </div>
+  )
+}
+
+// ── Profile Modal ─────────────────────────────────────────────────────────────
+function ProfileModal({ user, currentAvatarUrl, displayName, onClose, onSaved }: {
+  user: import('@supabase/supabase-js').User
+  currentAvatarUrl: string | null
+  displayName: string
+  onClose: () => void
+  onSaved: (url: string) => void
+}) {
+  const [preview, setPreview]   = useState<string | null>(currentAvatarUrl)
+  const [file, setFile]         = useState<File | null>(null)
+  const [saving, setSaving]     = useState(false)
+  const [error, setError]       = useState('')
+  const fileRef                 = useRef<HTMLInputElement>(null)
+
+  const pickFile = (f: File | null) => {
+    if (!f) return
+    setFile(f)
+    setPreview(URL.createObjectURL(f))
+  }
+
+  const save = async () => {
+    if (!file) { onClose(); return }
+    setSaving(true); setError('')
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('user_id', user.id)
+      const res = await fetch('/api/community/avatar', { method: 'POST', body: fd })
+      const j = await res.json()
+      if (j.error) throw new Error(j.error)
+      onSaved(j.url)
+      onClose()
+    } catch (e: any) {
+      setError(e.message || 'Upload failed')
+    }
+    setSaving(false)
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
+      role="dialog" aria-modal="true" aria-label="Edit profile photo">
+      <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl">
+        <button onClick={onClose} aria-label="Close"
+          className="float-right text-gray-400 hover:text-gray-600 text-xl font-light">×</button>
+        <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+          Profile Photo
+        </h2>
+        <p className="text-sm mb-6" style={{ color: '#888' }}>Upload a photo — it will be cropped to a square.</p>
+
+        <div className="flex flex-col items-center gap-4">
+          <button type="button" onClick={() => fileRef.current?.click()}
+            className="relative rounded-full overflow-hidden transition-all hover:opacity-80"
+            style={{ width: 120, height: 120, flexShrink: 0 }}
+            aria-label="Choose photo">
+            {preview ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center text-xs font-semibold gap-1"
+                style={{ backgroundColor: '#1C3D5A', color: '#C9A961' }}>
+                <span style={{ fontSize: 32 }}>📷</span>
+                <span>{displayName.slice(0, 2).toUpperCase()}</span>
+              </div>
+            )}
+            <div className="absolute inset-0 flex items-end justify-center pb-2 opacity-0 hover:opacity-100 transition-opacity"
+              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }}>
+              <span className="text-white text-[10px] font-semibold">Change</span>
+            </div>
+          </button>
+
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" aria-label="Upload photo"
+            onChange={e => pickFile(e.target.files?.[0] ?? null)} />
+
+          {error && (
+            <p role="alert" className="text-sm px-3 py-2 rounded-lg w-full text-center"
+              style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}>{error}</p>
+          )}
+
+          <div className="flex gap-3 w-full mt-2">
+            <button onClick={save} disabled={saving}
+              className="flex-1 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all hover:opacity-90 disabled:opacity-50"
+              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
+              {saving ? 'Saving…' : 'Save'}
+            </button>
+            <button onClick={onClose}
+              className="px-5 py-3 rounded-xl text-sm font-semibold transition-all hover:opacity-70"
+              style={{ border: '1px solid #e0ddd8', color: '#616161' }}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -619,7 +727,7 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-2.5">
-            <Avatar name={post.profiles?.display_name ?? '?'} />
+            <Avatar name={post.profiles?.display_name ?? '?'} url={post.profiles?.avatar_url} />
             <div>
               <p className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>{post.profiles?.display_name}</p>
               <p className="text-[11px]" style={{ color: '#aaa' }}>{timeAgo(post.created_at)}</p>
@@ -769,7 +877,9 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
 export default function CommunityPage() {
   const [user, setUser]               = useState<User | null>(null)
   const [displayName, setDisplayName] = useState<string>('')
+  const [avatarUrl, setAvatarUrl]     = useState<string | null>(null)
   const [showAuth, setShowAuth]       = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
   const [posts, setPosts]             = useState<Post[]>([])
   const [loading, setLoading]         = useState(true)
   const [category, setCategory]       = useState('all')
@@ -780,12 +890,11 @@ export default function CommunityPage() {
   const [unreadDMs, setUnreadDMs]     = useState(0)
   const userPostIds                   = useRef<Set<string>>(new Set())
 
-  // Fetch display name from profiles table
+  // Fetch display name and avatar from profiles table
   const fetchDisplayName = useCallback(async (uid: string) => {
-    const res = await fetch(`/api/community/posts`) // reuse service client access
-    // Fetch directly from profiles via supabase
-    const { data } = await supabase.from('profiles').select('display_name').eq('id', uid).single()
+    const { data } = await supabase.from('profiles').select('display_name, avatar_url').eq('id', uid).single()
     if (data?.display_name) setDisplayName(data.display_name)
+    if (data?.avatar_url) setAvatarUrl(data.avatar_url)
   }, [])
 
   // Check existing session
@@ -843,7 +952,7 @@ export default function CommunityPage() {
 
   useEffect(() => { fetchPosts() }, [fetchPosts])
 
-  const signOut = async () => { await supabase.auth.signOut(); setUser(null); setDisplayName('') }
+  const signOut = async () => { await supabase.auth.signOut(); setUser(null); setDisplayName(''); setAvatarUrl(null) }
 
   // Real-time unread DM count
   useEffect(() => {
@@ -874,6 +983,17 @@ export default function CommunityPage() {
         />
       )}
 
+      {/* Profile modal */}
+      {showProfile && user && (
+        <ProfileModal
+          user={user}
+          currentAvatarUrl={avatarUrl}
+          displayName={displayName || user.email?.split('@')[0] || '?'}
+          onClose={() => setShowProfile(false)}
+          onSaved={url => setAvatarUrl(url)}
+        />
+      )}
+
       {/* Header */}
       <div className="py-16 px-6 text-center"
         style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)' }}>
@@ -890,6 +1010,16 @@ export default function CommunityPage() {
         </p>
         {user ? (
           <div className="flex items-center justify-center gap-3 flex-wrap">
+            {/* Avatar / profile button */}
+            <button
+              onClick={() => setShowProfile(true)}
+              aria-label="Edit profile photo"
+              className="transition-all hover:opacity-80 rounded-full"
+              style={{ padding: 0 }}
+            >
+              <Avatar name={displayName || user.email?.split('@')[0] || '?'} size={36} url={avatarUrl} />
+            </button>
+
             <span className="text-sm" style={{ color: 'rgba(247,245,240,0.8)' }}>
               Signed in as <strong>{displayName || user.email?.split('@')[0]}</strong>
             </span>
