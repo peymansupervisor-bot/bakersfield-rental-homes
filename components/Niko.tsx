@@ -62,7 +62,7 @@ export default function Niko({ headline, description, photos, cards }: NikoProps
               fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover niko-photo-enter" priority={active === 0} />
             <div className="absolute top-5 left-5 px-3 py-1.5 rounded-full text-xs font-semibold"
               style={{ backgroundColor: 'rgba(201,169,97,0.92)', color: '#1C3D5A', backdropFilter: 'blur(6px)', letterSpacing: '0.08em' }}>
-              🐾 Pets Welcome
+              <span aria-hidden="true">🐾 </span>Pets Welcome
             </div>
           </div>
 
@@ -81,7 +81,7 @@ export default function Niko({ headline, description, photos, cards }: NikoProps
               {displayCards.map((card) => (
                 <div key={card.title} className="p-4 rounded-2xl"
                   style={{ backgroundColor: 'white', border: '1px solid rgba(201,169,97,0.15)', boxShadow: '0 2px 12px rgba(28,61,90,0.06)' }}>
-                  <div className="text-2xl mb-2">{card.icon}</div>
+                  <div className="text-2xl mb-2" aria-hidden="true">{card.icon}</div>
                   <h3 className="font-semibold text-sm mb-1"
                     style={{ color: '#1C3D5A', fontFamily: 'Playfair Display, Georgia, serif' }}>
                     {card.title}

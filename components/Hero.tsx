@@ -76,6 +76,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
           loop
           playsInline
           preload="auto"
+          aria-hidden="true"
         />
       )}
 
@@ -83,6 +84,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
       {isMobile && (
         <div
           className="absolute inset-0 w-full h-full"
+          aria-hidden="true"
           style={{
             backgroundImage: 'url(/hero-mobile.jpg)',
             backgroundSize: 'cover',
@@ -100,9 +102,13 @@ export default function Hero({ heroHeadline }: HeroProps) {
         }}
       />
 
+      {/* Always-present h1 for screen readers and SEO — visually hidden when overlay is inactive */}
+      <h1 className={activeOverlay ? 'sr-only' : 'sr-only'}>{headline}</h1>
+
       {/* Scene overlay text — centred, fades in/out with each scene */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        aria-hidden="true"
         style={{
           opacity: activeOverlay ? 1 : 0,
           transition: 'opacity 0.7s ease',
@@ -111,7 +117,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
       >
         {activeOverlay && (
           <div className="text-center px-6" style={{ maxWidth: '640px' }}>
-            <h1
+            <p
               style={{
                 fontFamily: 'Playfair Display, Georgia, serif',
                 fontSize: 'clamp(2rem, 5vw, 3.4rem)',
@@ -125,7 +131,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
               }}
             >
               {headline}
-            </h1>
+            </p>
             <p
               style={{
                 fontFamily: 'Inter, sans-serif',
@@ -186,6 +192,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
       {/* Watermark cover — bottom-right corner */}
       <div
         className="absolute bottom-0 right-0 pointer-events-none"
+        aria-hidden="true"
         style={{
           width: '220px',
           height: '72px',

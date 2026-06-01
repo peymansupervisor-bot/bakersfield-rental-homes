@@ -138,9 +138,10 @@ function ChatWindow({ currentUser, partner, onClose }: {
           aria-label="Type a message"
         />
         <button onClick={send} disabled={sending || !text.trim()}
+          aria-label="Send message"
           className="px-3 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-90 disabled:opacity-40"
           style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
-          →
+          <span aria-hidden="true">→</span>
         </button>
       </div>
     </div>
@@ -775,14 +776,15 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
             className="flex items-center gap-1.5 text-sm transition-all hover:opacity-70"
             style={{ color: '#616161' }}
             aria-expanded={showComments}>
-            💬 {commentCount > 0 ? `${commentCount} comment${commentCount !== 1 ? 's' : ''}` : 'Comment'}
+            <span aria-hidden="true">💬</span>{' '}
+            {commentCount > 0 ? `${commentCount} comment${commentCount !== 1 ? 's' : ''}` : 'Comment'}
           </button>
           {currentUser && currentUser.id !== post.user_id && onMessage && (
             <button
               onClick={() => onMessage({ id: post.user_id, display_name: post.profiles?.display_name ?? 'User' })}
               className="flex items-center gap-1 text-sm transition-all hover:opacity-70"
               style={{ color: '#C9A961' }}>
-              ✉️ Message
+              <span aria-hidden="true">✉️</span>{' '}Message
             </button>
           )}
           {currentUser?.id === post.user_id && (
@@ -1032,7 +1034,7 @@ export default function CommunityPage() {
                 className="relative flex items-center justify-center w-9 h-9 rounded-full transition-all hover:opacity-80"
                 style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: '#F7F5F0' }}
               >
-                💬
+                <span aria-hidden="true">💬</span>
                 {unreadDMs > 0 && (
                   <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center"
                     style={{ backgroundColor: '#C9A961', color: '#1C3D5A' }}>
@@ -1050,7 +1052,7 @@ export default function CommunityPage() {
                 className="relative flex items-center justify-center w-9 h-9 rounded-full transition-all hover:opacity-80"
                 style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: '#F7F5F0' }}
               >
-                🔔
+                <span aria-hidden="true">🔔</span>
                 {notifications.length > 0 && (
                   <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center"
                     style={{ backgroundColor: '#B22234', color: 'white' }}>

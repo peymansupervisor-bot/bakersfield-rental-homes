@@ -229,11 +229,11 @@ export default function VendorsPage() {
       <div
         className="px-6 py-4"
         style={{ backgroundColor: '#C9A961' }}
-        role="banner"
+        role="region"
         aria-label="Limited-time promotion"
       >
         <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 text-center sm:text-left">
-          <span className="text-lg" aria-hidden="true">🎉</span>
+          <span aria-hidden="true">🎉</span>
           <p className="text-sm font-semibold" style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}>
             <strong>Join now for free — limited time offer.</strong>{' '}
             A <strong>$95 onboarding fee</strong> will apply starting January 1, 2027.

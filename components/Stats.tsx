@@ -53,7 +53,7 @@ export default function Stats({ stats }: StatsProps) {
               <p className="text-base font-semibold mb-2 tracking-wide" style={{ color: '#F7F5F0' }}>
                 {stat.label}
               </p>
-              <p className="text-sm font-light" style={{ color: '#F7F5F0', opacity: 0.55 }}>
+              <p className="text-sm font-light" style={{ color: '#F7F5F0', opacity: 0.7 }}>
                 {stat.sub}
               </p>
             </div>

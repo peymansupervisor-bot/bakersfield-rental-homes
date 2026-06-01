@@ -139,7 +139,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.82rem',
                   fontWeight: 300,
-                  color: 'rgba(247,245,240,0.6)',
+                  color: 'rgba(247,245,240,0.8)',
                   marginTop: '8px',
                   letterSpacing: '0.02em',
                 }}
@@ -218,7 +218,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.82rem',
                   fontWeight: 300,
-                  color: 'rgba(28,61,90,0.65)',
+                  color: 'rgba(28,61,90,0.8)',
                   marginTop: '8px',
                   letterSpacing: '0.02em',
                 }}

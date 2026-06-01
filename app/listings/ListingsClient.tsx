@@ -256,7 +256,7 @@ export default function ListingsClient({ initialListings }: { initialListings: L
           />
           <div>
             <p className="text-sm font-semibold" style={{ color: '#1C3D5A', fontFamily: 'Playfair Display, Georgia, serif' }}>
-              🐾 Pet-Friendly Rentals Available
+              <span aria-hidden="true">🐾 </span>Pet-Friendly Rentals Available
             </p>
             <p className="text-xs" style={{ color: '#616161' }}>
               Niko-approved homes — ask us about our pet policy when you reach out.

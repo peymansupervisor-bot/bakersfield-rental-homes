@@ -51,17 +51,17 @@ export default function Footer() {
 
         {/* Legal */}
         <div className="flex flex-col items-center gap-1">
-          <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.35)' }}>
+          <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.6)' }}>
             © 2026 Bakersfield Rental Homes. All rights reserved.
           </p>
-          <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Owned by Bakersfield Brokers &nbsp;|&nbsp; DRE #01726653
           </p>
           <a href="tel:+16613811818"
             className="text-xs font-semibold transition-all hover:opacity-80"
             style={{ color: 'rgba(255,255,255,0.7)' }}
             aria-label="Call us at (661) 381-1818">
-            📞 (661) 381-1818
+            <span aria-hidden="true">📞 </span>(661) 381-1818
           </a>
           <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
             Privacy Policy
