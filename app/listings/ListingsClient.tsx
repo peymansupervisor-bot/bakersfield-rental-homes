@@ -223,7 +223,7 @@ export default function ListingsClient({ initialListings }: { initialListings: L
         </p>
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
-          Available Rentals
+          Houses for Rent in Bakersfield, CA
         </h1>
         <p
           className="text-sm font-light"
@@ -274,7 +274,7 @@ export default function ListingsClient({ initialListings }: { initialListings: L
           style={{ border: '1px solid rgba(201,169,97,0.15)', boxShadow: '0 2px 12px rgba(28,61,90,0.06)' }}
         >
           {/* Row 1 — server-side filters */}
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#aaa' }}>
+          <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#767676' }}>
             Filter
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
@@ -353,9 +353,30 @@ export default function ListingsClient({ initialListings }: { initialListings: L
             </div>
           </div>
 
+          {/* Action buttons */}
+          <div className="flex flex-wrap items-center gap-3 mt-1 pt-4 border-t" style={{ borderColor: '#f0ece4' }}>
+            <button
+              type="button"
+              onClick={fetchListings}
+              disabled={searching}
+              aria-label="Search listings with selected filters"
+              className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-60"
+              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.1em' }}>
+              {searching ? 'Searching…' : 'Search'}
+            </button>
+            <button
+              type="button"
+              aria-label="Clear all filters and sorting"
+              onClick={clearAll}
+              className="px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-70"
+              style={{ backgroundColor: 'transparent', color: '#616161', border: '1px solid #e0ddd8' }}>
+              Clear All
+            </button>
+          </div>
+
           {/* Row 2 — sort + instant toggles */}
-          <div className="border-t pt-4 mt-1" style={{ borderColor: '#f0ece4' }}>
-            <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#aaa' }}>
+          <div className="border-t pt-4 mt-4" style={{ borderColor: '#f0ece4' }}>
+            <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#767676' }}>
               Sort &amp; Refine
             </p>
             <div className="flex flex-wrap items-center gap-3">
@@ -418,27 +439,6 @@ export default function ListingsClient({ initialListings }: { initialListings: L
                 Vacant Only
               </button>
             </div>
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t" style={{ borderColor: '#f0ece4' }}>
-            <button
-              type="button"
-              onClick={fetchListings}
-              disabled={searching}
-              aria-label="Search listings with selected filters"
-              className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-60"
-              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.1em' }}>
-              {searching ? 'Searching…' : 'Search'}
-            </button>
-            <button
-              type="button"
-              aria-label="Clear all filters and sorting"
-              onClick={clearAll}
-              className="px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-70"
-              style={{ backgroundColor: 'transparent', color: '#616161', border: '1px solid #e0ddd8' }}>
-              Clear All
-            </button>
           </div>
         </div>
 

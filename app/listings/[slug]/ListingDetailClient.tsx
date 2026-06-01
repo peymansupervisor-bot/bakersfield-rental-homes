@@ -75,17 +75,23 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
               >
                 {/* Main photo */}
                 <div
-                  className="relative rounded-2xl overflow-hidden cursor-zoom-in"
+                  className="relative rounded-2xl overflow-hidden"
                   style={{ aspectRatio: '16/9', backgroundColor: '#e8e5df' }}
-                  onClick={() => setLightbox(true)}
                 >
+                  <button
+                    type="button"
+                    aria-label={`Open photo ${photoIndex + 1} of ${totalPhotos} in full screen`}
+                    className="absolute inset-0 w-full h-full cursor-zoom-in"
+                    style={{ border: 'none', background: 'none', padding: 0 }}
+                    onClick={() => setLightbox(true)}
+                  />
                   {listing.photos?.[photoIndex] && (
                     <Image
                       src={listing.photos[photoIndex]}
                       alt={`${listing.title} — photo ${photoIndex + 1} of ${totalPhotos}`}
                       fill
                       sizes="(max-width: 1024px) 100vw, 66vw"
-                      className="object-cover"
+                      className="object-cover pointer-events-none"
                       priority={photoIndex === 0}
                       unoptimized
                     />
@@ -106,14 +112,14 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                         aria-label={`Previous photo (${photoIndex === 0 ? totalPhotos : photoIndex} of ${totalPhotos})`}
                         onClick={e => { e.stopPropagation(); setPhotoIndex(i => (i - 1 + totalPhotos) % totalPhotos) }}
                         className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white' }}>
+                        style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white', zIndex: 1 }}>
                         <span aria-hidden="true">‹</span>
                       </button>
                       <button
                         aria-label={`Next photo (${(photoIndex + 2) > totalPhotos ? 1 : photoIndex + 2} of ${totalPhotos})`}
                         onClick={e => { e.stopPropagation(); setPhotoIndex(i => (i + 1) % totalPhotos) }}
                         className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white' }}>
+                        style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white', zIndex: 1 }}>
                         <span aria-hidden="true">›</span>
                       </button>
                     </>
@@ -380,7 +386,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl p-3 text-center" style={{ backgroundColor: '#f8f6f2' }}>
       <p className="text-lg font-bold mb-0.5" style={{ color: '#1C3D5A' }}>{value}</p>
-      <p className="text-xs" style={{ color: '#aaa' }}>{label}</p>
+      <p className="text-xs" style={{ color: '#767676' }}>{label}</p>
     </div>
   )
 }
@@ -388,7 +394,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between">
-      <span style={{ color: '#aaa' }}>{label}</span>
+      <span style={{ color: '#767676' }}>{label}</span>
       <span className="font-medium" style={{ color: '#2B2B2B' }}>{value}</span>
     </div>
   )

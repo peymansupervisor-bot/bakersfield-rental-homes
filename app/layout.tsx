@@ -66,7 +66,46 @@ const localBusinessSchema = {
     '@type': 'City',
     name: 'Bakersfield',
   },
-  sameAs: [],
+  sameAs: ['https://www.facebook.com/bakersfieldrentalhomes/'],
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How do I find houses for rent in Bakersfield, CA?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Browse our listings at bakersfieldrentalhomes.com/listings and filter by bedrooms, zip code, school district, and pet policy. All properties are managed directly by local landlords.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Are there pet-friendly rentals in Bakersfield?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. Many of our Bakersfield rental homes are pet-friendly, including properties with fenced yards. Use the Pets Allowed filter on the listings page to find pet-friendly homes.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How do I list my rental property in Bakersfield?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Landlords can list their Bakersfield rental home at bakersfieldrentalhomes.com/list. The process takes a few minutes and connects you directly with qualified local tenants.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What school districts are near rental homes in Bakersfield?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Our listings cover homes in several Bakersfield school districts including Panama-Buena Vista, Bakersfield City, Kern High, Fruitvale, Rosedale Union, and Norris. You can filter by district on the listings page.',
+      },
+    },
+  ],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -78,6 +117,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       </head>
       <body>

@@ -63,9 +63,15 @@ export default function Footer() {
             aria-label="Call us at (661) 381-1818">
             <span aria-hidden="true">📞 </span>(661) 381-1818
           </a>
-          <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
-            Privacy Policy
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Privacy Policy
+            </Link>
+            <span style={{ color: 'rgba(255,255,255,0.2)' }} aria-hidden="true">·</span>
+            <Link href="/accessibility" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Accessibility
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

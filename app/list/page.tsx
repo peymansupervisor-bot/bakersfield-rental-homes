@@ -145,8 +145,10 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
         onChange={e => { onAddressChange(e.target.value); lookup(e.target.value) }}
         onFocus={() => suggestions.length > 0 && setOpen(true)}
         aria-label="Street address"
+        role="combobox"
         aria-autocomplete="list"
         aria-expanded={open}
+        aria-haspopup="listbox"
       />
       {open && suggestions.length > 0 && (
         <ul
@@ -584,7 +586,7 @@ function Step4({ form, set, onSubmit, loading }: {
         {loading ? 'Processing…' : 'Pay $1 & Publish Listing →'}
       </button>
 
-      <p className="text-xs text-center" style={{ color: '#aaa' }}>
+      <p className="text-xs text-center" style={{ color: '#767676' }}>
         Secure payment via Stripe. Your listing goes live immediately after payment.
       </p>
     </div>
@@ -755,19 +757,20 @@ export default function ListPage() {
             <div key={s} className="flex items-center flex-1 last:flex-none">
               <div className="flex flex-col items-center">
                 <div
+                  role="img"
                   className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
                   aria-current={i === step ? 'step' : undefined}
                   aria-label={i < step ? `${s} — completed` : i === step ? `${s} — current step` : `${s} — not yet reached`}
                   style={{
                     backgroundColor: i < step ? '#2D7A4F' : i === step ? '#C9A961' : '#e0ddd8',
-                    color: i <= step ? '#fff' : '#aaa',
+                    color: i <= step ? '#fff' : '#555',
                   }}
                 >
                   <span aria-hidden="true">{i < step ? '✓' : i + 1}</span>
                 </div>
                 <span className="text-[10px] mt-1 font-medium whitespace-nowrap hidden sm:block"
                   aria-hidden="true"
-                  style={{ color: i === step ? '#1C3D5A' : '#aaa' }}>
+                  style={{ color: i === step ? '#1C3D5A' : '#767676' }}>
                   {s}
                 </span>
               </div>

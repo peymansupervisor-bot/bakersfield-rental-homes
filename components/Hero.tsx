@@ -102,8 +102,8 @@ export default function Hero({ heroHeadline }: HeroProps) {
         }}
       />
 
-      {/* Always-present h1 for screen readers and SEO — visually hidden when overlay is inactive */}
-      <h1 className={activeOverlay ? 'sr-only' : 'sr-only'}>{headline}</h1>
+      {/* Always-present h1 for screen readers and SEO — visually hidden, keyword-bearing */}
+      <h1 className="sr-only">Houses for Rent in Bakersfield, CA — Direct from Landlords</h1>
 
       {/* Scene overlay text — centred, fades in/out with each scene */}
       <div

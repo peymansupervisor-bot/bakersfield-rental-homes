@@ -102,8 +102,8 @@ function UploadBox({
         <>
           <div className="text-3xl mb-2">{icon}</div>
           <p className="text-xs font-semibold mb-1" style={{ color: '#1C3D5A' }}>{label}</p>
-          <p className="text-[10px] leading-relaxed" style={{ color: '#aaa' }}>{description}</p>
-          <p className="text-[10px] mt-2 font-semibold" style={{ color: '#C9A961' }}>
+          <p className="text-[10px] leading-relaxed" style={{ color: '#767676' }}>{description}</p>
+          <p className="text-[10px] mt-2 font-semibold" style={{ color: '#8a6d1f' }}>
             Click to upload
           </p>
         </>
@@ -245,12 +245,13 @@ export default function VendorsPage() {
             return (
               <div key={s} className="flex items-center gap-3">
                 <div
+                  role="img"
                   className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300"
                   aria-label={`Step ${s}: ${stepLabels[s]}${step === s ? ' (current)' : step > s ? ' (completed)' : ''}`}
                   aria-current={step === s ? 'step' : undefined}
                   style={{
                     backgroundColor: step >= s ? '#1C3D5A' : '#e0ddd8',
-                    color: step >= s ? '#F7F5F0' : '#aaa',
+                    color: step >= s ? '#F7F5F0' : '#555',
                   }}
                 >
                   {step > s ? '✓' : s}
@@ -540,9 +541,9 @@ export default function VendorsPage() {
         </div>
 
         {/* Trust line */}
-        <p className="text-center text-xs mt-8" style={{ color: '#aaa' }}>
+        <p className="text-center text-xs mt-8" style={{ color: '#767676' }}>
           Your documents are stored securely and reviewed only by our team. Questions?{' '}
-          <a href="tel:+16613811818" className="underline" style={{ color: '#C9A961' }}>(661) 381-1818</a>
+          <a href="tel:+16613811818" className="underline" style={{ color: '#8a6d1f' }}>(661) 381-1818</a>
         </p>
       </div>
     </main>

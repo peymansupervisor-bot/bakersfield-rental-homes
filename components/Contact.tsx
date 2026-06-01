@@ -43,7 +43,7 @@ export default function Contact({ headline, description }: ContactProps) {
     width: '100%', padding: '14px 18px', borderRadius: '10px',
     border: '1px solid rgba(28,61,90,0.15)', backgroundColor: 'white',
     color: '#2B2B2B', fontFamily: 'Inter, sans-serif', fontSize: '15px',
-    outline: 'none', transition: 'border-color 0.2s',
+    transition: 'border-color 0.2s',
   }
 
   return (
@@ -52,7 +52,7 @@ export default function Contact({ headline, description }: ContactProps) {
       <div className="max-w-xl mx-auto">
         <div className={`text-center mb-12 reveal-up ${inView ? 'in-view' : ''}`}>
           <p className="text-xs font-semibold tracking-widest uppercase mb-4"
-            style={{ color: '#C9A961', letterSpacing: '0.2em' }} aria-hidden="true">
+            style={{ color: '#8a6d1f', letterSpacing: '0.2em' }} aria-hidden="true">
             Looking for a Home or Managing One?
           </p>
           <h2 id="contact-heading" className="text-4xl md:text-5xl font-bold mb-5"

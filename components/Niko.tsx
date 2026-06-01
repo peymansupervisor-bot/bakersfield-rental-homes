@@ -4,10 +4,10 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 const DEFAULT_PHOTOS = [
-  { src: '/niko/niko-1.jpg', alt: 'Niko in a sunny backyard' },
-  { src: '/niko/niko-2.jpg', alt: 'Niko relaxing at home' },
-  { src: '/niko/niko-3.jpg', alt: 'Niko on the front porch' },
-  { src: '/niko/niko-4.jpg', alt: 'Niko enjoying the neighborhood' },
+  { src: '/niko/niko-1.jpg', alt: 'Niko the dog relaxing in a fenced backyard at a pet-friendly Bakersfield rental home' },
+  { src: '/niko/niko-2.jpg', alt: 'Niko lounging inside a well-maintained Bakersfield rental house' },
+  { src: '/niko/niko-3.jpg', alt: 'Niko sitting on the front porch of a rental home in Bakersfield, CA' },
+  { src: '/niko/niko-4.jpg', alt: 'Niko exploring a tree-lined Bakersfield neighborhood near rental properties' },
 ]
 
 const DEFAULT_CARDS = [

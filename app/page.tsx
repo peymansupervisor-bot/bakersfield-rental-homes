@@ -18,10 +18,16 @@ export default async function Home() {
   const cms = await getHomepage()
 
   // Niko photos: use Sanity images if available, otherwise fallback to local
+  const nikoAltDefaults = [
+    'Niko the dog relaxing in a fenced backyard at a pet-friendly Bakersfield rental home',
+    'Niko lounging inside a well-maintained Bakersfield rental house',
+    'Niko sitting on the front porch of a rental home in Bakersfield, CA',
+    'Niko exploring a tree-lined Bakersfield neighborhood near rental properties',
+  ]
   const nikoPhotos = cms?.nikoPhotos?.length
     ? cms.nikoPhotos.map((img: any, i: number) => ({
         src: urlFor(img).width(800).url(),
-        alt: `Niko photo ${i + 1}`,
+        alt: img.alt || nikoAltDefaults[i] || `Niko at a Bakersfield rental property — photo ${i + 1}`,
       }))
     : undefined
 

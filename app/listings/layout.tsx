@@ -1,9 +1,6 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Homes & Houses For Rent in Bakersfield CA | Browse Listings',
-  description:
-    'Browse available houses and homes for rent in Bakersfield, CA. Filter by bedrooms, bathrooms, and price. Single-family homes, pet-friendly rentals, and short-term leases in Kern County.',
   keywords: [
     'houses for rent in Bakersfield CA',
     'homes for rent Bakersfield',
@@ -18,12 +15,6 @@ export const metadata: Metadata = {
     'affordable rentals Bakersfield CA',
     'Bakersfield CA rental market',
   ],
-  openGraph: {
-    title: 'Homes & Houses For Rent in Bakersfield CA',
-    description:
-      'Browse available rental homes in Bakersfield, CA. Single-family homes, pet-friendly rentals, short and long-term leases in Kern County.',
-    url: 'https://bakersfieldrentalhomes.com/listings',
-  },
   alternates: {
     canonical: 'https://bakersfieldrentalhomes.com/listings',
   },

@@ -76,25 +76,35 @@ export default function Navbar() {
           </div>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-5" role="list">
-            <Link href="/listings" role="listitem"
-              className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: textColor, letterSpacing: '0.15em' }}>Find a Home</Link>
-            <Link href="/vendors" role="listitem"
-              className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: textColor, letterSpacing: '0.15em' }}>Vendors</Link>
-            <Link href="/community" role="listitem"
-              className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: textColor, letterSpacing: '0.15em' }}>Community</Link>
-            <a href="/#contact" role="listitem" onClick={handleContact}
-              className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
-              style={{ color: textColor, letterSpacing: '0.15em' }}>Contact</a>
-            <Link href="/list" role="listitem"
-              className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full transition-all duration-300 hover:opacity-90"
-              style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.12em' }}>
-              List Your Home
-            </Link>
-          </div>
+          <ul className="hidden md:flex items-center gap-5 list-none m-0 p-0">
+            <li>
+              <Link href="/listings"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                style={{ color: textColor, letterSpacing: '0.15em' }}>Find a Home</Link>
+            </li>
+            <li>
+              <Link href="/vendors"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                style={{ color: textColor, letterSpacing: '0.15em' }}>Vendors</Link>
+            </li>
+            <li>
+              <Link href="/community"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                style={{ color: textColor, letterSpacing: '0.15em' }}>Community</Link>
+            </li>
+            <li>
+              <a href="/#contact" onClick={handleContact}
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                style={{ color: textColor, letterSpacing: '0.15em' }}>Contact</a>
+            </li>
+            <li>
+              <Link href="/list"
+                className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full transition-all duration-300 hover:opacity-90"
+                style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.12em' }}>
+                List Your Home
+              </Link>
+            </li>
+          </ul>
 
           {/* Mobile hamburger */}
           <button
