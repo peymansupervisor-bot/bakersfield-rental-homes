@@ -419,7 +419,7 @@ function ProfileModal({ user, currentAvatarUrl, displayName, onClose, onSaved }:
 
 // ── Auth Modal ───────────────────────────────────────────────────────────────
 function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User) => void }) {
-  const [mode, setMode]         = useState<'signin' | 'signup'>('signup')
+  const [mode, setMode]         = useState<'signin' | 'signup' | 'forgot'>('signup')
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw]     = useState(false)
@@ -427,6 +427,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
   const [error, setError]       = useState('')
   const [loading, setLoading]   = useState(false)
   const [sent, setSent]         = useState(false)
+  const [resetSent, setResetSent] = useState(false)
   const modalRef                = useRef<HTMLDivElement>(null)
 
   // Focus trap — keep Tab/Shift+Tab inside the modal
@@ -449,7 +450,18 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
     }
     modal.addEventListener('keydown', trap)
     return () => modal.removeEventListener('keydown', trap)
-  }, [mode, sent])
+  }, [mode, sent, resetSent])
+
+  const handleReset = async () => {
+    if (!email) { setError('Please enter your email address.'); return }
+    setError(''); setLoading(true)
+    const { error: e } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://bakersfieldrentalhomes.com/community',
+    })
+    setLoading(false)
+    if (e) { setError(e.message); return }
+    setResetSent(true)
+  }
 
   const submit = async () => {
     setError(''); setLoading(true)
@@ -474,22 +486,72 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-      role="dialog" aria-modal="true" aria-label={mode === 'signup' ? 'Create account' : 'Sign in'}>
+      role="dialog" aria-modal="true"
+      aria-label={mode === 'signup' ? 'Create account' : mode === 'forgot' ? 'Reset password' : 'Sign in'}>
       <div ref={modalRef} className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl">
         <button onClick={onClose} aria-label="Close"
           className="float-right text-gray-400 hover:text-gray-600 text-xl font-light">×</button>
         <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-          {mode === 'signup' ? 'Join the Community' : 'Welcome Back'}
+          {mode === 'signup' ? 'Join the Community' : mode === 'forgot' ? 'Reset Password' : 'Welcome Back'}
         </h2>
         <p className="text-sm mb-6" style={{ color: '#888' }}>
-          {mode === 'signup' ? 'Free to join — post, comment, connect.' : 'Sign in to post and comment.'}
+          {mode === 'signup'
+            ? 'Free to join — post, comment, connect.'
+            : mode === 'forgot'
+            ? 'Enter your email and we\'ll send a reset link.'
+            : 'Sign in to post and comment.'}
         </p>
 
         {sent ? (
           <div className="text-center py-6">
-            <div className="text-4xl mb-3">📬</div>
+            <div className="text-4xl mb-3" aria-hidden="true">📬</div>
             <p className="font-semibold" style={{ color: '#1C3D5A' }}>Check your email</p>
             <p className="text-sm mt-1" style={{ color: '#888' }}>We sent a confirmation link to {email}</p>
+          </div>
+        ) : mode === 'forgot' ? (
+          <div className="space-y-4">
+            {resetSent ? (
+              <div className="text-center py-4">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                  style={{ backgroundColor: 'rgba(201,169,97,0.12)' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A961" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </div>
+                <p className="font-semibold mb-1" style={{ color: '#1C3D5A' }}>Reset link sent</p>
+                <p className="text-sm" style={{ color: '#888' }}>Check your inbox at <strong>{email}</strong> and follow the link to reset your password.</p>
+                <button onClick={() => { setMode('signin'); setResetSent(false); setError('') }}
+                  className="mt-5 text-sm font-semibold underline transition-opacity hover:opacity-70"
+                  style={{ color: '#C9A961' }}>
+                  Back to sign in
+                </button>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label htmlFor="reset-email" className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>
+                    Email
+                  </label>
+                  <input id="reset-email" type="email" className={inputCls} style={inputStyle} placeholder="you@example.com"
+                    value={email} onChange={e => setEmail(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleReset()} />
+                </div>
+                {error && <p role="alert" className="text-sm px-3 py-2 rounded-lg" style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}>{error}</p>}
+                <button onClick={handleReset} disabled={loading || !email}
+                  className="w-full py-3.5 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all hover:opacity-90 disabled:opacity-50"
+                  style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
+                  {loading ? 'Sending…' : 'Send Reset Link'}
+                </button>
+                <p className="text-center text-sm" style={{ color: '#888' }}>
+                  <button onClick={() => { setMode('signin'); setError('') }}
+                    className="font-semibold underline transition-opacity hover:opacity-70"
+                    style={{ color: '#C9A961' }}>
+                    Back to sign in
+                  </button>
+                </p>
+              </>
+            )}
           </div>
         ) : (
           <div className="space-y-4">
@@ -510,9 +572,19 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
                 value={email} onChange={e => setEmail(e.target.value)} />
             </div>
             <div>
-              <label htmlFor="auth-password" className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label htmlFor="auth-password" className="block text-xs font-semibold tracking-widest uppercase" style={{ color: '#1C3D5A' }}>
+                  Password
+                </label>
+                {mode === 'signin' && (
+                  <button type="button"
+                    onClick={() => { setMode('forgot'); setError('') }}
+                    className="text-xs font-semibold transition-opacity hover:opacity-70"
+                    style={{ color: '#C9A961' }}>
+                    Forgot password?
+                  </button>
+                )}
+              </div>
               <div className="relative">
                 <input id="auth-password" type={showPw ? 'text' : 'password'} className={inputCls} style={{ ...inputStyle, paddingRight: '3rem' }} placeholder="Min 6 characters"
                   value={password} onChange={e => setPassword(e.target.value)}
