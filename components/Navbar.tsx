@@ -34,8 +34,8 @@ export default function Navbar() {
   }
 
   // Pages whose hero is dark navy — navbar text must be white until scrolled
-  const darkHeroPages = ['/vendors', '/community', '/list']
-  const hasDarkHero = darkHeroPages.some(p => pathname.startsWith(p)) || pathname === '/listings'
+  const darkHeroPages = ['/vendors', '/community']
+  const hasDarkHero = darkHeroPages.some(p => pathname.startsWith(p)) || pathname === '/listings' || pathname === '/list'
 
   const navBg     = scrolled || menuOpen ? 'rgba(247,245,240,0.95)' : 'transparent'
   const navBorder = scrolled || menuOpen ? '1px solid rgba(201,169,97,0.2)' : 'none'
