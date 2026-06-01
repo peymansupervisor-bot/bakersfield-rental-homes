@@ -217,6 +217,10 @@ export default function ListingsClient({ initialListings }: { initialListings: L
       {/* Header */}
       <div className="py-16 px-6 text-center"
         style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)' }}>
+        <p className="text-xs font-semibold tracking-widest uppercase mb-3"
+          style={{ color: '#C9A961', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}>
+          Bakersfield Rental Homes
+        </p>
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           Available Rentals
