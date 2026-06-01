@@ -17,7 +17,8 @@ export async function POST(req: NextRequest) {
       .jpeg({ quality: 85 })
       .toBuffer()
 
-    const path = `avatars/${userId}.jpg`
+    const safeUserId = userId.trim().replace(/[^a-zA-Z0-9_-]/g, '_')
+    const path = `avatars/${safeUserId}.jpg`
     const db = createServiceClient()
     const { error } = await db.storage
       .from('community-photos')
