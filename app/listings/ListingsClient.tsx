@@ -41,7 +41,7 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
             {listing.photos?.[0] ? (
               <Image
                 src={listing.photos[0]}
-                alt={listing.title}
+                alt={`${listing.title} at ${listing.address}, ${listing.city}, CA — ${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} bed`}, ${listing.bathrooms} bath`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"

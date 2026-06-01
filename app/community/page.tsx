@@ -427,6 +427,29 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
   const [error, setError]       = useState('')
   const [loading, setLoading]   = useState(false)
   const [sent, setSent]         = useState(false)
+  const modalRef                = useRef<HTMLDivElement>(null)
+
+  // Focus trap — keep Tab/Shift+Tab inside the modal
+  useEffect(() => {
+    const modal = modalRef.current
+    if (!modal) return
+    const focusable = modal.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )
+    const first = focusable[0]
+    const last  = focusable[focusable.length - 1]
+    first?.focus()
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last?.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first?.focus() }
+      }
+    }
+    modal.addEventListener('keydown', trap)
+    return () => modal.removeEventListener('keydown', trap)
+  }, [mode, sent])
 
   const submit = async () => {
     setError(''); setLoading(true)
@@ -452,7 +475,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
       role="dialog" aria-modal="true" aria-label={mode === 'signup' ? 'Create account' : 'Sign in'}>
-      <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl">
+      <div ref={modalRef} className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl">
         <button onClick={onClose} aria-label="Close"
           className="float-right text-gray-400 hover:text-gray-600 text-xl font-light">×</button>
         <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
@@ -1108,6 +1131,7 @@ export default function CommunityPage() {
             <button key={c.id}
               role="tab"
               aria-selected={category === c.id}
+              aria-label={c.label}
               onClick={() => setCategory(c.id)}
               className="flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 text-left"
               style={{
@@ -1116,7 +1140,7 @@ export default function CommunityPage() {
                 border: `1.5px solid ${category === c.id ? '#1C3D5A' : '#e0ddd8'}`,
                 boxShadow: category === c.id ? '0 2px 8px rgba(28,61,90,0.15)' : 'none',
               }}>
-              <span style={{ fontSize: 18 }}>{c.emoji}</span>
+              <span style={{ fontSize: 18 }} aria-hidden="true">{c.emoji}</span>
               <span className="leading-tight text-xs font-semibold">{c.label}</span>
             </button>
           ))}
