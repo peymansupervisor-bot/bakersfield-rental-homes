@@ -18,15 +18,12 @@ export async function POST(req: Request) {
     .from('subscribers')
     .insert({ email, phone: phone || null, source: 'homepage' })
 
-  if (error) {
-    if (error.code === '23505') {
-      // Already subscribed — treat as success so we don't leak info
-      return NextResponse.json({ success: true })
-    }
+  if (error && error.code !== '23505') {
+    console.error('Supabase subscribe error:', error)
     return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 })
   }
 
-  // Send welcome email
+  // Send welcome email (on both new signup and re-signup)
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
@@ -134,8 +131,8 @@ export async function POST(req: Request) {
 </body>
 </html>`,
     })
-  } catch {
-    // Welcome email failure is non-fatal — subscriber is already saved
+  } catch (err) {
+    console.error('Resend subscribe email error:', err)
   }
 
   return NextResponse.json({ success: true })
