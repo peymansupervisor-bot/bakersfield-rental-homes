@@ -5,6 +5,7 @@ import Stats from '@/components/Stats'
 import Community from '@/components/Community'
 import Niko from '@/components/Niko'
 import Contact from '@/components/Contact'
+import Subscribe from '@/components/Subscribe'
 import { getHomepage, urlFor } from '@/lib/sanity.client'
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default async function Home() {
         services={cms?.services}
       />
       <Stats stats={cms?.stats} />
+      <Subscribe />
       <Community
         headline={cms?.communityHeadline}
         description={cms?.communityDescription}
