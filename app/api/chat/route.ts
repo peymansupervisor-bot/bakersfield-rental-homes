@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       try {
         const resend = new Resend(process.env.RESEND_API_KEY)
         await resend.emails.send({
-          from: 'Bakersfield Rental Homes Chat <onboarding@resend.dev>',
+          from: 'Bakersfield Rental Homes Chat <noreply@bakersfieldrentalhomes.com>',
           to: 'peymansupervisor@gmail.com',
           replyTo: email,
           subject: `New chat message from ${name || email}`,

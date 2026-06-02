@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     }
 
     await resend.emails.send({
-      from: 'Bakersfield Rental Homes <onboarding@resend.dev>',
+      from: 'Bakersfield Rental Homes <noreply@bakersfieldrentalhomes.com>',
       to: 'peymansupervisor@gmail.com',
       replyTo: email,
       subject: `Property Inquiry from ${name}`,

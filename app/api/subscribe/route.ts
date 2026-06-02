@@ -30,7 +30,7 @@ export async function POST(req: Request) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
-      from: 'Bakersfield Rental Homes <onboarding@resend.dev>',
+      from: 'Bakersfield Rental Homes <noreply@bakersfieldrentalhomes.com>',
       to: email,
       subject: "You're on the list — Bakersfield Rental Homes",
       text: `Thanks for signing up!\n\nWe'll notify you as soon as new rental homes become available in Bakersfield.\n\nBrowse current listings: https://bakersfieldrentalhomes.com/listings\n\n— Bakersfield Rental Homes\n(661) 381-1818`,
