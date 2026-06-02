@@ -28,7 +28,7 @@ export default function Stats({ stats }: StatsProps) {
   }, [])
 
   return (
-    <section ref={ref} className="py-24 px-6 md:px-10" style={{ backgroundColor: '#1C3D5A' }}>
+    <section ref={ref} aria-label="Performance statistics" className="py-24 px-6 md:px-10" style={{ backgroundColor: '#1C3D5A' }}>
       <div className="max-w-5xl mx-auto">
         <p
           className={`text-center text-xs font-semibold tracking-widest uppercase mb-16 reveal-up ${inView ? 'in-view' : ''}`}
