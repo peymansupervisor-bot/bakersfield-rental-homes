@@ -31,12 +31,26 @@ export default function Contact({ headline, description }: ContactProps) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = encodeURIComponent('Property Inquiry — Bakersfield Rental Homes')
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`)
-    window.location.href = `mailto:peymansupervisor@gmail.com?subject=${subject}&body=${body}`
-    setSubmitted(true)
+    setSending(true)
+    setError('')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error()
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please try again or call us at (661) 381-1818.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const inputBase = {
@@ -108,10 +122,13 @@ export default function Contact({ headline, description }: ContactProps) {
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(28,61,90,0.15)')} />
             </div>
-            <button type="submit"
+            {error && (
+              <p role="alert" className="text-sm text-center" style={{ color: '#c0392b' }}>{error}</p>
+            )}
+            <button type="submit" disabled={sending}
               className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01]"
-              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', fontFamily: 'Inter, sans-serif', letterSpacing: '0.12em', border: 'none', cursor: 'pointer' }}>
-              Send Message
+              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', fontFamily: 'Inter, sans-serif', letterSpacing: '0.12em', border: 'none', cursor: sending ? 'not-allowed' : 'pointer', opacity: sending ? 0.7 : 1 }}>
+              {sending ? 'Sending…' : 'Send Message'}
             </button>
           </form>
         )}

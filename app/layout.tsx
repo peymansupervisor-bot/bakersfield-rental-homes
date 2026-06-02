@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     siteName: 'Bakersfield Rental Homes',
     title: 'Bakersfield Rental Homes | Houses & Homes For Rent in Bakersfield CA',
     description: 'Find quality houses and homes for rent in Bakersfield, CA.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Bakersfield Rental Homes' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Bakersfield Rental Homes — Houses & Homes For Rent in Bakersfield CA' }],
   },
-  twitter: { card: 'summary_large_image', images: ['/og-image.jpg'] },
+  twitter: { card: 'summary_large_image', images: ['/opengraph-image'] },
   alternates: { canonical: SITE_URL },
 }
 
