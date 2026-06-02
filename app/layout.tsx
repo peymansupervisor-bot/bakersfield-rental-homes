@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     type: 'website', locale: 'en_US', url: SITE_URL,
     siteName: 'Bakersfield Rental Homes',
     title: 'Bakersfield Rental Homes | Houses & Homes For Rent in Bakersfield CA',
-    description: 'Find quality houses and homes for rent in Bakersfield, CA.',
+    description: 'Find houses and homes for rent in Bakersfield, CA. Quality single-family rentals, pet-friendly homes, and long-term leases throughout Kern County. Trusted local property management.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Bakersfield Rental Homes — Houses & Homes For Rent in Bakersfield CA' }],
   },
   twitter: { card: 'summary_large_image', images: ['/opengraph-image'] },
