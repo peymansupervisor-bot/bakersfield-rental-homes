@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-interface Message { role: 'user' | 'bot'; text: string }
+interface Message { role: 'user' | 'bot'; text: string; quickReplies?: string[] }
 
 const INITIAL_MESSAGE: Message = {
   role: 'bot',
   text: "Hi! 👋 Looking to rent a home or list a property in Bakersfield? I'm here to help.",
+  quickReplies: ["I'm looking to rent", "I have a property to list", "I have a question"],
 }
 
 function generateSessionId() {
@@ -23,6 +24,7 @@ export default function ChatWidget() {
   const [email, setEmail] = useState('')
   const [step, setStep] = useState<'chat' | 'collect'>('chat')
   const [unread, setUnread] = useState(0)
+  const [quickRepliesUsed, setQuickRepliesUsed] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -39,6 +41,7 @@ export default function ChatWidget() {
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || sending) return
+    setQuickRepliesUsed(true)
     const userMsg: Message = { role: 'user', text }
     setMessages(prev => [...prev, userMsg])
     setInput('')
@@ -76,11 +79,9 @@ export default function ChatWidget() {
     if (name || email) {
       setMessages(prev => [...prev, {
         role: 'bot',
-        text: `Got it${name ? `, ${name}` : ''}! We'll follow up at ${email || 'the contact info you provided'}. In the meantime, feel free to keep asking questions.`,
+        text: `Got it${name ? `, ${name.split(' ')[0]}` : ''}! We'll follow up at ${email || 'the contact info you provided'}. You'll also get a confirmation email shortly.`,
       }])
-      // Re-send last user message with contact info so we get the email notification
-      const lastUser = [...messages].reverse().find(m => m.role === 'user')
-      if (lastUser && email) {
+      if (email) {
         fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -88,6 +89,13 @@ export default function ChatWidget() {
         }).catch(() => {})
       }
     }
+  }
+
+  const btnBase: React.CSSProperties = {
+    padding: '7px 13px', borderRadius: '50px', border: '1px solid rgba(201,169,97,0.5)',
+    backgroundColor: 'transparent', color: '#1C3D5A', fontFamily: 'Inter, sans-serif',
+    fontSize: '12px', fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap',
+    transition: 'background-color 0.15s, color 0.15s',
   }
 
   return (
@@ -104,7 +112,7 @@ export default function ChatWidget() {
           boxShadow: '0 20px 60px rgba(28,61,90,0.22), 0 4px 16px rgba(28,61,90,0.12)',
           border: '1px solid rgba(201,169,97,0.2)',
           display: 'flex', flexDirection: 'column',
-          maxHeight: '520px',
+          maxHeight: '540px',
           transform: open ? 'scale(1) translateY(0)' : 'scale(0.95) translateY(12px)',
           opacity: open ? 1 : 0,
           pointerEvents: open ? 'auto' : 'none',
@@ -128,11 +136,8 @@ export default function ChatWidget() {
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Close chat"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(247,245,240,0.6)', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >
+          <button onClick={() => setOpen(false)} aria-label="Close chat"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(247,245,240,0.6)', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
@@ -146,16 +151,35 @@ export default function ChatWidget() {
           aria-label="Chat messages"
         >
           {messages.map((msg, i) => (
-            <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
-              <div style={{
-                maxWidth: '82%', padding: '10px 14px', borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                backgroundColor: msg.role === 'user' ? '#1C3D5A' : '#F7F5F0',
-                color: msg.role === 'user' ? '#F7F5F0' : '#2B2B2B',
-                fontFamily: 'Inter, sans-serif', fontSize: '13px', lineHeight: 1.55,
-                border: msg.role === 'bot' ? '1px solid rgba(201,169,97,0.15)' : 'none',
-              }}>
-                {msg.text}
+            <div key={i}>
+              <div style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                <div style={{
+                  maxWidth: '82%', padding: '10px 14px',
+                  borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                  backgroundColor: msg.role === 'user' ? '#1C3D5A' : '#F7F5F0',
+                  color: msg.role === 'user' ? '#F7F5F0' : '#2B2B2B',
+                  fontFamily: 'Inter, sans-serif', fontSize: '13px', lineHeight: 1.55,
+                  border: msg.role === 'bot' ? '1px solid rgba(201,169,97,0.15)' : 'none',
+                }}>
+                  {msg.text}
+                </div>
               </div>
+              {/* Quick reply buttons — only on last bot message, before user has typed */}
+              {msg.quickReplies && !quickRepliesUsed && i === messages.length - 1 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }} role="group" aria-label="Quick reply options">
+                  {msg.quickReplies.map(qr => (
+                    <button
+                      key={qr}
+                      onClick={() => sendMessage(qr)}
+                      style={btnBase}
+                      onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#1C3D5A'; e.currentTarget.style.color = '#F7F5F0' }}
+                      onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1C3D5A' }}
+                    >
+                      {qr}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
           {sending && (
