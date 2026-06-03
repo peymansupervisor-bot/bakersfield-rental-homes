@@ -272,6 +272,8 @@ const CATEGORIES = [
   { id: 'rental-venues', label: 'Rental Venues',               emoji: '🏛️' },
   { id: 'music',         label: 'Musical Events',               emoji: '🎵' },
   { id: 'homemade-food', label: 'Catering & Homemade Food',     emoji: '🍽️' },
+  { id: 'employment',    label: 'Employment',                   emoji: '👔' },
+  { id: 'roommate',      label: 'Roommate / Share Housing',     emoji: '🤝' },
 ]
 
 type Post = {
