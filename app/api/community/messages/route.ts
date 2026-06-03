@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServiceClient } from '@/lib/supabase'
+import { createServiceClient, getAuthUserId } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
 // GET — fetch conversation between two users, or all conversations for a user
 export async function GET(req: NextRequest) {
+  const authUserId = await getAuthUserId(req)
+  if (!authUserId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const { searchParams } = new URL(req.url)
-  const userId    = searchParams.get('user_id')
+  const userId    = authUserId  // always use the verified user, not a query param
   const otherId   = searchParams.get('other_id')
   const inboxOnly = searchParams.get('inbox')
 
@@ -58,18 +61,21 @@ export async function GET(req: NextRequest) {
 
 // POST — send a message
 export async function POST(req: NextRequest) {
+  const authUserId = await getAuthUserId(req)
+  if (!authUserId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   try {
-    const { sender_id, receiver_id, body } = await req.json()
-    if (!sender_id || !receiver_id || !body?.trim()) {
+    const { receiver_id, body } = await req.json()
+    if (!receiver_id || !body?.trim()) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
     }
-    if (sender_id === receiver_id) {
+    if (authUserId === receiver_id) {
       return NextResponse.json({ error: 'Cannot message yourself' }, { status: 400 })
     }
     const db = createServiceClient()
     const { data, error } = await db
       .from('direct_messages')
-      .insert({ sender_id, receiver_id, body: body.trim() })
+      .insert({ sender_id: authUserId, receiver_id, body: body.trim() })
       .select('*, sender:profiles!direct_messages_sender_id_fkey(id,display_name)')
       .single()
 

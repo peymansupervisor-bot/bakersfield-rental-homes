@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sharp from 'sharp'
-import { createServiceClient } from '@/lib/supabase'
+import { createServiceClient, getAuthUserId } from '@/lib/supabase'
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
 
 export async function POST(req: NextRequest) {
+  const authUserId = await getAuthUserId(req)
+  if (!authUserId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   try {
     const formData = await req.formData()
     const file = formData.get('file') as File | null
-    const userId = formData.get('user_id') as string | null
     if (!file) return NextResponse.json({ error: 'Missing file' }, { status: 400 })
-    if (!userId) return NextResponse.json({ error: 'Missing user_id' }, { status: 400 })
+    if (file.size > MAX_FILE_SIZE) return NextResponse.json({ error: 'File too large (max 5 MB)' }, { status: 413 })
+    const userId = authUserId
 
     const buffer = Buffer.from(await file.arrayBuffer())
     const processed = await sharp(buffer)

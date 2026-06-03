@@ -10,6 +10,7 @@ export async function GET(
     .from('listings')
     .select('*')
     .eq('id', params.id)
+    .eq('status', 'active')
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 404 })

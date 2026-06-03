@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServiceClient } from '@/lib/supabase'
+import { createServiceClient, getAuthUserId } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,16 +20,19 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const authUserId = await getAuthUserId(req)
+  if (!authUserId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   try {
     const body = await req.json()
-    const { user_id, category, title, body: postBody, photo_url, contact_email } = body
-    if (!user_id || !category || !title || !postBody) {
+    const { category, title, body: postBody, photo_url, contact_email } = body
+    if (!category || !title || !postBody) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
     const db = createServiceClient()
     const { data, error } = await db
       .from('community_posts')
-      .insert({ user_id, category, title, body: postBody, photo_url, contact_email })
+      .insert({ user_id: authUserId, category, title, body: postBody, photo_url, contact_email })
       .select('id')
       .single()
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -40,11 +43,14 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const authUserId = await getAuthUserId(req)
+  if (!authUserId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   try {
-    const { id, user_id, title, body } = await req.json()
-    if (!id || !user_id) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
+    const { id, title, body } = await req.json()
+    if (!id) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
     const db = createServiceClient()
-    const { error } = await db.from('community_posts').update({ title, body }).eq('id', id).eq('user_id', user_id)
+    const { error } = await db.from('community_posts').update({ title, body }).eq('id', id).eq('user_id', authUserId)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ success: true })
   } catch {
@@ -53,12 +59,14 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const authUserId = await getAuthUserId(req)
+  if (!authUserId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id')
-  const user_id = searchParams.get('user_id')
-  if (!id || !user_id) return NextResponse.json({ error: 'Missing id or user_id' }, { status: 400 })
+  if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   const db = createServiceClient()
-  const { error } = await db.from('community_posts').delete().eq('id', id).eq('user_id', user_id)
+  const { error } = await db.from('community_posts').delete().eq('id', id).eq('user_id', authUserId)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ success: true })
 }

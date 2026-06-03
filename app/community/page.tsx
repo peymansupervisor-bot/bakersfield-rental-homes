@@ -1,8 +1,18 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
+
+// ── Auth-aware fetch helper ────────────────────────────────────────────────────
+async function authFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response> {
+  const { data } = await supabase.auth.getSession()
+  const token = data.session?.access_token
+  const headers = new Headers(init.headers)
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  return fetch(input, { ...init, headers })
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type DM = {
@@ -30,10 +40,10 @@ function ChatWindow({ currentUser, partner, onClose }: {
   const bottomRef               = useRef<HTMLDivElement>(null)
 
   const loadMessages = useCallback(async () => {
-    const res = await fetch(`/api/community/messages?user_id=${currentUser.id}&other_id=${partner.id}`)
+    const res = await authFetch(`/api/community/messages?other_id=${partner.id}`)
     const { messages: data } = await res.json()
     setMessages(data ?? [])
-  }, [currentUser.id, partner.id])
+  }, [partner.id])
 
   useEffect(() => { loadMessages() }, [loadMessages])
 
@@ -72,10 +82,10 @@ function ChatWindow({ currentUser, partner, onClose }: {
       receiver: { id: partner.id, display_name: partner.display_name },
     }
     setMessages(prev => [...prev, optimistic])
-    const res = await fetch('/api/community/messages', {
+    const res = await authFetch('/api/community/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sender_id: currentUser.id, receiver_id: partner.id, body }),
+      body: JSON.stringify({ receiver_id: partner.id, body }),
     })
     const { message } = await res.json()
     // Replace optimistic with real message
@@ -160,9 +170,9 @@ function InboxPanel({ currentUser, onStartChat, onClose }: {
   const [tab, setTab]                     = useState<'chats' | 'users'>('chats')
 
   useEffect(() => {
-    fetch(`/api/community/messages?user_id=${currentUser.id}&inbox=1`)
+    authFetch(`/api/community/messages?inbox=1`)
       .then(r => r.json()).then(d => setConversations(d.conversations ?? []))
-    fetch(`/api/community/users`)
+    authFetch(`/api/community/users`)
       .then(r => r.json()).then(d => setAllUsers((d.users ?? []).filter((u: ChatPartner) => u.id !== currentUser.id)))
   }, [currentUser.id])
 
@@ -258,6 +268,10 @@ const CATEGORIES = [
   { id: 'farm-tools',    label: 'Farming Tools & Equipment',    emoji: '🚜' },
   { id: 'local-goods',   label: 'Local Goods & Produce',        emoji: '🌱' },
   { id: 'community',     label: 'Community Help',               emoji: '🤝' },
+  { id: 'yard-sale',     label: 'Yard Sales',                   emoji: '🏷️' },
+  { id: 'rental-venues', label: 'Rental Venues',               emoji: '🏛️' },
+  { id: 'music',         label: 'Musical Events',               emoji: '🎵' },
+  { id: 'homemade-food', label: 'Catering & Homemade Food',     emoji: '🍽️' },
 ]
 
 type Post = {
@@ -346,8 +360,7 @@ function ProfileModal({ user, currentAvatarUrl, displayName, onClose, onSaved }:
     try {
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('user_id', user.id)
-      const res = await fetch('/api/community/avatar', { method: 'POST', body: fd })
+      const res = await authFetch('/api/community/avatar', { method: 'POST', body: fd })
       const j = await res.json()
       if (j.error) throw new Error(j.error)
       onSaved(j.url)
@@ -523,7 +536,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
                 <p className="text-sm" style={{ color: '#888' }}>Check your inbox at <strong>{email}</strong> and follow the link to reset your password.</p>
                 <button onClick={() => { setMode('signin'); setResetSent(false); setError('') }}
                   className="mt-5 text-sm font-semibold underline transition-opacity hover:opacity-70"
-                  style={{ color: '#C9A961' }}>
+                  style={{ color: '#7d6019' }}>
                   Back to sign in
                 </button>
               </div>
@@ -546,7 +559,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
                 <p className="text-center text-sm" style={{ color: '#888' }}>
                   <button onClick={() => { setMode('signin'); setError('') }}
                     className="font-semibold underline transition-opacity hover:opacity-70"
-                    style={{ color: '#C9A961' }}>
+                    style={{ color: '#7d6019' }}>
                     Back to sign in
                   </button>
                 </p>
@@ -580,7 +593,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
                   <button type="button"
                     onClick={() => { setMode('forgot'); setError('') }}
                     className="text-xs font-semibold transition-opacity hover:opacity-70"
-                    style={{ color: '#C9A961' }}>
+                    style={{ color: '#7d6019' }}>
                     Forgot password?
                   </button>
                 )}
@@ -592,7 +605,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
                 <button type="button" onClick={() => setShowPw(v => !v)}
                   aria-label={showPw ? 'Hide password' : 'Show password'}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold transition-opacity hover:opacity-70"
-                  style={{ color: '#C9A961' }}>
+                  style={{ color: '#7d6019' }}>
                   {showPw ? 'Hide' : 'Show'}
                 </button>
               </div>
@@ -606,7 +619,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
             <p className="text-center text-sm" style={{ color: '#888' }}>
               {mode === 'signup' ? 'Already have an account? ' : 'New here? '}
               <button onClick={() => { setMode(mode === 'signup' ? 'signin' : 'signup'); setError('') }}
-                className="font-semibold underline" style={{ color: '#C9A961' }}>
+                className="font-semibold underline" style={{ color: '#7d6019' }}>
                 {mode === 'signup' ? 'Sign in' : 'Create account'}
               </button>
             </p>
@@ -642,15 +655,15 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
       let photo_url = null
       if (photo) {
         const fd = new FormData(); fd.append('file', photo)
-        const r = await fetch('/api/community/upload', { method: 'POST', body: fd })
+        const r = await authFetch('/api/community/upload', { method: 'POST', body: fd })
         const j = await r.json()
         if (j.error) throw new Error(j.error)
         photo_url = j.url
       }
-      const res = await fetch('/api/community/posts', {
+      const res = await authFetch('/api/community/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: user.id, category, title: title.trim(), body: body.trim(), photo_url }),
+        body: JSON.stringify({ category, title: title.trim(), body: body.trim(), photo_url }),
       })
       const j = await res.json()
       if (j.error) throw new Error(j.error)
@@ -766,10 +779,10 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
   const submitComment = async () => {
     if (!commentText.trim() || !currentUser) return
     setSubmitting(true)
-    await fetch('/api/community/comments', {
+    await authFetch('/api/community/comments', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ post_id: post.id, user_id: currentUser.id, body: commentText.trim() }),
+      body: JSON.stringify({ post_id: post.id, body: commentText.trim() }),
     })
     setCommentText('')
     await loadComments()
@@ -778,17 +791,17 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
 
   const deletePost = async () => {
     if (!confirm('Delete this post?')) return
-    await fetch(`/api/community/posts?id=${post.id}&user_id=${currentUser?.id}`, { method: 'DELETE' })
+    await authFetch(`/api/community/posts?id=${post.id}`, { method: 'DELETE' })
     onDeleted()
   }
 
   const savePost = async () => {
     if (!editTitle.trim() || !editBody.trim()) return
     setSavingPost(true)
-    await fetch('/api/community/posts', {
+    await authFetch('/api/community/posts', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: post.id, user_id: currentUser?.id, title: editTitle.trim(), body: editBody.trim() }),
+      body: JSON.stringify({ id: post.id, title: editTitle.trim(), body: editBody.trim() }),
     })
     post.title = editTitle.trim()
     post.body = editBody.trim()
@@ -798,16 +811,16 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
 
   const deleteComment = async (commentId: string) => {
     if (!confirm('Delete this comment?')) return
-    await fetch(`/api/community/comments?id=${commentId}&user_id=${currentUser?.id}`, { method: 'DELETE' })
+    await authFetch(`/api/community/comments?id=${commentId}`, { method: 'DELETE' })
     setComments(prev => prev.filter(c => c.id !== commentId))
   }
 
   const saveComment = async (commentId: string) => {
     if (!editingCommentText.trim()) return
-    await fetch('/api/community/comments', {
+    await authFetch('/api/community/comments', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: commentId, user_id: currentUser?.id, body: editingCommentText.trim() }),
+      body: JSON.stringify({ id: commentId, body: editingCommentText.trim() }),
     })
     setComments(prev => prev.map(c => c.id === commentId ? { ...c, body: editingCommentText.trim() } : c))
     setEditingCommentId(null)
@@ -816,8 +829,9 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
   return (
     <article className="bg-white rounded-2xl overflow-hidden mb-4" style={{ border: '1px solid rgba(201,169,97,0.12)', boxShadow: '0 2px 8px rgba(28,61,90,0.04)' }}>
       {post.photo_url && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={post.photo_url} alt={post.title} className="w-full object-cover" style={{ maxHeight: 320 }} />
+        <div className="relative w-full" style={{ maxHeight: 320, height: 320 }}>
+          <Image src={post.photo_url} alt={post.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 680px" />
+        </div>
       )}
       <div className="p-5">
         {/* Header */}
@@ -878,7 +892,7 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
             <button
               onClick={() => onMessage({ id: post.user_id, display_name: post.profiles?.display_name ?? 'User' })}
               className="flex items-center gap-1 text-sm transition-all hover:opacity-70"
-              style={{ color: '#C9A961' }}>
+              style={{ color: '#7d6019' }}>
               <span aria-hidden="true">✉️</span>{' '}Message
             </button>
           )}
@@ -1054,7 +1068,7 @@ export default function CommunityPage() {
   // Real-time unread DM count
   useEffect(() => {
     if (!user) return
-    fetch(`/api/community/messages?user_id=${user.id}&inbox=1`)
+    authFetch(`/api/community/messages?inbox=1`)
       .then(r => r.json())
       .then(d => {
         const unread = (d.conversations ?? []).filter((c: DM) => !c.read && c.receiver_id === user.id).length

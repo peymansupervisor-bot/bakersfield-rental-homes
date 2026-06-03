@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { NextRequest } from 'next/server'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -39,6 +40,25 @@ export type Vendor = {
   insurance_policy_number: string
   insurance_expiry: string | null
   insurance_certificate_path: string | null
+}
+
+/**
+ * Verify the Bearer JWT in the Authorization header using the anon key client.
+ * Returns the authenticated user's ID, or null if missing/invalid.
+ */
+export async function getAuthUserId(req: NextRequest): Promise<string | null> {
+  const authHeader = req.headers.get('authorization') ?? ''
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null
+  if (!token) return null
+
+  const client = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { global: { fetch: (url, opts = {}) => fetch(url, { ...opts, cache: 'no-store' }) } }
+  )
+  const { data: { user }, error } = await client.auth.getUser(token)
+  if (error || !user) return null
+  return user.id
 }
 
 export function generateSlug(address: string): string {

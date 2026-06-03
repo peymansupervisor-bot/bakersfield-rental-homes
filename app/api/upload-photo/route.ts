@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import sharp from 'sharp'
 import { createServiceClient } from '@/lib/supabase'
 
+const MAX_FILE_SIZE = 15 * 1024 * 1024 // 15 MB
+
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData()
@@ -10,6 +12,9 @@ export async function POST(req: NextRequest) {
 
     if (!file || !path) {
       return NextResponse.json({ error: 'Missing file or path' }, { status: 400 })
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ error: 'File too large (max 15 MB)' }, { status: 413 })
     }
 
     const buffer = Buffer.from(await file.arrayBuffer())

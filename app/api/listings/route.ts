@@ -84,11 +84,33 @@ export async function POST(req: NextRequest) {
     const { data, error } = await db
       .from('listings')
       .insert({
-        ...body,
         slug,
         status: 'pending',
-        state: 'CA',
         listed_date: today,
+        // Whitelisted fields only — never spread the full body
+        title:            body.title,
+        address:          body.address,
+        city:             body.city,
+        state:            'CA',
+        zip:              body.zip ?? null,
+        lat:              body.lat ?? null,
+        lng:              body.lng ?? null,
+        description:      body.description,
+        monthly_rent:     body.monthly_rent,
+        deposit:          body.deposit,
+        bedrooms:         body.bedrooms,
+        bathrooms:        body.bathrooms,
+        living_area_sqft: body.living_area_sqft,
+        lot_size_sqft:    body.lot_size_sqft ?? null,
+        available_date:   body.available_date ?? null,
+        lease_term:       body.lease_term ?? null,
+        pets_allowed:     body.pets_allowed ?? false,
+        parking:          body.parking ?? null,
+        amenities:        body.amenities ?? [],
+        photos:           body.photos,
+        contact_name:     body.contact_name,
+        contact_email:    body.contact_email,
+        contact_phone:    body.contact_phone ?? null,
       })
       .select('id, slug')
       .single()
