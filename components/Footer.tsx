@@ -79,9 +79,6 @@ export default function Footer() {
           <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.6)' }}>
             © 2026 Bakersfield Rental Homes. All rights reserved.
           </p>
-          <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.55)' }}>
-            Operated by Bakersfield Brokers &nbsp;|&nbsp; DRE #01726653
-          </p>
           <a href="tel:+16613811818"
             className="text-xs font-semibold transition-all hover:opacity-80"
             style={{ color: 'rgba(255,255,255,0.7)' }}
