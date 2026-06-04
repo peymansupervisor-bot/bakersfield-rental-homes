@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { NEIGHBORHOODS } from '@/lib/neighborhoods'
 
 export default function Footer() {
@@ -17,13 +16,23 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-7 text-center">
 
         {/* Logo mark */}
-        <div className="flex items-center justify-center">
-          <Image
-            src="/logo-icon-transparent.png"
-            alt="Bakersfield Rental Homes"
-            width={160}
-            height={160}
-          />
+        <div className="flex items-center gap-3" aria-hidden="true">
+          <div className="w-9 h-9 rounded-full flex items-center justify-center"
+            style={{ backgroundColor: '#C9A961' }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+              <path d="M8 2L14 6V14H10V10H6V14H2V6L8 2Z" fill="#1C3D5A" />
+            </svg>
+          </div>
+          <div className="leading-none text-left">
+            <p className="text-xs font-semibold tracking-widest uppercase"
+              style={{ color: '#ffffff', fontFamily: 'Inter, sans-serif' }}>
+              Bakersfield
+            </p>
+            <p className="text-xs tracking-wider uppercase"
+              style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>
+              Rental Homes
+            </p>
+          </div>
         </div>
 
         {/* Tagline */}
