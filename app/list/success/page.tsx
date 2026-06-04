@@ -30,7 +30,7 @@ function SuccessContent() {
   }, [listingId])
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6"
+    <main id="main-content" className="min-h-screen flex items-center justify-center px-6"
       style={{ backgroundColor: '#F7F5F0' }}>
       <div className="text-center max-w-md">
         {/* Check icon */}
@@ -70,7 +70,7 @@ function SuccessContent() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 

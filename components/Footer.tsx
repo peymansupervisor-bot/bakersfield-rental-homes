@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
+import { NEIGHBORHOODS } from '@/lib/neighborhoods'
 
 export default function Footer() {
   return (
@@ -15,23 +17,14 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-7 text-center">
 
         {/* Logo mark */}
-        <div className="flex items-center gap-3" aria-hidden="true">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center"
-            style={{ backgroundColor: '#C9A961' }}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
-              <path d="M8 2L14 6V14H10V10H6V14H2V6L8 2Z" fill="#1C3D5A" />
-            </svg>
-          </div>
-          <div className="leading-none text-left">
-            <p className="text-xs font-semibold tracking-widest uppercase"
-              style={{ color: '#ffffff', fontFamily: 'Inter, sans-serif' }}>
-              Bakersfield
-            </p>
-            <p className="text-xs tracking-wider uppercase"
-              style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>
-              Rental Homes
-            </p>
-          </div>
+        <div className="flex items-center justify-center">
+          <Image
+            src="/logo.png"
+            alt="Bakersfield Rental Homes"
+            width={64}
+            height={64}
+            className="rounded-lg"
+          />
         </div>
 
         {/* Tagline */}
@@ -44,6 +37,30 @@ export default function Footer() {
           style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'Inter, sans-serif' }}>
           Rooted in hard work, driven by pride, and united by the belief that when neighbors lift each other up — the whole city rises.
         </p>
+
+        {/* Key SEO pages */}
+        <nav aria-label="Key pages" className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+          <Link href="/direct-landlord-rentals" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.55)' }}>
+            Direct Landlord Rentals
+          </Link>
+          <Link href="/neighborhoods" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.55)' }}>
+            Rentals by Neighborhood
+          </Link>
+        </nav>
+
+        {/* Neighborhood links */}
+        <nav aria-label="Rentals by neighborhood" className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+          {NEIGHBORHOODS.map(n => (
+            <Link
+              key={n.slug}
+              href={`/neighborhoods/${n.slug}`}
+              className="text-xs transition-all hover:opacity-80"
+              style={{ color: 'rgba(201,169,97,0.7)' }}
+            >
+              {n.name}
+            </Link>
+          ))}
+        </nav>
 
         {/* Gold divider */}
         <div className="w-16 h-px" aria-hidden="true"
@@ -68,9 +85,23 @@ export default function Footer() {
               Privacy Policy
             </Link>
             <span style={{ color: 'rgba(255,255,255,0.2)' }} aria-hidden="true">·</span>
+            <Link href="/disclaimer" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Disclaimer
+            </Link>
+            <span style={{ color: 'rgba(255,255,255,0.2)' }} aria-hidden="true">·</span>
             <Link href="/accessibility" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
               Accessibility
             </Link>
+          </div>
+
+          {/* Legal Disclaimer */}
+          <div className="mt-4 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)', fontFamily: 'Inter, sans-serif' }}>
+              This site is an informational platform only — not a licensed real estate broker, agent, or property manager. No content constitutes legal, financial, or professional advice. See our{' '}
+              <Link href="/disclaimer" className="underline transition-all hover:opacity-80" style={{ color: 'rgba(201,169,97,0.7)' }}>
+                Legal Disclaimer
+              </Link>.
+            </p>
           </div>
         </div>
       </div>

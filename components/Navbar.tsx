@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 export default function Navbar() {
@@ -34,13 +35,15 @@ export default function Navbar() {
   }
 
   // Pages whose hero is dark navy — navbar text must be white until scrolled
-  const darkHeroPages = ['/vendors', '/community']
+  const darkHeroPages = ['/vendors', '/community', '/neighborhoods', '/direct-landlord-rentals']
   const hasDarkHero = darkHeroPages.some(p => pathname.startsWith(p)) || pathname === '/listings' || pathname === '/list'
 
   const navBg     = scrolled || menuOpen ? 'rgba(247,245,240,0.95)' : 'transparent'
   const navBorder = scrolled || menuOpen ? '1px solid rgba(201,169,97,0.2)' : 'none'
   const textColor = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#F7F5F0' : '#1C3D5A'
   const hamColor  = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#F7F5F0' : '#1C3D5A'
+  // Dark gold (#7d6019) on light navbar background meets WCAG AA (5.8:1); bright gold on dark hero also passes (4.99:1)
+  const logoGoldColor = scrolled || menuOpen ? '#7d6019' : '#C9A961'
 
   return (
     <>
@@ -58,29 +61,30 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2 group" aria-label="Bakersfield Rental Homes — home">
-
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: '#C9A961' }} aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M8 2L14 6V14H10V10H6V14H2V6L8 2Z" fill="#1C3D5A" />
-                </svg>
-              </div>
-              <div className="leading-none" aria-hidden="true">
-                <p className="text-xs font-semibold tracking-widest uppercase"
-                  style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
-                <p className="text-xs tracking-wider uppercase"
-                  style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
-              </div>
+            <Link href="/" className="flex items-center group" aria-label="Bakersfield Rental Homes — home">
+              <Image
+                src="/logo.png"
+                alt="Bakersfield Rental Homes"
+                width={48}
+                height={48}
+                className="rounded-lg"
+                priority
+              />
             </Link>
           </div>
 
           {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-5 list-none m-0 p-0">
-            <li>
+            <li className="flex items-center gap-3">
               <Link href="/listings"
                 className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
                 style={{ color: textColor, letterSpacing: '0.15em' }}>Find a Home</Link>
+              <Link href="/direct-landlord-rentals"
+                aria-label="No broker fees — direct landlord rentals"
+                className="text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full transition-all duration-300 hover:opacity-80"
+                style={{ backgroundColor: 'rgba(201,169,97,0.15)', color: logoGoldColor, letterSpacing: '0.1em', border: '1px solid rgba(201,169,97,0.3)' }}>
+                No Fees
+              </Link>
             </li>
             <li>
               <Link href="/vendors"
@@ -138,6 +142,16 @@ export default function Navbar() {
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Find a Home
+            </Link>
+            <Link href="/direct-landlord-rentals" onClick={() => setMenuOpen(false)}
+              className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
+              style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
+              Direct Landlord Rentals
+            </Link>
+            <Link href="/neighborhoods" onClick={() => setMenuOpen(false)}
+              className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
+              style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
+              Neighborhoods
             </Link>
             <Link href="/vendors" onClick={() => setMenuOpen(false)}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
