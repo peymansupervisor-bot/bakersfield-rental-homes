@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
 import ConditionalLayout from '@/components/ConditionalLayout'
-import ChatWidget from '@/components/ChatWidget'
+import dynamic from 'next/dynamic'
+const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false })
 import { Analytics } from '@vercel/analytics/react'
 
 const playfair = Playfair_Display({

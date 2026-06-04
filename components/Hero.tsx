@@ -78,6 +78,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
           loop
           playsInline
           preload="none"
+          poster="/hero-mobile.jpg"
           aria-hidden="true"
         />
       )}
