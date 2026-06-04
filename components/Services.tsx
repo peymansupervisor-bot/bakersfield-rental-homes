@@ -83,7 +83,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
       style={{ backgroundColor: '#F7F5F0' }}
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="sr-only">Property Management Services</h2>
+        <h2 className="text-2xl font-semibold mb-8" style={{ color: '#1C3D5A' }}>Our Services</h2>
         {/* CTA Buttons */}
         <div className={`flex flex-col sm:flex-row gap-5 reveal-up ${inView ? 'in-view' : ''}`}>
           {/* Landlord button */}

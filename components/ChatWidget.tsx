@@ -188,7 +188,7 @@ export default function ChatWidget() {
           ))}
           {sending && (
             <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <div style={{ padding: '10px 16px', borderRadius: '18px 18px 18px 4px', backgroundColor: '#F7F5F0', border: '1px solid rgba(201,169,97,0.15)' }} aria-label="Bot is typing">
+              <div style={{ padding: '10px 16px', borderRadius: '18px 18px 18px 4px', backgroundColor: '#F7F5F0', border: '1px solid rgba(201,169,97,0.15)' }} role="status" aria-live="polite" aria-label="Bot is typing">
                 <span style={{ display: 'inline-flex', gap: '4px' }} aria-hidden="true">
                   {[0,1,2].map(i => (
                     <span key={i} style={{ width: '6px', height: '6px', backgroundColor: '#C9A961', borderRadius: '50%', animation: 'chatBounce 1.2s ease infinite', animationDelay: `${i * 0.2}s` }} />
