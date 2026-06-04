@@ -27,11 +27,14 @@ export default function ChatWidget() {
   const [quickRepliesUsed, setQuickRepliesUsed] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const toggleBtnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (open) {
       setUnread(0)
       setTimeout(() => inputRef.current?.focus(), 100)
+    } else {
+      toggleBtnRef.current?.focus()
     }
   }, [open])
 
@@ -249,6 +252,7 @@ export default function ChatWidget() {
 
       {/* Toggle button */}
       <button
+        ref={toggleBtnRef}
         onClick={() => setOpen(o => !o)}
         aria-label={open ? 'Close chat' : 'Open live chat'}
         aria-expanded={open}

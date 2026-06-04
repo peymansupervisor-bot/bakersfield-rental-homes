@@ -108,6 +108,18 @@ export default function Services({ services: cmsServices }: ServicesProps) {
               el.style.boxShadow = '0 4px 32px rgba(28,61,90,0.18)'
               el.style.transform = 'translateY(0)'
             }}
+            onFocus={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.backgroundColor = '#163150'
+              el.style.boxShadow = '0 8px 48px rgba(28,61,90,0.32)'
+              el.style.transform = 'translateY(-2px)'
+            }}
+            onBlur={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.backgroundColor = '#1C3D5A'
+              el.style.boxShadow = '0 4px 32px rgba(28,61,90,0.18)'
+              el.style.transform = 'translateY(0)'
+            }}
           >
             <div>
               <p
@@ -187,6 +199,18 @@ export default function Services({ services: cmsServices }: ServicesProps) {
               el.style.boxShadow = '0 4px 32px rgba(201,169,97,0.22)'
               el.style.transform = 'translateY(0)'
             }}
+            onFocus={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.backgroundColor = '#b8963f'
+              el.style.boxShadow = '0 8px 48px rgba(201,169,97,0.38)'
+              el.style.transform = 'translateY(-2px)'
+            }}
+            onBlur={e => {
+              const el = e.currentTarget as HTMLElement
+              el.style.backgroundColor = '#C9A961'
+              el.style.boxShadow = '0 4px 32px rgba(201,169,97,0.22)'
+              el.style.transform = 'translateY(0)'
+            }}
           >
             <div>
               <p
@@ -250,6 +274,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
           {services.map((svc, i) => (
             <div
               key={svc.title}
+              tabIndex={0}
               className={`group relative p-8 rounded-2xl cursor-default transition-all duration-300 reveal-up ${inView ? 'in-view' : ''}`}
               style={{
                 backgroundColor: 'white',
@@ -269,6 +294,18 @@ export default function Services({ services: cmsServices }: ServicesProps) {
                 el.style.borderColor = 'rgba(201,169,97,0.15)'
                 el.style.transform = 'scale(1)'
               }}
+              onFocus={e => {
+                const el = e.currentTarget
+                el.style.boxShadow = '0 8px 40px rgba(201,169,97,0.18), 0 2px 20px rgba(28,61,90,0.06)'
+                el.style.borderColor = 'rgba(201,169,97,0.4)'
+                el.style.transform = 'scale(1.02)'
+              }}
+              onBlur={e => {
+                const el = e.currentTarget
+                el.style.boxShadow = '0 2px 20px rgba(28,61,90,0.04)'
+                el.style.borderColor = 'rgba(201,169,97,0.15)'
+                el.style.transform = 'scale(1)'
+              }}
             >
               <div
                 className="w-14 h-14 rounded-xl flex items-center justify-center mb-5"
@@ -282,7 +319,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
               >
                 {cmsServices?.[i]?.title || svc.title}
               </h3>
-              <p className="text-sm leading-relaxed font-light" style={{ color: '#2B2B2B', opacity: 0.75 }}>
+              <p className="text-sm leading-relaxed font-light" style={{ color: '#555555' }}>
                 {cmsServices?.[i]?.description || svc.description}
               </p>
             </div>

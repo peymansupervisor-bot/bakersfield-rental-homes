@@ -89,22 +89,22 @@ export default function Footer() {
             <span aria-hidden="true">📞 </span>(661) 381-1818
           </a>
           <div className="flex items-center gap-3">
-            <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.65)' }}>
               Privacy Policy
             </Link>
             <span style={{ color: 'rgba(255,255,255,0.2)' }} aria-hidden="true">·</span>
-            <Link href="/disclaimer" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            <Link href="/disclaimer" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.65)' }}>
               Disclaimer
             </Link>
             <span style={{ color: 'rgba(255,255,255,0.2)' }} aria-hidden="true">·</span>
-            <Link href="/accessibility" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            <Link href="/accessibility" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.65)' }}>
               Accessibility
             </Link>
           </div>
 
           {/* Legal notice */}
           <div className="mt-4 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)', fontFamily: 'Inter, sans-serif' }}>
+            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.60)', fontFamily: 'Inter, sans-serif' }}>
               This site is an informational platform only — not a licensed real estate broker, agent, or property manager. No content constitutes legal, financial, or professional advice.
             </p>
           </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 
 // Scene overlay definitions — keyed to video timecodes
 const OVERLAYS = [
@@ -76,22 +77,23 @@ export default function Hero({ heroHeadline }: HeroProps) {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           aria-hidden="true"
         />
       )}
 
-      {/* Mobile: static fallback image */}
+      {/* Mobile: static fallback image — next/image for WebP/AVIF + LCP priority */}
       {isMobile && (
-        <div
-          className="absolute inset-0 w-full h-full"
-          aria-hidden="true"
-          style={{
-            backgroundImage: 'url(/hero-mobile.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
+        <div className="absolute inset-0 w-full h-full" aria-hidden="true">
+          <Image
+            src="/hero-mobile.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
       )}
 
       {/* Subtle vignette — darkens edges slightly for depth */}
@@ -156,6 +158,8 @@ export default function Hero({ heroHeadline }: HeroProps) {
       {!isMobile && (
         <button
           onClick={handleSoundToggle}
+          aria-label={muted ? 'Unmute background video' : 'Mute background video'}
+          aria-pressed={!muted}
           className="absolute bottom-8 right-6 md:right-10 flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 hover:scale-105"
           style={{
             backgroundColor: 'rgba(247,245,240,0.15)',
