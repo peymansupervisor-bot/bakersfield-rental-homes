@@ -30,7 +30,7 @@ export default function CookieConsent() {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed bottom-4 left-4 right-4 md:left-auto md:right-5 md:bottom-24 md:max-w-sm z-50 bg-[#0d1b2e] text-white rounded-2xl shadow-2xl p-5"
+      className="fixed bottom-4 left-4 right-4 md:left-auto md:right-5 md:max-w-sm z-50 bg-[#0d1b2e] text-white rounded-2xl shadow-2xl p-5"
     >
       <p className="text-sm leading-relaxed mb-4 text-gray-200">
         We use cookies to keep you signed in and to understand how our site is used. See our{' '}

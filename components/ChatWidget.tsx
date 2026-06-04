@@ -28,6 +28,16 @@ export default function ChatWidget() {
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const toggleBtnRef = useRef<HTMLButtonElement>(null)
+  const [bannerVisible, setBannerVisible] = useState(false)
+
+  useEffect(() => {
+    setBannerVisible(!localStorage.getItem('cookie_consent'))
+    const onStorage = () => setBannerVisible(!localStorage.getItem('cookie_consent'))
+    window.addEventListener('storage', onStorage)
+    // poll briefly to catch same-tab consent dismissal
+    const id = setInterval(() => setBannerVisible(!localStorage.getItem('cookie_consent')), 500)
+    return () => { window.removeEventListener('storage', onStorage); clearInterval(id) }
+  }, [])
 
   useEffect(() => {
     if (open) {
@@ -111,7 +121,7 @@ export default function ChatWidget() {
         aria-modal="true"
         aria-hidden={!open}
         style={{
-          position: 'fixed', bottom: '90px', right: '20px', width: '340px', maxWidth: 'calc(100vw - 40px)',
+          position: 'fixed', bottom: bannerVisible ? '250px' : '90px', right: '20px', width: '340px', maxWidth: 'calc(100vw - 40px)',
           backgroundColor: '#ffffff', borderRadius: '20px', zIndex: 1000,
           boxShadow: '0 20px 60px rgba(28,61,90,0.22), 0 4px 16px rgba(28,61,90,0.12)',
           border: '1px solid rgba(201,169,97,0.2)',
@@ -259,10 +269,10 @@ export default function ChatWidget() {
         aria-expanded={open}
         aria-controls="chat-panel"
         style={{
-          position: 'fixed', bottom: '20px', right: '20px', width: '56px', height: '56px',
+          position: 'fixed', bottom: bannerVisible ? '180px' : '20px', right: '20px', width: '56px', height: '56px',
           borderRadius: '50%', backgroundColor: '#1C3D5A', border: '2px solid rgba(201,169,97,0.4)',
           boxShadow: '0 4px 20px rgba(28,61,90,0.35)', cursor: 'pointer', zIndex: 1001,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'transform 0.2s ease',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'bottom 0.3s ease, transform 0.2s ease',
         }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.08)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
