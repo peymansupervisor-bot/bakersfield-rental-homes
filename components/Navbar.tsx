@@ -63,10 +63,10 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center group" aria-label="Bakersfield Rental Homes — home">
               <Image
-                src="/logo.png"
+                src="/logo-icon.png"
                 alt="Bakersfield Rental Homes"
-                width={48}
-                height={48}
+                width={120}
+                height={120}
                 className="rounded-lg"
                 priority
               />
