@@ -1,3 +1,11 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Accessibility Statement | Bakersfield Rental Homes',
+  description: 'Bakersfield Rental Homes accessibility statement and WCAG 2.1 AA conformance information.',
+  alternates: { canonical: 'https://bakersfieldrentalhomes.com/accessibility' },
+}
+
 export default function AccessibilityPage() {
   return (
     <main id="main-content" className="min-h-screen" style={{ backgroundColor: '#F7F5F0' }}>
@@ -122,8 +130,8 @@ export default function AccessibilityPage() {
               </p>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
                 📧{' '}
-                <a href="mailto:Info@BakersfieldRentalHomes.com" style={{ color: '#1C3D5A', textDecoration: 'underline' }}>
-                  Info@BakersfieldRentalHomes.com
+                <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#1C3D5A', textDecoration: 'underline' }}>
+                  info@bakersfieldrentalhomes.com
                 </a>
               </p>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
