@@ -5,7 +5,6 @@ import ConditionalLayout from '@/components/ConditionalLayout'
 import dynamic from 'next/dynamic'
 const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false })
 const CookieConsent = dynamic(() => import('@/components/CookieConsent'), { ssr: false })
-import { Analytics } from '@vercel/analytics/react'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -166,7 +165,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ConditionalLayout>{children}</ConditionalLayout>
         <ChatWidget />
         <CookieConsent />
-        <Analytics />
       </body>
     </html>
   )

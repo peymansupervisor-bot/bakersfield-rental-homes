@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { inject } from '@vercel/analytics'
 
 const STORAGE_KEY = 'cookie_consent'
 
@@ -9,13 +10,17 @@ export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
+    const consent = localStorage.getItem(STORAGE_KEY)
+    if (!consent) {
       setVisible(true)
+    } else if (consent === 'accepted') {
+      inject()
     }
   }, [])
 
   const accept = () => {
     localStorage.setItem(STORAGE_KEY, 'accepted')
+    inject()
     setVisible(false)
   }
 
