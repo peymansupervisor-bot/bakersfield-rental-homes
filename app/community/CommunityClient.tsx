@@ -313,11 +313,14 @@ function timeAgo(dateStr: string) {
 
 function Avatar({ name, size = 36, url }: { name: string; size?: number; url?: string | null }) {
   if (url) {
+    // Strip ?t= cache-busting param so CDN can cache the image
+    const src = url.split('?')[0]
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={url}
+      <Image
+        src={src}
         alt={name}
+        width={size}
+        height={size}
         className="flex-shrink-0 rounded-full object-cover"
         style={{ width: size, height: size }}
       />
@@ -1050,6 +1053,8 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
     return () => { supabase.removeChannel(channel) }
   }, [user])
 
+  const initialLoadDone = useRef(initialPosts.length > 0)
+
   const fetchPosts = useCallback(async () => {
     setLoading(true)
     const url = category === 'all' ? '/api/community/posts' : `/api/community/posts?category=${category}`
@@ -1063,7 +1068,14 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
     setLoading(false)
   }, [category, user])
 
-  useEffect(() => { fetchPosts() }, [fetchPosts])
+  useEffect(() => {
+    // Skip the first fetch when server already provided initialPosts
+    if (initialLoadDone.current && category === 'all') {
+      initialLoadDone.current = false
+      return
+    }
+    fetchPosts()
+  }, [fetchPosts, category])
 
   const signOut = async () => { await supabase.auth.signOut(); setUser(null); setDisplayName(''); setAvatarUrl(null) }
 
