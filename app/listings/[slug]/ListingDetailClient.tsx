@@ -84,7 +84,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
       <div className="max-w-6xl mx-auto px-6 md:px-10 py-8">
         <h1 className="text-2xl font-semibold mb-6"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-          {listing.title}, {listing.city}, CA
+          {listing.address} — {listing.bedrooms}bd/{listing.bathrooms}ba For Rent in {listing.city}, CA
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
