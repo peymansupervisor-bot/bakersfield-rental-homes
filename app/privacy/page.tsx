@@ -54,6 +54,7 @@ export default function PrivacyPage() {
                 'How We Protect Your Information',
                 'Children\'s Privacy',
                 'California Residents',
+                'Cookies and Similar Technologies',
                 'Changes to This Privacy Policy',
               ].map((item, i) => (
                 <li key={i}><span className="font-semibold">{i + 1}.</span> {item}</li>
@@ -77,7 +78,7 @@ export default function PrivacyPage() {
               <ul>
                 <li><strong>Device and browser data:</strong> We may collect your IP address, browser type, operating system, and device identifiers.</li>
                 <li><strong>Usage data:</strong> We collect information about how you use our Services, such as pages visited, features used, and time spent on the site.</li>
-                <li><strong>Cookies:</strong> We use cookies and similar technologies to operate our Services. You can control cookies through your browser settings.</li>
+                <li><strong>Cookies &amp; similar technologies:</strong> We use cookies and similar technologies to operate our Services. See Section 9 below for full details.</li>
               </ul>
             </Sub>
             <Sub title="Information from third parties">
@@ -190,7 +191,36 @@ export default function PrivacyPage() {
             <p className="mt-3">To exercise your rights, contact us at <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a> or call (661) 381-1818. We will respond to verified requests within 45 days.</p>
           </Section>
 
-          <Section num="9" title="Changes to This Privacy Policy">
+          <Section num="9" title="Cookies and Similar Technologies">
+            <p className="mb-3">This section explains how we use cookies and similar technologies on our website, what data they collect, and how you can control them.</p>
+            <Sub title="What are cookies?">
+              <p>Cookies are small text files placed on your device when you visit a website. They help the site remember information about your visit, such as your login session, so you don't have to re-enter it each time. Similar technologies include localStorage and session storage, which work in a comparable way.</p>
+            </Sub>
+            <Sub title="Cookies we use">
+              <ul>
+                <li><strong>Essential / functional cookies:</strong> We use session cookies managed by Supabase to keep you logged in while you use our Services. These are strictly necessary for the site to function and cannot be disabled. They are deleted when you sign out or close your browser session.</li>
+                <li><strong>Analytics (cookie-free):</strong> We use Vercel Web Analytics to understand how visitors use our site (e.g., pages viewed, referrers). Vercel Analytics is designed to be privacy-first and does <em>not</em> use cookies or fingerprinting — it does not track you across sites or sessions.</li>
+                <li><strong>No advertising or tracking cookies:</strong> We do not use advertising cookies, cross-site tracking pixels, or third-party behavioral profiling tools (e.g., Google Ads, Facebook Pixel, HotJar).</li>
+              </ul>
+            </Sub>
+            <Sub title="Your choices">
+              <ul>
+                <li><strong>Browser settings:</strong> You can configure your browser to block or delete cookies at any time. Note that disabling essential cookies will prevent you from signing in to your account.</li>
+                <li><strong>Cookie consent banner:</strong> When you first visit our site, you may accept or decline non-essential data collection via the banner at the bottom of the screen. Your preference is saved in your browser's localStorage and can be changed by clearing your browser data.</li>
+                <li><strong>Do Not Track:</strong> We honor browser Do Not Track signals to the extent technically feasible.</li>
+              </ul>
+            </Sub>
+            <Sub title="Third-party services">
+              <p>Our site integrates with the following third-party services that may process data independently under their own privacy policies:</p>
+              <ul>
+                <li><strong>Supabase</strong> — authentication and database (<a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>supabase.com/privacy</a>)</li>
+                <li><strong>Vercel</strong> — hosting and analytics (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>vercel.com/legal/privacy-policy</a>)</li>
+                <li><strong>Stripe</strong> — payment processing (<a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>stripe.com/privacy</a>)</li>
+              </ul>
+            </Sub>
+          </Section>
+
+          <Section num="10" title="Changes to This Privacy Policy">
             <p>We may update this Privacy Policy from time to time. When we make material changes, we will update the effective date at the top of this page and, where appropriate, notify you by email or by posting a notice on our website. Your continued use of our Services after any changes constitutes your acceptance of the updated Privacy Policy.</p>
           </Section>
 
