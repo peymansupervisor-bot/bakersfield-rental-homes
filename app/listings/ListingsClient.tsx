@@ -274,7 +274,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
           style={{ border: '1px solid rgba(201,169,97,0.15)', boxShadow: '0 2px 12px rgba(28,61,90,0.06)' }}
         >
           {/* Row 1 — server-side filters */}
-          <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#767676' }}>
+          <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#595959' }}>
             Filter
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
@@ -376,7 +376,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
 
           {/* Row 2 — sort + instant toggles */}
           <div className="border-t pt-4 mt-4" style={{ borderColor: '#f0ece4' }}>
-            <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#767676' }}>
+            <p className="text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: '#595959' }}>
               Sort &amp; Refine
             </p>
             <div className="flex flex-wrap items-center gap-3">

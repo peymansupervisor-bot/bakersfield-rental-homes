@@ -102,7 +102,7 @@ function UploadBox({
         <>
           <div className="text-3xl mb-2">{icon}</div>
           <p className="text-xs font-semibold mb-1" style={{ color: '#1C3D5A' }}>{label}</p>
-          <p className="text-[10px] leading-relaxed" style={{ color: '#767676' }}>{description}</p>
+          <p className="text-[10px] leading-relaxed" style={{ color: '#595959' }}>{description}</p>
           <p className="text-[10px] mt-2 font-semibold" style={{ color: '#8a6d1f' }}>
             Click to upload
           </p>
@@ -541,7 +541,7 @@ export default function VendorsPage() {
         </div>
 
         {/* Trust line */}
-        <p className="text-center text-xs mt-8" style={{ color: '#767676' }}>
+        <p className="text-center text-xs mt-8" style={{ color: '#595959' }}>
           Your documents are stored securely and reviewed only by our team. Questions?{' '}
           <a href="tel:+16613811818" className="underline" style={{ color: '#8a6d1f' }}>(661) 381-1818</a>
         </p>

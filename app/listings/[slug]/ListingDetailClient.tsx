@@ -459,7 +459,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl p-3 text-center" style={{ backgroundColor: '#f8f6f2' }}>
       <p className="text-lg font-bold mb-0.5" style={{ color: '#1C3D5A' }}>{value}</p>
-      <p className="text-xs" style={{ color: '#767676' }}>{label}</p>
+      <p className="text-xs" style={{ color: '#595959' }}>{label}</p>
     </div>
   )
 }
@@ -467,7 +467,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between">
-      <span style={{ color: '#767676' }}>{label}</span>
+      <span style={{ color: '#595959' }}>{label}</span>
       <span className="font-medium" style={{ color: '#2B2B2B' }}>{value}</span>
     </div>
   )

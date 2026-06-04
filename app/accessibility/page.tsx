@@ -163,7 +163,7 @@ export default function AccessibilityPage() {
             </p>
           </Section>
 
-          <div className="mt-10 pt-6 border-t text-xs text-center" style={{ borderColor: '#e0ddd8', color: '#767676' }}>
+          <div className="mt-10 pt-6 border-t text-xs text-center" style={{ borderColor: '#e0ddd8', color: '#595959' }}>
             © 2026 Bakersfield Rental Homes · Owned by Bakersfield Brokers · DRE #01726653 · Bakersfield, CA
           </div>
         </div>

@@ -586,7 +586,7 @@ function Step4({ form, set, onSubmit, loading }: {
         {loading ? 'Processing…' : 'Pay $1 & Publish Listing →'}
       </button>
 
-      <p className="text-xs text-center" style={{ color: '#767676' }}>
+      <p className="text-xs text-center" style={{ color: '#595959' }}>
         Secure payment via Stripe. Your listing goes live immediately after payment.
       </p>
     </div>
@@ -781,7 +781,7 @@ export default function ListPage() {
                 </div>
                 <span className="text-[10px] mt-1 font-medium whitespace-nowrap hidden sm:block"
                   aria-hidden="true"
-                  style={{ color: i === step ? '#1C3D5A' : '#767676' }}>
+                  style={{ color: i === step ? '#1C3D5A' : '#595959' }}>
                   {s}
                 </span>
               </div>

@@ -112,7 +112,7 @@ function ChatWindow({ currentUser, partner, onClose }: {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2" style={{ backgroundColor: '#F7F5F0' }}>
         {messages.length === 0 && (
-          <p className="text-xs text-center mt-8" style={{ color: '#767676' }}>
+          <p className="text-xs text-center mt-8" style={{ color: '#595959' }}>
             No messages yet — say hello!
           </p>
         )}
@@ -204,7 +204,7 @@ function InboxPanel({ currentUser, onStartChat, onClose }: {
       <div className="flex-1 overflow-y-auto">
         {tab === 'chats' ? (
           conversations.length === 0 ? (
-            <p className="text-xs text-center mt-8" style={{ color: '#767676' }}>No conversations yet.<br />Go to All Users to start one.</p>
+            <p className="text-xs text-center mt-8" style={{ color: '#595959' }}>No conversations yet.<br />Go to All Users to start one.</p>
           ) : conversations.map(c => {
             const partner = c.sender_id === currentUser.id ? c.receiver : c.sender
             return (
@@ -217,7 +217,7 @@ function InboxPanel({ currentUser, onStartChat, onClose }: {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold truncate" style={{ color: '#1C3D5A' }}>{partner?.display_name}</p>
-                  <p className="text-xs truncate" style={{ color: '#767676' }}>{c.body}</p>
+                  <p className="text-xs truncate" style={{ color: '#595959' }}>{c.body}</p>
                 </div>
                 {!c.read && c.receiver_id === currentUser.id && (
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: '#C9A961' }} />
@@ -235,7 +235,7 @@ function InboxPanel({ currentUser, onStartChat, onClose }: {
                 aria-label="Search users" />
             </div>
             {filtered.length === 0 ? (
-              <p className="text-xs text-center mt-4" style={{ color: '#767676' }}>No users found</p>
+              <p className="text-xs text-center mt-4" style={{ color: '#595959' }}>No users found</p>
             ) : filtered.map(u => (
               <button key={u.id} onClick={() => { onStartChat(u); onClose() }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-[#f7f5f0] transition-colors border-b"
@@ -845,7 +845,7 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
             <Avatar name={post.profiles?.display_name ?? '?'} url={post.profiles?.avatar_url} />
             <div>
               <p className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>{post.profiles?.display_name}</p>
-              <p className="text-[11px]" style={{ color: '#767676' }}>{timeAgo(post.created_at)}</p>
+              <p className="text-[11px]" style={{ color: '#595959' }}>{timeAgo(post.created_at)}</p>
             </div>
           </div>
           <span className="text-xs px-2.5 py-1 rounded-full flex-shrink-0"
@@ -916,9 +916,9 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
         {showComments && (
           <div className="mt-4 space-y-3">
             {loadingC ? (
-              <p className="text-xs" style={{ color: '#767676' }}>Loading comments…</p>
+              <p className="text-xs" style={{ color: '#595959' }}>Loading comments…</p>
             ) : comments.length === 0 ? (
-              <p className="text-xs" style={{ color: '#767676' }}>No comments yet — be the first!</p>
+              <p className="text-xs" style={{ color: '#595959' }}>No comments yet — be the first!</p>
             ) : comments.map(c => (
               <div key={c.id} className="flex gap-2.5">
                 <Avatar name={c.profiles?.display_name ?? '?'} size={28} />
@@ -980,7 +980,7 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
                 </div>
               </div>
             ) : (
-              <p className="text-xs pt-1" style={{ color: '#767676' }}>Sign in to comment.</p>
+              <p className="text-xs pt-1" style={{ color: '#595959' }}>Sign in to comment.</p>
             )}
           </div>
         )}
@@ -1186,11 +1186,11 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
                   <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: '#f0ece4' }}>
                     <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: '#1C3D5A' }}>Notifications</p>
                     {notifications.length > 0 && (
-                      <button onClick={() => setNotifications([])} className="text-xs" style={{ color: '#767676' }}>Clear all</button>
+                      <button onClick={() => setNotifications([])} className="text-xs" style={{ color: '#595959' }}>Clear all</button>
                     )}
                   </div>
                   {notifications.length === 0 ? (
-                    <p className="text-sm text-center py-6" style={{ color: '#767676' }}>No new notifications</p>
+                    <p className="text-sm text-center py-6" style={{ color: '#595959' }}>No new notifications</p>
                   ) : (
                     <ul className="max-h-64 overflow-y-auto">
                       {notifications.map(n => (
