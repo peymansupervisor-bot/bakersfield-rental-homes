@@ -162,7 +162,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
           onClick={handleSoundToggle}
           aria-label={muted ? 'Unmute background video' : 'Mute background video'}
           aria-pressed={!muted}
-          className="absolute bottom-8 right-6 md:right-10 flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 hover:scale-105"
+          className="absolute bottom-8 left-6 md:left-10 flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 hover:scale-105"
           style={{
             backgroundColor: 'rgba(247,245,240,0.15)',
             backdropFilter: 'blur(8px)',
