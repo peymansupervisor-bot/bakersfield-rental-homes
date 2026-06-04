@@ -72,7 +72,7 @@ export default function Subscribe() {
             Be the First to Know
           </h2>
           <p className="text-sm font-light mb-10"
-            style={{ color: 'rgba(247,245,240,0.6)', fontFamily: 'Inter, sans-serif', lineHeight: 1.7 }}>
+            style={{ color: 'rgba(247,245,240,0.82)', fontFamily: 'Inter, sans-serif', lineHeight: 1.7 }}>
             Get notified the moment a new rental home becomes available in Bakersfield.
             No spam — just listings.
           </p>
@@ -104,6 +104,7 @@ export default function Subscribe() {
             className={`flex flex-col gap-3 reveal-up ${inView ? 'in-view' : ''}`}
             style={{ animationDelay: inView ? '0.15s' : '0s' }}
             aria-label="New listing notification sign-up"
+            aria-describedby={error ? 'subscribe-error' : undefined}
             noValidate
           >
             <div>
@@ -138,7 +139,7 @@ export default function Subscribe() {
               />
             </div>
             {error && (
-              <p role="alert" className="text-sm" style={{ color: '#e57373' }}>{error}</p>
+              <p id="subscribe-error" role="alert" className="text-sm" style={{ color: '#e57373' }}>{error}</p>
             )}
             <button
               type="submit"

@@ -75,7 +75,7 @@ export default function Contact({ headline, description }: ContactProps) {
               <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
             ))}
           </h2>
-          <p className="text-base font-light" style={{ color: '#2B2B2B', opacity: 0.7 }}>{displayDesc}</p>
+          <p className="text-base font-light" style={{ color: '#2B2B2B', opacity: 0.85 }}>{displayDesc}</p>
         </div>
 
         {submitted ? (
@@ -98,7 +98,7 @@ export default function Contact({ headline, description }: ContactProps) {
           <form onSubmit={handleSubmit}
             className={`flex flex-col gap-4 reveal-up ${inView ? 'in-view' : ''}`}
             style={{ animationDelay: inView ? '0.2s' : '0s' }}
-            noValidate aria-label="Contact form">
+            noValidate aria-label="Contact form" aria-describedby={error ? 'contact-error' : undefined}>
             <div>
               <label htmlFor="contact-name" className="sr-only">Your full name</label>
               <input id="contact-name" type="text" name="name" placeholder="Your full name" required
@@ -123,7 +123,7 @@ export default function Contact({ headline, description }: ContactProps) {
                 onBlur={e => (e.target.style.borderColor = 'rgba(28,61,90,0.15)')} />
             </div>
             {error && (
-              <p role="alert" className="text-sm text-center" style={{ color: '#c0392b' }}>{error}</p>
+              <p id="contact-error" role="alert" className="text-sm text-center" style={{ color: '#c0392b' }}>{error}</p>
             )}
             <button type="submit" disabled={sending}
               className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01]"

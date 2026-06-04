@@ -73,7 +73,7 @@ function UploadBox({
       role="button"
       tabIndex={0}
       aria-label={`Upload ${label}`}
-      onKeyDown={e => e.key === 'Enter' && inputRef.current?.click()}
+      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && inputRef.current?.click()}
     >
       <input
         ref={inputRef}

@@ -115,7 +115,7 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-full transition-all duration-200"
+            className="md:hidden flex flex-col justify-center items-center w-11 h-11 rounded-full transition-all duration-200"
             style={{ backgroundColor: menuOpen ? 'rgba(201,169,97,0.15)' : 'transparent' }}
             onClick={() => setMenuOpen(o => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}

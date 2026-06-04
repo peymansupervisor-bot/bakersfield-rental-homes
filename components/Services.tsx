@@ -89,7 +89,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
           {/* Landlord button */}
           <Link
             href="/list"
-            className="flex-1 group flex items-center justify-between gap-4 px-10 py-8 rounded-2xl transition-all duration-300"
+            className="flex-1 group flex items-center justify-between gap-4 px-10 py-8 rounded-2xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
             style={{
               backgroundColor: '#1C3D5A',
               border: '1px solid rgba(201,169,97,0.25)',
@@ -180,7 +180,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
           {/* Tenant button */}
           <Link
             href="/listings"
-            className="flex-1 group flex items-center justify-between gap-4 px-10 py-8 rounded-2xl transition-all duration-300"
+            className="flex-1 group flex items-center justify-between gap-4 px-10 py-8 rounded-2xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]"
             style={{
               backgroundColor: '#C9A961',
               border: '1px solid rgba(201,169,97,0.4)',
@@ -274,7 +274,6 @@ export default function Services({ services: cmsServices }: ServicesProps) {
           {services.map((svc, i) => (
             <div
               key={svc.title}
-              tabIndex={0}
               className={`group relative p-8 rounded-2xl cursor-default transition-all duration-300 reveal-up ${inView ? 'in-view' : ''}`}
               style={{
                 backgroundColor: 'white',

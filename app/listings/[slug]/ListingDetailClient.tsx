@@ -354,13 +354,13 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                     {contactStatus === 'sending' ? 'Sending…' : 'Send Message'}
                   </button>
                   {contactStatus === 'error' && (
-                    <p className="text-xs text-red-600 text-center">Something went wrong. Please try again.</p>
+                    <p role="alert" className="text-xs text-red-600 text-center">Something went wrong. Please try again.</p>
                   )}
                 </form>
               )}
 
               {contactStatus === 'sent' && (
-                <p className="text-center text-sm py-4 rounded-xl" style={{ backgroundColor: '#f0ece4', color: '#1C3D5A' }}>
+                <p role="status" aria-live="polite" className="text-center text-sm py-4 rounded-xl" style={{ backgroundColor: '#f0ece4', color: '#1C3D5A' }}>
                   ✓ Message sent! The landlord will be in touch.
                 </p>
               )}

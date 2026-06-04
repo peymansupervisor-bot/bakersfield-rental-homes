@@ -573,7 +573,7 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
             {mode === 'signup' && (
               <div>
                 <label htmlFor="auth-name" className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>
-                  Your Name <span style={{ color: '#B22234' }}>*</span>
+                  Your Name <abbr title="required" style={{ color: '#B22234', textDecoration: 'none' }}>*</abbr>
                 </label>
                 <input id="auth-name" className={inputCls} style={inputStyle} placeholder="How others will see you" required
                   value={name} onChange={e => setName(e.target.value)} />

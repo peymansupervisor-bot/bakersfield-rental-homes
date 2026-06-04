@@ -1,3 +1,11 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | Bakersfield Rental Homes',
+  description: 'How Bakersfield Rental Homes collects, uses, and protects your personal information — CCPA compliant.',
+  alternates: { canonical: 'https://bakersfieldrentalhomes.com/privacy' },
+}
+
 export default function PrivacyPage() {
   return (
     <main id="main-content" className="min-h-screen" style={{ backgroundColor: '#F7F5F0' }}>
@@ -30,12 +38,12 @@ export default function PrivacyPage() {
             Bakersfield Rental Homes, owned by Bakersfield Brokers, DRE #01726653<br />
             Bakersfield, California, USA<br />
             Phone: (661) 381-1818<br />
-            Email: <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#C9A961' }}>info@bakersfieldrentalhomes.com</a>
+            Email: <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a>
           </p>
 
           {/* TOC */}
-          <div className="rounded-2xl p-6 mb-10" style={{ backgroundColor: '#f7f5f0', border: '1px solid rgba(201,169,97,0.15)' }}>
-            <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#C9A961' }}>Contents</p>
+          <nav aria-label="Privacy policy contents" className="rounded-2xl p-6 mb-10" style={{ backgroundColor: '#f7f5f0', border: '1px solid rgba(201,169,97,0.15)' }}>
+            <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#7d6019' }}>Contents</p>
             <ol className="space-y-1 text-sm" style={{ color: '#1C3D5A' }}>
               {[
                 'What Personal Information We Collect',
@@ -51,7 +59,7 @@ export default function PrivacyPage() {
                 <li key={i}><span className="font-semibold">{i + 1}.</span> {item}</li>
               ))}
             </ol>
-          </div>
+          </nav>
 
           <Section num="1" title="What Personal Information We Collect">
             <Sub title="Information you provide to us">
@@ -135,7 +143,7 @@ export default function PrivacyPage() {
               <p>Direct messages are private between you and the other user. You may close or delete a conversation at any time.</p>
             </Sub>
             <Sub title="Account deletion">
-              <p>To request deletion of your account and associated data, contact us at <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#C9A961' }}>info@bakersfieldrentalhomes.com</a>. We will process your request within 30 days.</p>
+              <p>To request deletion of your account and associated data, contact us at <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a>. We will process your request within 30 days.</p>
             </Sub>
             <Sub title="California residents">
               <p>See Section 8 below for additional rights available to California residents under the California Consumer Privacy Act (CCPA).</p>
@@ -167,7 +175,7 @@ export default function PrivacyPage() {
           </Section>
 
           <Section num="7" title="Children's Privacy">
-            <p>Our Services are not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected such information, please contact us at <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#C9A961' }}>info@bakersfieldrentalhomes.com</a> and we will promptly delete it.</p>
+            <p>Our Services are not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected such information, please contact us at <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a> and we will promptly delete it.</p>
           </Section>
 
           <Section num="8" title="California Residents">
@@ -179,7 +187,7 @@ export default function PrivacyPage() {
               <li><strong>Right to Opt Out of Sale:</strong> We do not sell your personal information.</li>
               <li><strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising any of your CCPA rights.</li>
             </ul>
-            <p className="mt-3">To exercise your rights, contact us at <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#C9A961' }}>info@bakersfieldrentalhomes.com</a> or call (661) 381-1818. We will respond to verified requests within 45 days.</p>
+            <p className="mt-3">To exercise your rights, contact us at <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a> or call (661) 381-1818. We will respond to verified requests within 45 days.</p>
           </Section>
 
           <Section num="9" title="Changes to This Privacy Policy">

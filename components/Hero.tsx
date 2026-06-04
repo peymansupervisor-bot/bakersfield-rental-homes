@@ -88,6 +88,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
           <Image
             src="/hero-mobile.jpg"
             alt=""
+            aria-hidden="true"
             fill
             priority
             sizes="100vw"

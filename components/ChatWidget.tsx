@@ -105,6 +105,7 @@ export default function ChatWidget() {
     <>
       {/* Chat panel */}
       <div
+        id="chat-panel"
         role="dialog"
         aria-label="Live chat with Bakersfield Rental Homes"
         aria-modal="true"
@@ -241,7 +242,7 @@ export default function ChatWidget() {
               style={{ flex: 1, padding: '10px 14px', borderRadius: '50px', border: '1px solid rgba(28,61,90,0.15)', fontFamily: 'Inter, sans-serif', fontSize: '13px', outline: 'none', backgroundColor: '#F7F5F0' }}
             />
             <button type="submit" disabled={!input.trim() || sending} aria-label="Send message"
-              style={{ width: '38px', height: '38px', borderRadius: '50%', backgroundColor: input.trim() && !sending ? '#1C3D5A' : 'rgba(28,61,90,0.2)', border: 'none', cursor: input.trim() && !sending ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background-color 0.2s' }}>
+              style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: input.trim() && !sending ? '#1C3D5A' : 'rgba(28,61,90,0.2)', border: 'none', cursor: input.trim() && !sending ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background-color 0.2s' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F7F5F0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
               </svg>
