@@ -449,7 +449,7 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       <div>
         <label className={labelCls}>
           Photos ({count}/10 minimum)
-          {needed > 0 && <span style={{ color: '#C9A961' }}> — add {needed} more</span>}
+          {needed > 0 && <span style={{ color: '#7d6019' }}> — add {needed} more</span>}
           {count >= 10 && <span style={{ color: '#2D7A4F' }}> ✓ requirement met</span>}
         </label>
 
@@ -553,7 +553,7 @@ function Step4({ form, set, onSubmit, loading }: {
 
       {/* Summary card */}
       <div className="rounded-2xl p-5 space-y-2" style={{ backgroundColor: '#f0ece4' }}>
-        <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#C9A961' }}>
+        <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#7d6019' }}>
           Listing Summary
         </p>
         <Row label="Property" value={form.title} />
@@ -715,7 +715,18 @@ export default function ListPage() {
       const { id, error: listErr } = await res.json()
       if (listErr || !id) throw new Error(listErr || 'Failed to create listing')
 
-      // 3. Create Stripe checkout session → redirect
+      // 3. Attempt owner bypass — server decides if email qualifies, no secret on client
+      const bypassRes = await fetch('/api/activate-listing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listingId: id, contactEmail: form.contact_email }),
+      })
+      if (bypassRes.ok) {
+        window.location.href = `/list/success?listing_id=${id}`
+        return
+      }
+
+      // 3b. Standard flow — Stripe checkout
       const ckRes = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

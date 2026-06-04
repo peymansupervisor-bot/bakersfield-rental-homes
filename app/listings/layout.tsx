@@ -14,6 +14,12 @@ export const metadata: Metadata = {
     '4 bedroom houses for rent Bakersfield',
     'affordable rentals Bakersfield CA',
     'Bakersfield CA rental market',
+    'Bakersfield rental homes direct from owner',
+    'rent from owner Bakersfield CA',
+    'houses for rent by owner Bakersfield CA',
+    'Bakersfield no broker fee rentals',
+    'houses for rent by owner Los Angeles CA',
+    'direct landlord rentals Los Angeles',
   ],
   alternates: {
     canonical: 'https://bakersfieldrentalhomes.com/listings',

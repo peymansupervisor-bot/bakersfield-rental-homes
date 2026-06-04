@@ -67,37 +67,55 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
 
   const urlSlug = listing.slug ?? listing.id
 
+  const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
+
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'RentAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: `https://bakersfieldrentalhomes.com/listings/${urlSlug}`,
-    },
-    object: {
-      '@type': 'Accommodation',
-      name: listing.title,
-      description: listing.description,
-      numberOfRooms: listing.bedrooms,
-      floorSize: listing.living_area_sqft
-        ? { '@type': 'QuantitativeValue', value: listing.living_area_sqft, unitCode: 'FTK' }
-        : undefined,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: listing.address,
-        addressLocality: listing.city,
-        addressRegion: listing.state ?? 'CA',
-        postalCode: listing.zip,
-        addressCountry: 'US',
-      },
-      image: listing.photos ?? [],
-      petsAllowed: listing.pets_allowed,
-    },
-    priceSpecification: {
-      '@type': 'UnitPriceSpecification',
+    '@type': 'RealEstateListing',
+    name: listing.title,
+    description: listing.description,
+    url: canonicalUrl,
+    datePosted: listing.listed_date ?? listing.created_at,
+    image: listing.photos ?? [],
+    offers: {
+      '@type': 'Offer',
       price: listing.monthly_rent,
       priceCurrency: 'USD',
-      unitText: 'MON',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: listing.monthly_rent,
+        priceCurrency: 'USD',
+        referenceQuantity: {
+          '@type': 'QuantitativeValue',
+          value: 1,
+          unitCode: 'MON',
+        },
+      },
+      availability: listing.rental_status === 'vacant'
+        ? 'https://schema.org/InStock'
+        : listing.rental_status === 'pending'
+        ? 'https://schema.org/LimitedAvailability'
+        : 'https://schema.org/SoldOut',
+    },
+    floorSize: {
+      '@type': 'QuantitativeValue',
+      value: listing.living_area_sqft,
+      unitCode: 'FTK',
+    },
+    numberOfRooms: listing.bedrooms,
+    numberOfBathroomsTotal: listing.bathrooms,
+    petsAllowed: listing.pets_allowed,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: listing.address,
+      addressLocality: listing.city,
+      addressRegion: listing.state ?? 'CA',
+      postalCode: listing.zip,
+      addressCountry: 'US',
+    },
+    landlord: {
+      '@type': 'Person',
+      name: listing.contact_name,
     },
   }
 

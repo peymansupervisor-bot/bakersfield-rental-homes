@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { NEIGHBORHOODS } from '@/lib/neighborhoods'
 
 const SITE_URL = 'https://bakersfieldrentalhomes.com'
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -12,8 +13,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/list`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/vendors`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}/community`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${SITE_URL}/disclaimer`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/accessibility`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE_URL}/direct-landlord-rentals`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE_URL}/neighborhoods`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    ...NEIGHBORHOODS.map(n => ({
+      url: `${SITE_URL}/neighborhoods/${n.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    })),
   ]
 
   // Dynamic listing pages
