@@ -8,6 +8,30 @@ import type { Listing } from '@/lib/supabase'
 export default function ListingDetailClient({ listing }: { listing: Listing }) {
   const [photoIndex, setPhotoIndex] = useState(0)
   const [lightbox, setLightbox]     = useState(false)
+  const [showContactForm, setShowContactForm] = useState(false)
+  const [contactName, setContactName]   = useState('')
+  const [contactEmail, setContactEmail] = useState('')
+  const [contactMsg, setContactMsg]     = useState('')
+  const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  async function handleContactSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setContactStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: contactName,
+          email: contactEmail,
+          message: `Inquiry about: ${listing.title}\n\n${contactMsg}`,
+        }),
+      })
+      setContactStatus(res.ok ? 'sent' : 'error')
+    } catch {
+      setContactStatus('error')
+    }
+  }
 
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const galleryRef     = useRef<HTMLDivElement>(null)
@@ -220,6 +244,10 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
           <div className="space-y-5">
             <div className="bg-white rounded-2xl p-6 sticky top-6"
               style={{ border: '1px solid rgba(201,169,97,0.2)', boxShadow: '0 4px 24px rgba(28,61,90,0.07)' }}>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-3"
+                style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#8a6d1f', border: '1px solid rgba(201,169,97,0.3)' }}>
+                <span aria-hidden="true">✓</span> Direct Landlord · No Broker Fee
+              </div>
               {listing.rental_status && (
                 <div
                   className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-3"
@@ -293,13 +321,49 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 <DetailRow label="Pets" value={listing.pets_allowed ? 'Allowed' : 'Not allowed'} />
               </div>
 
-              <a
-                href={`mailto:${listing.contact_email}?subject=Inquiry: ${encodeURIComponent(listing.title)}`}
-                aria-label={`Email to inquire about ${listing.title}`}
-                className="block w-full text-center py-4 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90"
-                style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', fontFamily: 'Inter, sans-serif', letterSpacing: '0.12em' }}>
-                Contact Landlord
-              </a>
+              {!showContactForm && contactStatus !== 'sent' && (
+                <button
+                  onClick={() => setShowContactForm(true)}
+                  className="block w-full text-center py-4 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90"
+                  style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', fontFamily: 'Inter, sans-serif', letterSpacing: '0.12em' }}>
+                  Contact Landlord
+                </button>
+              )}
+
+              {showContactForm && contactStatus !== 'sent' && (
+                <form onSubmit={handleContactSubmit} className="space-y-2 mt-2">
+                  <input
+                    type="text" required placeholder="Your name"
+                    value={contactName} onChange={e => setContactName(e.target.value)}
+                    className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
+                    style={{ color: '#1C3D5A' }} />
+                  <input
+                    type="email" required placeholder="Your email"
+                    value={contactEmail} onChange={e => setContactEmail(e.target.value)}
+                    className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
+                    style={{ color: '#1C3D5A' }} />
+                  <textarea
+                    required placeholder="Your message" rows={3}
+                    value={contactMsg} onChange={e => setContactMsg(e.target.value)}
+                    className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
+                    style={{ color: '#1C3D5A' }} />
+                  <button
+                    type="submit" disabled={contactStatus === 'sending'}
+                    className="w-full py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all hover:opacity-90 disabled:opacity-60"
+                    style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
+                    {contactStatus === 'sending' ? 'Sending…' : 'Send Message'}
+                  </button>
+                  {contactStatus === 'error' && (
+                    <p className="text-xs text-red-600 text-center">Something went wrong. Please try again.</p>
+                  )}
+                </form>
+              )}
+
+              {contactStatus === 'sent' && (
+                <p className="text-center text-sm py-4 rounded-xl" style={{ backgroundColor: '#f0ece4', color: '#1C3D5A' }}>
+                  ✓ Message sent! The landlord will be in touch.
+                </p>
+              )}
 
               {listing.contact_phone && (
                 <a
@@ -311,6 +375,17 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 </a>
               )}
             </div>
+
+            <Link href="/direct-landlord-rentals"
+              className="block rounded-2xl p-4 text-center transition-opacity hover:opacity-80"
+              style={{ backgroundColor: 'rgba(201,169,97,0.08)', border: '1px solid rgba(201,169,97,0.2)' }}>
+              <p className="text-xs font-semibold mb-0.5" style={{ color: '#1C3D5A' }}>
+                Why rent direct?
+              </p>
+              <p className="text-xs" style={{ color: '#8a6d1f' }}>
+                No broker fees · Faster approvals →
+              </p>
+            </Link>
 
             <div className="rounded-2xl p-5 text-center"
               style={{ background: 'linear-gradient(135deg, #1C3D5A 0%, #2a5278 100%)' }}>
