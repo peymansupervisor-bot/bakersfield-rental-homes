@@ -231,8 +231,8 @@ export default function VendorsPage() {
         <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 text-center sm:text-left">
           <span aria-hidden="true">🎉</span>
           <p className="text-sm font-semibold" style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}>
-            <strong>Join now for free — limited time offer.</strong>{' '}
-            A <strong>$95 onboarding fee</strong> will apply starting January 1, 2027.
+            <strong>Apply free until December 31, 2026.</strong>{' '}
+            Applications submitted before January 1, 2027 are <strong>permanently free</strong> — no onboarding fee, ever. A <strong>$95 onboarding fee</strong> applies to applications submitted on or after January 1, 2027.
           </p>
         </div>
       </div>
@@ -338,7 +338,7 @@ export default function VendorsPage() {
                   <div className="pt-2">
                     <div className="flex items-center gap-2 mb-4" aria-hidden="true">
                       <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(201,169,97,0.25)' }} />
-                      <span className="text-[10px] font-semibold uppercase tracking-widest px-2" style={{ color: '#C9A961' }}>
+                      <span className="text-[10px] font-semibold uppercase tracking-widest px-2" style={{ color: '#7d6019' }}>
                         🛡️ Insurance Information
                       </span>
                       <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(201,169,97,0.25)' }} />
