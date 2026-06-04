@@ -93,7 +93,7 @@ export default function Footer() {
             </Link>
           </div>
 
-          {/* Legal Disclaimer */}
+          {/* Legal notice */}
           <div className="mt-4 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
             <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)', fontFamily: 'Inter, sans-serif' }}>
               This site is an informational platform only — not a licensed real estate broker, agent, or property manager. No content constitutes legal, financial, or professional advice.
