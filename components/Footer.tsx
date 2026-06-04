@@ -80,7 +80,7 @@ export default function Footer() {
             © 2026 Bakersfield Rental Homes. All rights reserved.
           </p>
           <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.55)' }}>
-            Owned by Bakersfield Brokers &nbsp;|&nbsp; DRE #01726653
+            Operated by Bakersfield Brokers &nbsp;|&nbsp; DRE #01726653
           </p>
           <a href="tel:+16613811818"
             className="text-xs font-semibold transition-all hover:opacity-80"
@@ -105,7 +105,7 @@ export default function Footer() {
           {/* Legal notice */}
           <div className="mt-4 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
             <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.60)', fontFamily: 'Inter, sans-serif' }}>
-              This site is an informational platform only — not a licensed real estate broker, agent, or property manager. No content constitutes legal, financial, or professional advice.
+              Operated by Bakersfield Brokers (DRE #01726653). This website is an informational platform only — listings are posted by independent landlords and no brokerage, agency, or property management services are provided through this site. No content constitutes legal, financial, or professional advice.
             </p>
           </div>
         </div>
