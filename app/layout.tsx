@@ -32,8 +32,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   verification: { google: 'qHesuDsAQNBfL8wULF0DGs-LNlNpAbQ2rrxfg53PDS8' },
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.ico',
     apple: '/favicon.svg',
   },
   openGraph: {
@@ -104,6 +107,38 @@ const faqSchema = {
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Our listings cover homes in several Bakersfield school districts including Panama-Buena Vista, Bakersfield City, Kern High, Fruitvale, Rosedale Union, and Norris. You can filter by district on the listings page.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How much is rent in Bakersfield CA?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'As of 2026, average rent in Bakersfield CA ranges from $1,200–$1,500/month for a 2-bedroom home and $1,500–$2,000/month for a 3-bedroom single-family home, making it one of the more affordable cities in California. Browse current listings at bakersfieldrentalhomes.com/listings for up-to-date pricing.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What are the best neighborhoods in Bakersfield for renters?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Popular neighborhoods for renters in Bakersfield include Northwest Bakersfield (family-friendly, top-rated schools), Rosedale (quiet suburban feel), Oleander-Sunset (central, walkable), and East Bakersfield (most affordable). Use our listings page to filter by zip code and find homes in your preferred area.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What credit score is needed to rent in Bakersfield?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Most Bakersfield landlords look for a credit score of 620 or higher, though requirements vary by property. Some owners listed on Bakersfield Rental Homes work directly with tenants and may consider income, rental history, and references alongside credit score.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What are the rental application requirements in Bakersfield CA?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Typical rental application requirements in Bakersfield include a valid photo ID, proof of income (pay stubs or bank statements), credit check, rental history or references, and a completed application form. Requirements vary by landlord — contact the property owner directly through our listings for specifics.',
       },
     },
   ],
