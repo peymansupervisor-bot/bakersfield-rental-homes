@@ -83,7 +83,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 
       <div className="max-w-6xl mx-auto px-6 md:px-10 py-8">
         {/* SR-only h1 must appear before any h2 in DOM order for correct heading hierarchy */}
-        <h1 className="sr-only">{listing.title} — {listing.address}, {listing.city}, CA</h1>
+        <h1 className="sr-only">{listing.title}, {listing.city}, CA</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 

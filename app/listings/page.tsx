@@ -3,14 +3,14 @@ import type { Listing } from '@/lib/supabase'
 import ListingsClient from './ListingsClient'
 
 export const metadata: Metadata = {
-  title: 'Houses & Homes For Rent in Bakersfield CA | Browse Listings',
+  title: 'Homes For Rent in Bakersfield, CA',
   description:
-    'Browse available houses and homes for rent in Bakersfield, CA. Filter by bedrooms, bathrooms, price, and zip code. Single-family homes, pet-friendly rentals, and long-term leases in Kern County.',
+    'Browse houses and homes for rent in Bakersfield, CA. Filter by beds, baths, price, and zip. Single-family, pet-friendly, and long-term rentals in Kern County.',
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/listings' },
   openGraph: {
-    title: 'Houses & Homes For Rent in Bakersfield CA',
+    title: 'Homes For Rent in Bakersfield, CA',
     description:
-      'Browse available rental homes in Bakersfield, CA. Single-family homes, pet-friendly rentals, and long-term leases in Kern County.',
+      'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County.',
     url: 'https://bakersfieldrentalhomes.com/listings',
     siteName: 'Bakersfield Rental Homes',
     type: 'website',
@@ -62,5 +62,23 @@ async function getLAListings(): Promise<Listing[]> {
 
 export default async function ListingsPage() {
   const [listings, laListings] = await Promise.all([getListings(), getLAListings()])
-  return <ListingsClient initialListings={listings} laListings={laListings} />
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Rental Homes in Bakersfield, CA',
+    url: 'https://bakersfieldrentalhomes.com/listings',
+    numberOfItems: listings.length,
+    itemListElement: listings.map((l, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `https://bakersfieldrentalhomes.com/listings/${l.slug ?? l.id}`,
+      name: l.title,
+    })),
+  }
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      <ListingsClient initialListings={listings} laListings={laListings} />
+    </>
+  )
 }

@@ -41,11 +41,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
   const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-default.jpg'
   return {
-    title: `${listing.title} — For Rent in Bakersfield, CA`,
+    title: `${listing.address} — ${listing.bedrooms}bd/${listing.bathrooms}ba For Rent Bakersfield CA`,
     description,
     alternates: { canonical: canonicalUrl },
     openGraph: {
-      title: `${listing.title} — For Rent in Bakersfield, CA`,
+      title: `${listing.address} — For Rent in Bakersfield, CA`,
       description,
       url: canonicalUrl,
       siteName: 'Bakersfield Rental Homes',
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${listing.title} — For Rent in Bakersfield, CA`,
+      title: `${listing.address} — For Rent in Bakersfield, CA`,
       description,
       images: [ogImage],
     },
