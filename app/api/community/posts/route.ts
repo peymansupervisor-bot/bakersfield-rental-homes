@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient, getAuthUserId } from '@/lib/supabase'
 
-export const dynamic = 'force-dynamic'
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const category = searchParams.get('category')
@@ -16,7 +14,9 @@ export async function GET(req: NextRequest) {
   if (category && category !== 'all') query = query.eq('category', category)
   const { data, error } = await query
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ posts: data })
+  return NextResponse.json({ posts: data }, {
+    headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' },
+  })
 }
 
 export async function POST(req: NextRequest) {
