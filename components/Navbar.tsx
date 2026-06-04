@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 export default function Navbar() {
@@ -61,14 +60,19 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center group" aria-label="Bakersfield Rental Homes — home">
-              <Image
-                src="/logo-icon-transparent.png"
-                alt="Bakersfield Rental Homes"
-                width={120}
-                height={120}
-                priority
-              />
+            <Link href="/" className="flex items-center gap-2 group" aria-label="Bakersfield Rental Homes — home">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: '#C9A961' }} aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 2L14 6V14H10V10H6V14H2V6L8 2Z" fill="#1C3D5A" />
+                </svg>
+              </div>
+              <div className="leading-none" aria-hidden="true">
+                <p className="text-xs font-semibold tracking-widest uppercase"
+                  style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
+                <p className="text-xs tracking-wider uppercase"
+                  style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
+              </div>
             </Link>
           </div>
 
