@@ -35,8 +35,10 @@ async function getListing(slug: string): Promise<Listing | null> {
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const listing = await getListing(params.slug)
   if (!listing) return { title: 'Listing Not Found' }
-  const description = listing.description?.slice(0, 160) ??
-    `${listing.bedrooms} bed, ${listing.bathrooms} bath home for rent in ${listing.city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
+  const rawDesc = listing.description?.slice(0, 160) ?? ''
+  const description = rawDesc
+    ? (rawDesc.length < (listing.description?.length ?? 0) ? rawDesc.replace(/\s\S*$/, '…') : rawDesc)
+    : `${listing.bedrooms} bed, ${listing.bathrooms} bath home for rent in ${listing.city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
   const urlSlug = listing.slug ?? listing.id
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
   const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-default.jpg'
@@ -71,7 +73,7 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'RealEstateListing',
+    '@type': 'SingleFamilyResidence',
     name: listing.title,
     description: listing.description,
     url: canonicalUrl,
