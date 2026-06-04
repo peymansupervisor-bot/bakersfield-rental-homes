@@ -19,11 +19,10 @@ export default function Footer() {
         {/* Logo mark */}
         <div className="flex items-center justify-center">
           <Image
-            src="/logo-icon.png"
+            src="/logo-icon-transparent.png"
             alt="Bakersfield Rental Homes"
             width={160}
             height={160}
-            className="rounded-lg"
           />
         </div>
 
