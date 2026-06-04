@@ -754,7 +754,7 @@ export default function ListPage() {
       >
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
-          List Your Property
+          List Your Rental Property in Bakersfield, CA
         </h1>
         <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.65)' }}>
           Reach Bakersfield renters for just $1
