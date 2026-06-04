@@ -97,10 +97,7 @@ export default function Footer() {
           {/* Legal Disclaimer */}
           <div className="mt-4 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
             <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)', fontFamily: 'Inter, sans-serif' }}>
-              This site is an informational platform only — not a licensed real estate broker, agent, or property manager. No content constitutes legal, financial, or professional advice. See our{' '}
-              <Link href="/disclaimer" className="underline transition-all hover:opacity-80" style={{ color: 'rgba(201,169,97,0.7)' }}>
-                Legal Disclaimer
-              </Link>.
+              This site is an informational platform only — not a licensed real estate broker, agent, or property manager. No content constitutes legal, financial, or professional advice.
             </p>
           </div>
         </div>
