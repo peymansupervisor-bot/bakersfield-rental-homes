@@ -65,6 +65,30 @@ export async function POST(req: NextRequest) {
     const db = createServiceClient()
     const today = new Date().toISOString().split('T')[0]
 
+    // Duplicate guard — normalize address for comparison
+    const normalizedAddress = (body.address as string).trim().toLowerCase()
+
+    const { data: existingListings } = await db
+      .from('listings')
+      .select('id, slug, status')
+      .ilike('address', normalizedAddress)
+
+    if (existingListings?.length) {
+      const active  = existingListings.find(l => l.status === 'active')
+      const pending = existingListings.find(l => l.status === 'pending')
+
+      if (active) {
+        return NextResponse.json(
+          { error: 'A listing for this address is already active on the site. Contact us if you need to update it.' },
+          { status: 409 }
+        )
+      }
+      if (pending) {
+        // Reuse the existing draft so the landlord can proceed to payment
+        return NextResponse.json({ id: pending.id, slug: pending.slug })
+      }
+    }
+
     // Generate a unique slug from the address (e.g. "717 Monterey St" → "717-monterey-st")
     const baseSlug = generateSlug(body.address as string)
     // Check for conflicts and append a counter if needed
