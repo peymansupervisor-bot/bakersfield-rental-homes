@@ -54,6 +54,9 @@ export default function Footer() {
           <Link href="/neighborhoods" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Rentals by Neighborhood
           </Link>
+          <Link href="/los-angeles" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
+            Los Angeles &amp; West Hollywood
+          </Link>
         </nav>
 
         {/* Neighborhood links */}
