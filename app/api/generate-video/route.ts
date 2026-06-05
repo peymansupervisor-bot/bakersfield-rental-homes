@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
 
   const clipDuration = 4
   const totalDuration = photos.length * clipDuration
-  const effects = ['carouselRight', 'carouselLeft', 'carouselUp', 'carouselDown']
+  const effects = ['zoomIn', 'zoomOut', 'slideLeft', 'slideRight']
 
   const photoClips = photos.map((url: string, i: number) => ({
     asset: { type: 'image', src: url },
