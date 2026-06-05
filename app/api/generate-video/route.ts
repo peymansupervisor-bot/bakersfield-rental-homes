@@ -86,12 +86,12 @@ export async function POST(req: NextRequest) {
 
   const clipDuration = 4
   const totalDuration = photos.length * clipDuration
-  const effects = ['zoomIn', 'zoomOut', 'slideLeft', 'slideRight']
+  const effects = ['carouselRight', 'carouselLeft', 'carouselUp', 'carouselDown']
 
   const photoClips = photos.map((url: string, i: number) => ({
     asset: { type: 'image', src: url },
     start: i * clipDuration,
-    length: clipDuration + 0.5, // slight overlap for smoother crossfade
+    length: clipDuration + 0.5,
     effect: effects[i % effects.length],
     transition: { in: 'fade', out: 'fade' },
   }))
@@ -100,46 +100,43 @@ export async function POST(req: NextRequest) {
   const titleOverlay = {
     asset: {
       type: 'html',
-      html: `<div style="font-family:'Georgia',serif;color:#fff;text-align:center;padding:0 60px;text-shadow:2px 2px 12px rgba(0,0,0,0.85)"><p style="font-size:42px;font-weight:bold;margin:0 0 8px">${listing.title}</p><p style="font-size:26px;color:#C9A961;margin:0">${listing.city}, CA</p></div>`,
+      html: `<div style="font-family:Georgia,serif;color:#fff;text-align:center;padding:0 60px;text-shadow:2px 2px 12px rgba(0,0,0,0.85)"><p style="font-size:42px;font-weight:bold;margin:0 0 8px">${listing.title}</p><p style="font-size:26px;color:#C9A961;margin:0">${listing.city}, CA</p></div>`,
       width: 1280,
       height: 200,
-      css: 'div { display:flex; flex-direction:column; justify-content:center; align-items:center; height:200px; }',
     },
     start: 0,
     length: clipDuration,
     position: 'center',
-    transition: { in: 'fadeIn', out: 'fadeOut' },
+    transition: { in: 'fade', out: 'fade' },
   }
 
   // Persistent price + specs bar at bottom
   const specsOverlay = {
     asset: {
       type: 'html',
-      html: `<div style="background:rgba(28,61,90,0.82);padding:12px 32px;border-radius:8px;font-family:'Georgia',serif;text-align:center"><span style="font-size:28px;font-weight:bold;color:#fff">$${listing.monthly_rent.toLocaleString()}/mo</span><span style="font-size:18px;color:#C9A961;margin-left:20px">${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} BD`} · ${listing.bathrooms} BA · ${listing.living_area_sqft.toLocaleString()} sqft</span></div>`,
+      html: `<div style="background:rgba(28,61,90,0.82);padding:12px 32px;border-radius:8px;font-family:Georgia,serif;text-align:center"><span style="font-size:28px;font-weight:bold;color:#fff">$${listing.monthly_rent.toLocaleString()}/mo</span><span style="font-size:18px;color:#C9A961;margin-left:20px">${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} BD`} · ${listing.bathrooms} BA · ${listing.living_area_sqft.toLocaleString()} sqft</span></div>`,
       width: 1280,
       height: 70,
-      css: 'div { display:flex; justify-content:center; align-items:center; height:70px; }',
     },
     start: 0,
     length: totalDuration,
     position: 'bottom',
     offset: { y: 0.06 },
-    transition: { in: 'fadeIn', out: 'fadeOut' },
+    transition: { in: 'fade', out: 'fade' },
   }
 
   // "Direct Landlord · No Broker Fee" badge — last clip
   const badgeOverlay = {
     asset: {
       type: 'html',
-      html: `<div style="background:rgba(201,169,97,0.9);padding:10px 24px;border-radius:8px;font-family:'Georgia',serif;color:#1C3D5A;font-size:20px;font-weight:bold;text-align:center">✓ Direct Landlord · No Broker Fee</div>`,
+      html: `<div style="background:rgba(201,169,97,0.9);padding:10px 24px;border-radius:8px;font-family:Georgia,serif;color:#1C3D5A;font-size:20px;font-weight:bold;text-align:center">Direct Landlord - No Broker Fee</div>`,
       width: 600,
       height: 60,
-      css: 'div { display:flex; justify-content:center; align-items:center; height:60px; }',
     },
     start: totalDuration - clipDuration,
     length: clipDuration,
     position: 'center',
-    transition: { in: 'fadeIn', out: 'fadeOut' },
+    transition: { in: 'fade', out: 'fade' },
   }
 
   const shotstackBody = {

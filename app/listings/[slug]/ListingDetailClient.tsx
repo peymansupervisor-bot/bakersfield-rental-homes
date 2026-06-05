@@ -59,7 +59,8 @@ function VideoTour({ listing }: { listing: Listing }) {
       setStatus('rendering')
       startPolling(data.renderId)
     } catch (e: any) {
-      setError(e.message || 'Something went wrong')
+      const msg = e.message || 'Something went wrong'
+      setError(msg.length > 120 ? 'Video generation failed. Please try again.' : msg)
       setStatus(null)
     } finally {
       setGenerating(false)
