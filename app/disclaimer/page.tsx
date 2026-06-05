@@ -76,17 +76,15 @@ export default function DisclaimerPage() {
 
           <Section num="2" title="No Agency Relationship Created">
             <p>
-              BakersfieldRentalHomes.com is operated under the license of Bakersfield Brokers,
-              California DRE License <strong>#01726653</strong>. However, the Website itself does not
+              BakersfieldRentalHomes.com is an informational platform only. The Website itself does not
               act as a real estate agent or broker with respect to any transaction facilitated between
-              users of the platform. The DRE license pertains solely to the brokerage activities of
-              Bakersfield Brokers as a separate legal matter.
+              users of the platform.
             </p>
             <div className="rounded-xl p-4 my-2" style={{ backgroundColor: '#fdf8ee', border: '1px solid rgba(201,169,97,0.35)' }}>
               <p className="font-semibold" style={{ color: '#7d6019' }}>
                 Your use of this Website does not create, establish, or imply any agency,
                 fiduciary, broker-client, or representative relationship between you and
-                BakersfieldRentalHomes.com, Bakersfield Brokers, or any real estate licensee
+                BakersfieldRentalHomes.com or any real estate licensee
                 associated with this Website.
               </p>
             </div>
@@ -245,7 +243,7 @@ export default function DisclaimerPage() {
           <Section num="8" title="Indemnification and Hold Harmless">
             <p>
               By using this Website, you agree to <strong>defend, indemnify, and hold harmless</strong>{' '}
-              BakersfieldRentalHomes.com, Bakersfield Brokers (DRE #01726653), their respective
+              BakersfieldRentalHomes.com, their respective
               owner(s), officers, employees, agents, affiliates, successors, and assigns from and
               against any and all claims, actions, demands, damages, losses, liabilities, costs,
               and expenses — including reasonable attorneys&apos; fees — arising out of or related to:
@@ -326,8 +324,6 @@ export default function DisclaimerPage() {
             </p>
             <p>
               <strong>Bakersfield Rental Homes</strong><br />
-              Owned and operated by Bakersfield Brokers<br />
-              California DRE License #01726653<br />
               Bakersfield, California<br />
               Phone: <a href="tel:+16613811818" style={{ color: '#7d6019' }}>(661) 381-1818</a><br />
               Email: <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a>
@@ -335,7 +331,7 @@ export default function DisclaimerPage() {
           </Section>
 
           <div className="mt-10 pt-6 border-t text-xs text-center" style={{ borderColor: '#e0ddd8', color: '#aaa' }}>
-            © 2026 Bakersfield Rental Homes · Owned by Bakersfield Brokers · DRE #01726653 · Bakersfield, CA
+            © 2026 Bakersfield Rental Homes · Bakersfield, CA
           </div>
         </div>
       </div>

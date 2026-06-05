@@ -125,7 +125,6 @@ export default function AccessibilityPage() {
             <div className="mt-4 p-5 rounded-2xl space-y-2" style={{ backgroundColor: '#f7f5f0', border: '1px solid rgba(201,169,97,0.15)' }}>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
                 <strong>Bakersfield Rental Homes</strong><br />
-                Owned by Bakersfield Brokers · DRE #01726653<br />
                 Bakersfield, California
               </p>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
@@ -164,7 +163,7 @@ export default function AccessibilityPage() {
           </Section>
 
           <div className="mt-10 pt-6 border-t text-xs text-center" style={{ borderColor: '#e0ddd8', color: '#595959' }}>
-            © 2026 Bakersfield Rental Homes · Owned by Bakersfield Brokers · DRE #01726653 · Bakersfield, CA
+            © 2026 Bakersfield Rental Homes · Bakersfield, CA
           </div>
         </div>
       </div>
