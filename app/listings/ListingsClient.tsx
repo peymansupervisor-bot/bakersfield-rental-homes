@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Listing } from '@/lib/supabase'
+import { statusLabel, statusColor, showDaysOnMarket } from '@/lib/rentalStatus'
 
 const BATH_ICON = (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
@@ -66,16 +67,13 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
                 className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase"
                 aria-label={`Status: ${listing.rental_status}`}
                 style={{
-                  backgroundColor:
-                    listing.rental_status === 'rented' ? '#2D7A4F' :
-                    listing.rental_status === 'pending' ? '#C9A961' : '#B03A2E',
+                  backgroundColor: statusColor(listing.rental_status),
                   color: '#fff',
                   letterSpacing: '0.1em',
                 }}
               >
                 <span aria-hidden="true">● </span>
-                {listing.rental_status === 'rented' ? 'Rented' :
-                 listing.rental_status === 'pending' ? 'Pending' : 'Coming Soon'}
+                {statusLabel(listing.rental_status)}
               </span>
             )}
           </div>
@@ -101,10 +99,9 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
             </div>
             {(() => {
               const dom = daysOnMarket(listing)
-              const isRented  = listing.rental_status === 'rented'
-              const isPending = listing.rental_status === 'pending'
-              if (dom === null || (!isRented && !isPending)) return null
-              const color = isRented ? '#2D7A4F' : '#C9A961'
+              if (dom === null || !showDaysOnMarket(listing.rental_status)) return null
+              const isRented = listing.rental_status === 'rented'
+              const color = statusColor(listing.rental_status)
               const label = isRented
                 ? `Rented in ${dom} day${dom !== 1 ? 's' : ''}`
                 : `${dom} day${dom !== 1 ? 's' : ''} on market`

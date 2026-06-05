@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Listing } from '@/lib/supabase'
+import { statusLabel, statusColor, statusBg, showDaysOnMarket } from '@/lib/rentalStatus'
 
 export default function ListingDetailClient({ listing }: { listing: Listing }) {
   const [photoIndex, setPhotoIndex] = useState(0)
@@ -256,19 +257,13 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                   role="status"
                   aria-label={`Rental status: ${listing.rental_status}`}
                   style={{
-                    backgroundColor:
-                      listing.rental_status === 'rented' ? 'rgba(45,122,79,0.12)' :
-                      listing.rental_status === 'pending' ? 'rgba(201,169,97,0.15)' : 'rgba(176,58,46,0.1)',
-                    color:
-                      listing.rental_status === 'rented' ? '#2D7A4F' :
-                      listing.rental_status === 'pending' ? '#8a6d1f' : '#B03A2E',
+                    backgroundColor: statusBg(listing.rental_status),
+                    color: statusColor(listing.rental_status),
                   }}>
                   <span className="w-1.5 h-1.5 rounded-full inline-block" aria-hidden="true" style={{
-                    backgroundColor:
-                      listing.rental_status === 'rented' ? '#2D7A4F' :
-                      listing.rental_status === 'pending' ? '#C9A961' : '#B03A2E',
+                    backgroundColor: statusColor(listing.rental_status),
                   }} />
-                  {listing.rental_status === 'vacant' ? 'Coming Soon' : listing.rental_status.charAt(0).toUpperCase() + listing.rental_status.slice(1)}
+                  {statusLabel(listing.rental_status)}
                 </div>
               )}
               <p className="text-2xl font-bold mb-1"
@@ -289,7 +284,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 ${listing.deposit.toLocaleString()} deposit
               </p>
 
-              {listing.listed_date && listing.rental_status !== 'vacant' && (() => {
+              {listing.listed_date && showDaysOnMarket(listing.rental_status) && (() => {
                 const start = new Date(listing.listed_date)
                 const end = listing.rented_date ? new Date(listing.rented_date) : new Date()
                 const dom = Math.max(0, Math.floor((end.getTime() - start.getTime()) / 86400000))
