@@ -99,7 +99,7 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
             </div>
             {(() => {
               const dom = daysOnMarket(listing)
-              if (dom === null || !showDaysOnMarket(listing.rental_status)) return null
+              if (dom === null || !listing.rental_status || !showDaysOnMarket(listing.rental_status)) return null
               const isRented = listing.rental_status === 'rented'
               const color = statusColor(listing.rental_status)
               const label = isRented

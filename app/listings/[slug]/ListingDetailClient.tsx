@@ -284,7 +284,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 ${listing.deposit.toLocaleString()} deposit
               </p>
 
-              {listing.listed_date && showDaysOnMarket(listing.rental_status) && (() => {
+              {listing.listed_date && listing.rental_status && showDaysOnMarket(listing.rental_status) && (() => {
                 const start = new Date(listing.listed_date)
                 const end = listing.rented_date ? new Date(listing.rented_date) : new Date()
                 const dom = Math.max(0, Math.floor((end.getTime() - start.getTime()) / 86400000))
