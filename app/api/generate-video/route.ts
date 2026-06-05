@@ -118,11 +118,11 @@ export async function POST(req: NextRequest) {
     transition: { in: 'fade', out: 'fade' },
   }
 
-  // Price + specs bar at bottom — always visible
+  // Specs bar at bottom — always visible (no price)
   const specsOverlay = {
     asset: {
       type: 'html',
-      html: `<div style="background:rgba(28,61,90,0.82);padding:14px 32px;font-family:Georgia,serif;text-align:center;width:1280px"><span style="font-size:28px;font-weight:bold;color:#fff">$${listing.monthly_rent.toLocaleString()}/mo</span><span style="font-size:18px;color:#C9A961;margin-left:20px">${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} BD`} · ${listing.bathrooms} BA · ${listing.living_area_sqft.toLocaleString()} sqft</span></div>`,
+      html: `<div style="background:rgba(28,61,90,0.82);padding:14px 32px;font-family:Georgia,serif;text-align:center;width:1280px"><span style="font-size:22px;color:#C9A961">${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} BD`} · ${listing.bathrooms} BA · ${listing.living_area_sqft.toLocaleString()} sqft</span></div>`,
       width: 1280,
       height: 70,
     },
