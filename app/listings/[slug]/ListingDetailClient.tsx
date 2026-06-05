@@ -271,7 +271,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
             <div className="bg-white rounded-2xl p-6 sticky top-6"
               style={{ border: '1px solid rgba(201,169,97,0.2)', boxShadow: '0 4px 24px rgba(28,61,90,0.07)' }}>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-3"
-                style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#8a6d1f', border: '1px solid rgba(201,169,97,0.3)' }}>
+                style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#6b5316', border: '1px solid rgba(201,169,97,0.3)' }}>
                 <span aria-hidden="true">✓</span> Direct Landlord · No Broker Fee
               </div>
               {listing.rental_status && (
@@ -414,7 +414,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
               <p className="text-xs font-semibold mb-0.5" style={{ color: '#1C3D5A' }}>
                 Why rent direct?
               </p>
-              <p className="text-xs" style={{ color: '#8a6d1f' }}>
+              <p className="text-xs" style={{ color: '#6b5316' }}>
                 No broker fees · Faster approvals →
               </p>
             </Link>

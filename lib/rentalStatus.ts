@@ -11,10 +11,10 @@ export function statusLabel(status: RentalStatus): string {
 
 export function statusColor(status: RentalStatus): string {
   switch (status) {
-    case 'rented':  return '#2D7A4F'
-    case 'pending': return '#C9A961'
-    case 'vacant':  return '#2D7A4F'
-    default:        return '#2D7A4F'
+    case 'rented':  return '#1e6040'
+    case 'pending': return '#7a5c0f'
+    case 'vacant':  return '#1e6040'
+    default:        return '#1e6040'
   }
 }
 

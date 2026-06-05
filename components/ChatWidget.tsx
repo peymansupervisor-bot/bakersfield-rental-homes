@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface Message { role: 'user' | 'bot'; text: string; quickReplies?: string[] }
 
@@ -120,6 +120,7 @@ export default function ChatWidget() {
         aria-label="Live chat with Bakersfield Rental Homes"
         aria-modal="true"
         aria-hidden={!open}
+        {...(!open ? { inert: 'true' } as unknown as React.HTMLAttributes<HTMLDivElement> : {})}
         style={{
           position: 'fixed', bottom: bannerVisible ? '250px' : '90px', right: '20px', width: '340px', maxWidth: 'calc(100vw - 40px)',
           backgroundColor: '#ffffff', borderRadius: '20px', zIndex: 1000,

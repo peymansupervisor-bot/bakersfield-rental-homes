@@ -85,7 +85,7 @@ export default function Navbar() {
               <Link href="/direct-landlord-rentals"
                 aria-label="No broker fees — direct landlord rentals"
                 className="text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full transition-all duration-300 hover:opacity-80"
-                style={{ backgroundColor: 'rgba(201,169,97,0.15)', color: logoGoldColor, letterSpacing: '0.1em', border: '1px solid rgba(201,169,97,0.3)' }}>
+                style={{ backgroundColor: '#1C3D5A', color: '#C9A961', letterSpacing: '0.1em', border: '1px solid rgba(201,169,97,0.3)' }}>
                 No Fees
               </Link>
             </li>
