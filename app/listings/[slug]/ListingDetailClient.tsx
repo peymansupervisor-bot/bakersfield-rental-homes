@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Listing } from '@/lib/supabase'
@@ -34,34 +34,57 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
     }
   }
 
-  const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const galleryRef     = useRef<HTMLDivElement>(null)
+  const closeButtonRef  = useRef<HTMLButtonElement>(null)
+  const galleryRef      = useRef<HTMLDivElement>(null)
+  const lightboxRef     = useRef<HTMLDivElement>(null)
 
   const totalPhotos = listing.photos.length
 
-  // Arrow key navigation for main gallery
+  // Arrow key navigation — only when focus is inside the gallery region
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (lightbox) return
-      if (e.key === 'ArrowRight') setPhotoIndex(i => (i + 1) % totalPhotos)
-      else if (e.key === 'ArrowLeft') setPhotoIndex(i => (i - 1 + totalPhotos) % totalPhotos)
+      if (!galleryRef.current?.contains(document.activeElement)) return
+      if (e.key === 'ArrowRight') { e.preventDefault(); setPhotoIndex(i => (i + 1) % totalPhotos) }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); setPhotoIndex(i => (i - 1 + totalPhotos) % totalPhotos) }
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
   }, [lightbox, totalPhotos])
 
-  // Lightbox keyboard nav + focus trap
+  // Lightbox: keyboard nav + focus trap
+  const getFocusableInLightbox = useCallback(() => {
+    if (!lightboxRef.current) return []
+    return Array.from(
+      lightboxRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(el => !el.hasAttribute('disabled'))
+  }, [])
+
   useEffect(() => {
     if (!lightbox) return
     setTimeout(() => closeButtonRef.current?.focus(), 50)
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setLightbox(false)
-      else if (e.key === 'ArrowRight') setPhotoIndex(i => (i + 1) % totalPhotos)
-      else if (e.key === 'ArrowLeft')  setPhotoIndex(i => (i - 1 + totalPhotos) % totalPhotos)
+      if (e.key === 'Escape') { setLightbox(false); return }
+      if (e.key === 'ArrowRight') { e.preventDefault(); setPhotoIndex(i => (i + 1) % totalPhotos); return }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); setPhotoIndex(i => (i - 1 + totalPhotos) % totalPhotos); return }
+      // Focus trap: keep Tab inside the lightbox
+      if (e.key === 'Tab') {
+        const focusable = getFocusableInLightbox()
+        if (focusable.length === 0) { e.preventDefault(); return }
+        const first = focusable[0]
+        const last  = focusable[focusable.length - 1]
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus() }
+        } else {
+          if (document.activeElement === last)  { e.preventDefault(); first.focus() }
+        }
+      }
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [lightbox, totalPhotos])
+  }, [lightbox, totalPhotos, getFocusableInLightbox])
 
   // Prevent body scroll when lightbox open
   useEffect(() => {
@@ -299,7 +322,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 )
               })()}
 
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              <dl className="grid grid-cols-2 gap-3 mb-6">
                 <StatBox label="Bedrooms" value={listing.bedrooms === 0 ? 'Studio' : String(listing.bedrooms)} />
                 <StatBox label="Bathrooms" value={String(listing.bathrooms)} />
                 <StatBox label="Living Area" value={`${listing.living_area_sqft.toLocaleString()} sqft`} />
@@ -308,15 +331,15 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 ) : (
                   <StatBox label="Solar" value={listing.amenities?.includes('Solar') ? 'Yes' : 'No'} />
                 )}
-              </div>
+              </dl>
 
-              <div className="space-y-2 text-sm border-t border-[#f0ece4] pt-4 mb-6">
+              <dl className="space-y-2 text-sm border-t border-[#f0ece4] pt-4 mb-6">
                 {listing.available_date && (
                   <DetailRow label="Available" value={new Date(listing.available_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} />
                 )}
                 <DetailRow label="Lease" value={listing.lease_term} />
                 <DetailRow label="Pets" value={listing.pets_allowed ? 'Allowed' : 'Not allowed'} />
-              </div>
+              </dl>
 
               {!showContactForm && contactStatus !== 'sent' && (
                 <button
@@ -329,21 +352,33 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 
               {showContactForm && contactStatus !== 'sent' && (
                 <form onSubmit={handleContactSubmit} className="space-y-2 mt-2">
-                  <input
-                    type="text" required placeholder="Your name"
-                    value={contactName} onChange={e => setContactName(e.target.value)}
-                    className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
-                    style={{ color: '#1C3D5A' }} />
-                  <input
-                    type="email" required placeholder="Your email"
-                    value={contactEmail} onChange={e => setContactEmail(e.target.value)}
-                    className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
-                    style={{ color: '#1C3D5A' }} />
-                  <textarea
-                    required placeholder="Your message" rows={3}
-                    value={contactMsg} onChange={e => setContactMsg(e.target.value)}
-                    className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
-                    style={{ color: '#1C3D5A' }} />
+                  <div>
+                    <label htmlFor="contact-name" className="block text-xs font-medium mb-1" style={{ color: '#1C3D5A' }}>Your name</label>
+                    <input
+                      id="contact-name"
+                      type="text" required
+                      value={contactName} onChange={e => setContactName(e.target.value)}
+                      className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
+                      style={{ color: '#1C3D5A' }} />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-email" className="block text-xs font-medium mb-1" style={{ color: '#1C3D5A' }}>Your email</label>
+                    <input
+                      id="contact-email"
+                      type="email" required
+                      value={contactEmail} onChange={e => setContactEmail(e.target.value)}
+                      className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
+                      style={{ color: '#1C3D5A' }} />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-msg" className="block text-xs font-medium mb-1" style={{ color: '#1C3D5A' }}>Your message</label>
+                    <textarea
+                      id="contact-msg"
+                      required rows={3}
+                      value={contactMsg} onChange={e => setContactMsg(e.target.value)}
+                      className="w-full border border-[#ddd8ce] rounded-lg px-3 py-2 text-sm"
+                      style={{ color: '#1C3D5A' }} />
+                  </div>
                   <button
                     type="submit" disabled={contactStatus === 'sending'}
                     className="w-full py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all hover:opacity-90 disabled:opacity-60"
@@ -406,6 +441,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
       {/* ── Lightbox ────────────────────────────────────────── */}
       {lightbox && (
         <div
+          ref={lightboxRef}
           role="dialog"
           aria-modal="true"
           aria-label={`Full screen photo viewer — ${listing.title}`}
@@ -457,8 +493,8 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 function StatBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl p-3 text-center" style={{ backgroundColor: '#f8f6f2' }}>
-      <p className="text-lg font-bold mb-0.5" style={{ color: '#1C3D5A' }}>{value}</p>
-      <p className="text-xs" style={{ color: '#595959' }}>{label}</p>
+      <dd className="text-lg font-bold mb-0.5" style={{ color: '#1C3D5A' }}>{value}</dd>
+      <dt className="text-xs" style={{ color: '#595959' }}>{label}</dt>
     </div>
   )
 }
@@ -466,8 +502,8 @@ function StatBox({ label, value }: { label: string; value: string }) {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between">
-      <span style={{ color: '#595959' }}>{label}</span>
-      <span className="font-medium" style={{ color: '#2B2B2B' }}>{value}</span>
+      <dt style={{ color: '#595959' }}>{label}</dt>
+      <dd className="font-medium" style={{ color: '#2B2B2B' }}>{value}</dd>
     </div>
   )
 }
