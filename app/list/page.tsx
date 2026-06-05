@@ -19,6 +19,7 @@ type FormData = {
   lot_size_sqft: string
   monthly_rent: string
   deposit: string
+  rental_status: 'vacant' | 'coming_soon'
   available_date: string
   lease_term: string
   pets_allowed: boolean
@@ -40,7 +41,7 @@ const INITIAL: FormData = {
   title: '', address: '', city: '', state: 'CA', zip: '',
   bedrooms: '', bathrooms: '', living_area_sqft: '', lot_size_sqft: '',
   monthly_rent: '', deposit: '',
-  available_date: '', lease_term: '12 months', pets_allowed: false, solar: false, parking: 'Street',
+  rental_status: 'vacant', available_date: '', lease_term: '12 months', pets_allowed: false, solar: false, parking: 'Street',
   description: '', amenities: [],
   photoFiles: [], photoPreviewUrls: [],
   contact_name: '', contact_email: '', contact_phone: '',
@@ -252,10 +253,35 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
         </Field>
       </div>
 
+      <Field label="Listing Status">
+        <div className="flex gap-3 mt-1">
+          {([['vacant', 'Available Now'], ['coming_soon', 'Coming Soon']] as const).map(([val, label]) => (
+            <button key={val} type="button"
+              onClick={() => set('rental_status', val)}
+              aria-pressed={form.rental_status === val}
+              className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
+              style={{
+                backgroundColor: form.rental_status === val
+                  ? (val === 'coming_soon' ? '#D4630A' : '#1C3D5A')
+                  : 'white',
+                color: form.rental_status === val ? '#F7F5F0' : '#2B2B2B',
+                border: `1px solid ${form.rental_status === val ? (val === 'coming_soon' ? '#D4630A' : '#1C3D5A') : '#e0ddd8'}`,
+              }}>
+              {label}
+            </button>
+          ))}
+        </div>
+      </Field>
+
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Available Date">
+        <Field label={form.rental_status === 'coming_soon' ? 'Available Date *' : 'Available Date'}>
           <input className={inputCls} type="date"
             value={form.available_date} onChange={e => set('available_date', e.target.value)} />
+          {form.rental_status === 'coming_soon' && (
+            <p className="text-xs mt-1" style={{ color: '#D4630A' }}>
+              Required for Coming Soon listings
+            </p>
+          )}
         </Field>
         <Field label="Lease Term">
           <select className={inputCls} value={form.lease_term} onChange={e => set('lease_term', e.target.value)}>
@@ -627,6 +653,7 @@ export default function ListPage() {
       if (!form.living_area_sqft) return 'Please enter the living area'
       if (!form.monthly_rent || Number(form.monthly_rent) <= 0) return 'Please enter the monthly rent'
       if (!form.deposit || Number(form.deposit) <= 0) return 'Please enter the security deposit'
+      if (form.rental_status === 'coming_soon' && !form.available_date) return 'Please enter the available date for your Coming Soon listing'
     }
     if (step === 1) {
       if (form.description.length < 80) return 'Description must be at least 80 characters'
@@ -702,6 +729,7 @@ export default function ListPage() {
           bathrooms: Number(form.bathrooms.replace('+', '')),
           living_area_sqft: Number(form.living_area_sqft),
           lot_size_sqft: form.lot_size_sqft ? Number(form.lot_size_sqft) : null,
+          rental_status: form.rental_status,
           available_date: form.available_date || null,
           lease_term: form.lease_term,
           pets_allowed: form.pets_allowed,
