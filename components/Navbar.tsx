@@ -38,8 +38,8 @@ export default function Navbar() {
 
   const navBg     = scrolled || menuOpen ? 'rgba(247,245,240,0.95)' : 'transparent'
   const navBorder = scrolled || menuOpen ? '1px solid rgba(201,169,97,0.2)' : 'none'
-  const textColor = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#C8C2B8' : '#1C3D5A'
-  const hamColor  = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#C8C2B8' : '#1C3D5A'
+  const textColor = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#E8845A' : '#1C3D5A'
+  const hamColor  = scrolled || menuOpen ? '#1C3D5A' : hasDarkHero ? '#E8845A' : '#1C3D5A'
   // Dark gold (#7d6019) on light navbar background meets WCAG AA (5.8:1); bright gold on dark hero also passes (4.99:1)
   const logoGoldColor = scrolled || menuOpen ? '#7d6019' : '#C9A961'
 
