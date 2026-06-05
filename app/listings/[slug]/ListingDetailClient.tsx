@@ -268,7 +268,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                       listing.rental_status === 'rented' ? '#2D7A4F' :
                       listing.rental_status === 'pending' ? '#C9A961' : '#B03A2E',
                   }} />
-                  {listing.rental_status.charAt(0).toUpperCase() + listing.rental_status.slice(1)}
+                  {listing.rental_status === 'vacant' ? 'Coming Soon' : listing.rental_status.charAt(0).toUpperCase() + listing.rental_status.slice(1)}
                 </div>
               )}
               <p className="text-2xl font-bold mb-1"
@@ -289,7 +289,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 ${listing.deposit.toLocaleString()} deposit
               </p>
 
-              {listing.listed_date && (() => {
+              {listing.listed_date && listing.rental_status !== 'vacant' && (() => {
                 const start = new Date(listing.listed_date)
                 const end = listing.rented_date ? new Date(listing.rented_date) : new Date()
                 const dom = Math.max(0, Math.floor((end.getTime() - start.getTime()) / 86400000))
