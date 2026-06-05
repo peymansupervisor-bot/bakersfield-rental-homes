@@ -18,6 +18,13 @@ export async function POST(req: NextRequest) {
 
   if (error || !listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
 
+  if (!process.env.ELEVENLABS_API_KEY) {
+    return NextResponse.json({ error: 'ELEVENLABS_API_KEY is not set in environment variables' }, { status: 500 })
+  }
+  if (!process.env.SHOTSTACK_API_KEY) {
+    return NextResponse.json({ error: 'SHOTSTACK_API_KEY is not set in environment variables' }, { status: 500 })
+  }
+
   // Mark as rendering immediately so UI shows spinner
   await db.from('listings').update({ video_status: 'rendering' }).eq('id', listingId)
 
@@ -39,19 +46,20 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'xi-api-key': process.env.ELEVENLABS_API_KEY!,
+        'xi-api-key': process.env.ELEVENLABS_API_KEY,
       },
       body: JSON.stringify({
         text: ttsText,
-        model_id: 'eleven_monolingual_v1',
+        model_id: 'eleven_turbo_v2_5',
         voice_settings: { stability: 0.55, similarity_boost: 0.75 },
       }),
     }
   )
 
   if (!ttsRes.ok) {
+    const detail = await ttsRes.text().catch(() => 'unknown')
     await db.from('listings').update({ video_status: 'failed' }).eq('id', listingId)
-    return NextResponse.json({ error: 'TTS generation failed' }, { status: 500 })
+    return NextResponse.json({ error: `TTS generation failed (${ttsRes.status}): ${detail}` }, { status: 500 })
   }
 
   // Upload audio to Supabase Storage
@@ -159,7 +167,7 @@ export async function POST(req: NextRequest) {
 
   if (!shotstackRes.ok || !renderId) {
     await db.from('listings').update({ video_status: 'failed' }).eq('id', listingId)
-    return NextResponse.json({ error: 'Shotstack render failed to start' }, { status: 500 })
+    return NextResponse.json({ error: `Shotstack render failed (${shotstackRes.status}): ${JSON.stringify(shotstackData)}` }, { status: 500 })
   }
 
   await db
