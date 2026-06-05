@@ -45,19 +45,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
   const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-default.jpg'
   const bedsLabel = listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms}-Bedroom`
-  const seoTitle = `${bedsLabel} House for Rent in Bakersfield CA ${listing.zip} — ${listing.address}`
-  const ogTitle = `${listing.address} — ${bedsLabel} For Rent in Bakersfield, CA`
+  const city = listing.city ?? 'Bakersfield'
+  const zip = listing.zip ?? ''
+  const propertyWord = city === 'Bakersfield' ? 'House' : 'Condo'
+  const seoTitle = `${bedsLabel} ${propertyWord} for Rent in ${city} CA ${zip} — ${listing.address}`
+  const ogTitle = `${listing.address} — ${bedsLabel} For Rent in ${city}, CA`
   return {
     title: seoTitle,
     description,
     keywords: [
       `${listing.address} for rent`,
-      `houses for rent in Bakersfield CA ${listing.zip}`,
-      `${listing.bedrooms} bedroom house for rent Bakersfield`,
-      `Bakersfield CA ${listing.zip} rental`,
-      `rent house Bakersfield ${listing.zip}`,
-      'direct landlord rental Bakersfield',
-      'no broker fee Bakersfield rental',
+      `${propertyWord.toLowerCase()}s for rent in ${city} CA ${zip}`,
+      `${listing.bedrooms} bedroom ${propertyWord.toLowerCase()} for rent ${city}`,
+      `${city} CA ${zip} rental`,
+      `rent ${propertyWord.toLowerCase()} ${city} ${zip}`,
+      `direct landlord rental ${city}`,
+      `no broker fee ${city} rental`,
     ],
     alternates: { canonical: canonicalUrl },
     openGraph: {
@@ -85,9 +88,10 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
 
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
 
+  const isCondo = (listing.city ?? '') !== 'Bakersfield'
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'SingleFamilyResidence',
+    '@type': isCondo ? 'Apartment' : 'SingleFamilyResidence',
     name: listing.title,
     description: listing.description,
     url: canonicalUrl,
