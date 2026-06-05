@@ -148,11 +148,8 @@ export default async function NeighborhoodPage({
           <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
             About {hood.name}
           </h2>
-          <p className="text-base leading-relaxed mb-4" style={{ color: '#2B2B2B' }}>
+          <p className="text-base leading-relaxed" style={{ color: '#2B2B2B' }}>
             {hood.description}
-          </p>
-          <p className="text-sm font-medium" style={{ color: '#616161' }}>
-            <span style={{ color: '#7d6019' }}>Ideal for:</span> {hood.idealFor}
           </p>
         </section>
 
