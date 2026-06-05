@@ -35,7 +35,7 @@ export default function PrivacyPage() {
 
           <p className="text-sm leading-relaxed mb-8" style={{ color: '#444' }}>
             <strong>Contact Us:</strong> If you have questions about this Privacy Policy, please contact us at:<br />
-            Bakersfield Rental Homes, owned by Bakersfield Brokers, DRE #01726653<br />
+            Bakersfield Rental Homes<br />
             Bakersfield, California, USA<br />
             Phone: (661) 381-1818<br />
             Email: <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a>
@@ -225,7 +225,7 @@ export default function PrivacyPage() {
           </Section>
 
           <div className="mt-10 pt-6 border-t text-xs text-center" style={{ borderColor: '#e0ddd8', color: '#aaa' }}>
-            © 2026 Bakersfield Rental Homes · Owned by Bakersfield Brokers · DRE #01726653 · Bakersfield, CA
+            © 2026 Bakersfield Rental Homes · Bakersfield, CA
           </div>
         </div>
       </div>
