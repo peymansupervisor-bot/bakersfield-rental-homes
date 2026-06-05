@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 const DEFAULT_STATS = [
-  { value: '100%', label: 'Occupied',     sub: 'No vacancy, no lost income — ever' },
+  { value: '100%', label: 'Occupied',     sub: 'Consistent occupancy, minimal downtime' },
   { value: '24hr', label: 'We Answer',    sub: 'Tenants call, we respond — same day' },
   { value: '3yr+', label: 'Avg. Tenancy', sub: 'Good management keeps good tenants' },
 ]

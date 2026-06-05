@@ -587,7 +587,7 @@ function Step4({ form, set, onSubmit, loading }: {
       </button>
 
       <p className="text-xs text-center" style={{ color: '#595959' }}>
-        Secure payment via Stripe. Your listing goes live immediately after payment.
+        Secure payment via Stripe. Your listing typically goes live within minutes of payment.
       </p>
     </div>
   )
