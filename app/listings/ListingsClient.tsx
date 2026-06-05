@@ -193,7 +193,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
   const displayed = useMemo(() => {
     let result = allListings
     if (petsOnly)   result = result.filter(l => l.pets_allowed)
-    if (vacantOnly) result = result.filter(l => l.rental_status === 'vacant')
+    if (vacantOnly) result = result.filter(l => l.rental_status === 'vacant' || l.rental_status === 'coming_soon')
     return sortListings(result, sortBy)
   }, [allListings, sortBy, petsOnly, vacantOnly])
 
