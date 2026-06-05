@@ -10,7 +10,7 @@ const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 async function getListingsByZips(zips: string[]): Promise<Listing[]> {
   try {
-    const zipFilter = zips.map(z => `zip=eq.${z}`).join(',')
+    const zipFilter = zips.map(z => `zip.eq.${z}`).join(',')
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/listings?or=(${zipFilter})&status=eq.active&order=created_at.desc`,
       {
