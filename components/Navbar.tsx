@@ -79,7 +79,7 @@ export default function Navbar() {
           <ul className="hidden md:flex items-center gap-5 list-none m-0 p-0">
             <li className="flex items-center gap-3">
               <Link href="/listings"
-                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
                 style={{ color: textColor, letterSpacing: '0.15em' }}>Find a Home</Link>
               <Link href="/direct-landlord-rentals"
                 aria-label="No broker fees — direct landlord rentals"
@@ -90,17 +90,17 @@ export default function Navbar() {
             </li>
             <li>
               <Link href="/vendors"
-                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
                 style={{ color: textColor, letterSpacing: '0.15em' }}>Vendors</Link>
             </li>
             <li>
               <Link href="/community"
-                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
                 style={{ color: textColor, letterSpacing: '0.15em' }}>Community</Link>
             </li>
             <li>
               <a href="/#contact" onClick={handleContact}
-                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-70"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
                 style={{ color: textColor, letterSpacing: '0.15em' }}>Contact</a>
             </li>
             <li>
