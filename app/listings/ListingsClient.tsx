@@ -75,7 +75,7 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
               >
                 <span aria-hidden="true">● </span>
                 {listing.rental_status === 'rented' ? 'Rented' :
-                 listing.rental_status === 'pending' ? 'Pending' : 'Vacant'}
+                 listing.rental_status === 'pending' ? 'Pending' : 'Coming Soon'}
               </span>
             )}
           </div>
@@ -436,7 +436,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                   aria-hidden="true"
                   style={{ backgroundColor: vacantOnly ? '#B03A2E' : '#ccc' }}
                 />
-                Vacant Only
+                Coming Soon Only
               </button>
             </div>
           </div>
@@ -473,8 +473,8 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                 {vacantOnly && (
                   <span className="text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1"
                     style={{ backgroundColor: 'rgba(176,58,46,0.08)', color: '#B03A2E' }}>
-                    ● Vacant
-                    <button onClick={() => setVacantOnly(false)} aria-label="Remove vacant filter" style={{ color: '#616161', marginLeft: 2 }}>×</button>
+                    ● Coming Soon
+                    <button onClick={() => setVacantOnly(false)} aria-label="Remove coming soon filter" style={{ color: '#616161', marginLeft: 2 }}>×</button>
                   </span>
                 )}
               </div>
