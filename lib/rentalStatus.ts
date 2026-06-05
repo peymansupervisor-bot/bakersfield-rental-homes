@@ -14,7 +14,7 @@ export function statusColor(status: RentalStatus): string {
   switch (status) {
     case 'rented':      return '#1e6040'
     case 'pending':     return '#7a5c0f'
-    case 'vacant':      return '#1e6040'
+    case 'vacant':      return '#0d7377'
     case 'coming_soon': return '#D4630A'
     default:            return '#1e6040'
   }
@@ -24,7 +24,7 @@ export function statusBg(status: RentalStatus): string {
   switch (status) {
     case 'rented':      return 'rgba(45,122,79,0.12)'
     case 'pending':     return 'rgba(201,169,97,0.15)'
-    case 'vacant':      return 'rgba(45,122,79,0.12)'
+    case 'vacant':      return 'rgba(13,115,119,0.12)'
     case 'coming_soon': return 'rgba(212,99,10,0.12)'
     default:            return 'rgba(45,122,79,0.12)'
   }
