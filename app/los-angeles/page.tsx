@@ -95,13 +95,15 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
           >
             <span aria-hidden="true">${listing.monthly_rent.toLocaleString()}/mo</span>
           </div>
-          <span
-            className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase"
-            aria-label={`Status: ${statusLabel(listing.rental_status ?? 'vacant')}`}
-            style={{ backgroundColor: statusColor(listing.rental_status ?? 'vacant'), color: '#fff' }}
-          >
-            <span aria-hidden="true">● </span>{statusLabel(listing.rental_status ?? 'vacant')}
-          </span>
+          {listing.rental_status && (
+            <span
+              className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase"
+              aria-label={`Status: ${statusLabel(listing.rental_status)}`}
+              style={{ backgroundColor: statusColor(listing.rental_status), color: '#fff' }}
+            >
+              <span aria-hidden="true">● </span>{statusLabel(listing.rental_status)}
+            </span>
+          )}
         </div>
         <div className="p-5">
           <h3
