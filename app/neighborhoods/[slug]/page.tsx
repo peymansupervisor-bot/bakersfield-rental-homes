@@ -4,6 +4,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import type { Listing } from '@/lib/supabase'
 import { NEIGHBORHOODS, getNeighborhood } from '@/lib/neighborhoods'
+import { statusLabel, statusColor } from '@/lib/rentalStatus'
 
 export const dynamic = 'force-dynamic'
 
@@ -213,6 +214,13 @@ export default async function NeighborhoodPage({
                         >
                           ${listing.monthly_rent.toLocaleString()}/mo
                         </div>
+                        <span
+                          className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase"
+                          aria-label={`Status: ${statusLabel(listing.rental_status ?? 'vacant')}`}
+                          style={{ backgroundColor: statusColor(listing.rental_status ?? 'vacant'), color: '#fff' }}
+                        >
+                          <span aria-hidden="true">● </span>{statusLabel(listing.rental_status ?? 'vacant')}
+                        </span>
                       </div>
                       <div className="p-5">
                         <h3
