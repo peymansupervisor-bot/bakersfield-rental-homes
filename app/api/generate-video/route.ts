@@ -67,15 +67,15 @@ export async function POST(req: NextRequest) {
   const audioPath = `videos/audio_${listingId}_${Date.now()}.mp3`
 
   const { error: uploadErr } = await db.storage
-    .from('listings')
+    .from('listing-photos')
     .upload(audioPath, audioBytes, { contentType: 'audio/mpeg', upsert: true })
 
   if (uploadErr) {
     await db.from('listings').update({ video_status: 'failed' }).eq('id', listingId)
-    return NextResponse.json({ error: 'Audio upload failed' }, { status: 500 })
+    return NextResponse.json({ error: `Audio upload failed: ${uploadErr.message}` }, { status: 500 })
   }
 
-  const { data: { publicUrl: audioUrl } } = db.storage.from('listings').getPublicUrl(audioPath)
+  const { data: { publicUrl: audioUrl } } = db.storage.from('listing-photos').getPublicUrl(audioPath)
 
   // ── 2. Build Shotstack timeline ────────────────────────────────────────────
   const photos: string[] = (listing.photos ?? []).slice(0, 15)
