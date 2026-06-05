@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
   title: 'Accessibility Statement | Bakersfield Rental Homes',
@@ -171,7 +172,7 @@ export default function AccessibilityPage() {
   )
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mb-10">
       <h2 className="text-xl font-bold mb-4 pb-2"

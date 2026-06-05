@@ -55,7 +55,7 @@ async function getListings(): Promise<Listing[]> {
 async function getLAListings(): Promise<Listing[]> {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?select=*&status=eq.active&city=eq.Los Angeles&order=created_at.desc`,
+      `${SUPABASE_URL}/rest/v1/listings?select=*&status=eq.active&city=in.(Los Angeles,West Hollywood)&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
         next: { revalidate: 60 },

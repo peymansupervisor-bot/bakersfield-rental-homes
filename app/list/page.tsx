@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import { supabase } from '@/lib/supabase'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -66,7 +67,7 @@ const inputCls = `
 const labelCls = 'text-xs font-semibold tracking-widest uppercase text-[#1C3D5A]'
 const sectionCls = 'space-y-6'
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
       {/* Implicit label association: any form control inside <label> is automatically linked */}

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
   title: 'Legal Disclaimer | Bakersfield Rental Homes',
@@ -77,6 +78,7 @@ export default function DisclaimerPage() {
           <Section num="2" title="No Agency Relationship Created">
             <p>
               BakersfieldRentalHomes.com is an informational platform only. The Website itself does not
+              BakersfieldRentalHomes.com is an informational platform. The Website itself does not
               act as a real estate agent or broker with respect to any transaction facilitated between
               users of the platform.
             </p>
@@ -339,7 +341,7 @@ export default function DisclaimerPage() {
   )
 }
 
-function Section({ num, title, children }: { num: string; title: string; children: React.ReactNode }) {
+function Section({ num, title, children }: { num: string; title: string; children: ReactNode }) {
   return (
     <section className="mb-10">
       <h2 className="text-xl font-bold mb-4 pb-2"
