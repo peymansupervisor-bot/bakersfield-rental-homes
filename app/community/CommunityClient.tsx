@@ -794,10 +794,13 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
     setSubmitting(false)
   }
 
+  const [editPhotoUrl, setEditPhotoUrl] = useState<string | null>(post.photo_url)
+
   const deletePost = async () => {
     if (!confirm('Delete this post?')) return
-    await authFetch(`/api/community/posts?id=${post.id}`, { method: 'DELETE' })
-    onDeleted()
+    const res = await authFetch(`/api/community/posts?id=${post.id}`, { method: 'DELETE' })
+    if (res.ok) onDeleted()
+    else alert('Could not delete post. Please try again.')
   }
 
   const savePost = async () => {
@@ -806,10 +809,11 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
     await authFetch('/api/community/posts', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: post.id, title: editTitle.trim(), body: editBody.trim() }),
+      body: JSON.stringify({ id: post.id, title: editTitle.trim(), body: editBody.trim(), photo_url: editPhotoUrl }),
     })
     post.title = editTitle.trim()
     post.body = editBody.trim()
+    post.photo_url = editPhotoUrl
     setEditingPost(false)
     setSavingPost(false)
   }
@@ -857,6 +861,17 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
         {/* Content */}
         {editingPost ? (
           <div className="space-y-2 mb-3">
+            {editPhotoUrl && (
+              <div className="flex items-center gap-2 p-2 rounded-xl text-xs" style={{ backgroundColor: '#f7f5f0', border: '1px solid #e0ddd8' }}>
+                <span style={{ color: '#444' }}>Post has a photo attached</span>
+                <button onClick={() => setEditPhotoUrl(null)}
+                  className="ml-auto px-2.5 py-1 rounded-lg text-xs font-semibold transition-all hover:opacity-80"
+                  style={{ backgroundColor: '#B03A2E', color: '#fff' }}
+                  aria-label="Remove photo from post">
+                  Remove Photo
+                </button>
+              </div>
+            )}
             <input className="w-full px-3 py-2 rounded-xl text-sm border outline-none focus:border-[#C9A961]"
               style={{ borderColor: '#e0ddd8' }} value={editTitle} onChange={e => setEditTitle(e.target.value)} />
             <textarea className="w-full px-3 py-2 rounded-xl text-sm border outline-none focus:border-[#C9A961] resize-none"
@@ -867,7 +882,7 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
                 style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
                 {savingPost ? 'Saving…' : 'Save'}
               </button>
-              <button onClick={() => setEditingPost(false)}
+              <button onClick={() => { setEditingPost(false); setEditPhotoUrl(post.photo_url) }}
                 className="px-4 py-1.5 rounded-xl text-xs font-semibold transition-all hover:opacity-70"
                 style={{ border: '1px solid #e0ddd8', color: '#616161' }}>
                 Cancel
@@ -1058,7 +1073,7 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
   const fetchPosts = useCallback(async () => {
     setLoading(true)
     const url = category === 'all' ? '/api/community/posts' : `/api/community/posts?category=${category}`
-    const res = await fetch(url)
+    const res = await fetch(url, { cache: 'no-store' })
     const { posts: data } = await res.json()
     const fetched = data ?? []
     setPosts(fetched)

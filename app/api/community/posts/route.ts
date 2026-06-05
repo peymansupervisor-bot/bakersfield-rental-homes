@@ -47,10 +47,12 @@ export async function PATCH(req: NextRequest) {
   if (!authUserId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
-    const { id, title, body } = await req.json()
+    const { id, title, body, photo_url } = await req.json()
     if (!id) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
     const db = createServiceClient()
-    const { error } = await db.from('community_posts').update({ title, body }).eq('id', id).eq('user_id', authUserId)
+    const updates: Record<string, unknown> = { title, body }
+    if (photo_url !== undefined) updates.photo_url = photo_url
+    const { error } = await db.from('community_posts').update(updates).eq('id', id).eq('user_id', authUserId)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ success: true })
   } catch {
