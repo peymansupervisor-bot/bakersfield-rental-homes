@@ -102,7 +102,7 @@ export default function Footer() {
           {/* Legal notice */}
           <div className="mt-4 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
             <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.60)', fontFamily: 'Inter, sans-serif' }}>
-              Operated by Bakersfield Brokers (DRE #01726653). This website is an informational platform only — listings are posted by independent landlords and no brokerage, agency, or property management services are provided through this site. No content constitutes legal, financial, or professional advice.
+              This website is an informational platform only — listings are posted by independent landlords and no brokerage, agency, or property management services are provided through this site. No content constitutes legal, financial, or professional advice.
             </p>
           </div>
         </div>
