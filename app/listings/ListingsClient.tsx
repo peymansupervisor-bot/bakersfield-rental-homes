@@ -402,7 +402,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                 role="switch"
                 aria-checked={petsOnly}
                 onClick={() => setPetsOnly(v => !v)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
                 style={{
                   border: `1.5px solid ${petsOnly ? '#C9A961' : '#e0ddd8'}`,
                   backgroundColor: petsOnly ? 'rgba(201,169,97,0.1)' : 'white',
@@ -419,7 +419,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                 role="switch"
                 aria-checked={vacantOnly}
                 onClick={() => setVacantOnly(v => !v)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
                 style={{
                   border: `1.5px solid ${vacantOnly ? '#B03A2E' : '#e0ddd8'}`,
                   backgroundColor: vacantOnly ? 'rgba(176,58,46,0.08)' : 'white',
@@ -510,7 +510,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
             </p>
             <button
               onClick={clearAll}
-              className="inline-block px-8 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase"
+              className="inline-block px-8 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.1em' }}>
               Clear All Filters
             </button>

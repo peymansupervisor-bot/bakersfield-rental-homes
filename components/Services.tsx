@@ -293,18 +293,6 @@ export default function Services({ services: cmsServices }: ServicesProps) {
                 el.style.borderColor = 'rgba(201,169,97,0.15)'
                 el.style.transform = 'scale(1)'
               }}
-              onFocus={e => {
-                const el = e.currentTarget
-                el.style.boxShadow = '0 8px 40px rgba(201,169,97,0.18), 0 2px 20px rgba(28,61,90,0.06)'
-                el.style.borderColor = 'rgba(201,169,97,0.4)'
-                el.style.transform = 'scale(1.02)'
-              }}
-              onBlur={e => {
-                const el = e.currentTarget
-                el.style.boxShadow = '0 2px 20px rgba(28,61,90,0.04)'
-                el.style.borderColor = 'rgba(201,169,97,0.15)'
-                el.style.transform = 'scale(1)'
-              }}
             >
               <div
                 className="w-14 h-14 rounded-xl flex items-center justify-center mb-5"

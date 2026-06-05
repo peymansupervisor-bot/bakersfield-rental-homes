@@ -126,7 +126,7 @@ export default function Contact({ headline, description }: ContactProps) {
               <p id="contact-error" role="alert" className="text-sm text-center" style={{ color: '#c0392b' }}>{error}</p>
             )}
             <button type="submit" disabled={sending}
-              className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01]"
+              className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', fontFamily: 'Inter, sans-serif', letterSpacing: '0.12em', border: 'none', cursor: sending ? 'not-allowed' : 'pointer', opacity: sending ? 0.7 : 1 }}>
               {sending ? 'Sending…' : 'Send Message'}
             </button>

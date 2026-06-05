@@ -304,8 +304,8 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 
                 <button
                   onClick={() => setLightbox(true)}
-                  className="mt-2 text-xs underline transition-opacity hover:opacity-70"
-                  style={{ color: '#616161', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                  className="mt-2 text-xs underline transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961] rounded"
+                  style={{ color: '#616161', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px' }}
                   aria-label={`Open photo ${photoIndex + 1} in full screen view`}>
                   View full screen
                 </button>
@@ -324,6 +324,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                     className="flex-shrink-0 rounded-xl overflow-hidden transition-all duration-200 relative"
                     style={{
                       width: '72px', height: '54px',
+                      minWidth: '44px', minHeight: '44px',
                       outline: i === photoIndex ? '2px solid #C9A961' : '2px solid transparent',
                       outlineOffset: '2px',
                     }}
