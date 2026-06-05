@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation'
 import type { Listing } from '@/lib/supabase'
 import ListingDetailClient from './ListingDetailClient'
 
+export const dynamic = 'force-dynamic'
+
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
@@ -42,21 +44,33 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const urlSlug = listing.slug ?? listing.id
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
   const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-default.jpg'
+  const bedsLabel = listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms}-Bedroom`
+  const seoTitle = `${bedsLabel} House for Rent in Bakersfield CA ${listing.zip} — ${listing.address}`
+  const ogTitle = `${listing.address} — ${bedsLabel} For Rent in Bakersfield, CA`
   return {
-    title: `${listing.address} — ${listing.bedrooms}bd/${listing.bathrooms}ba For Rent Bakersfield CA`,
+    title: seoTitle,
     description,
+    keywords: [
+      `${listing.address} for rent`,
+      `houses for rent in Bakersfield CA ${listing.zip}`,
+      `${listing.bedrooms} bedroom house for rent Bakersfield`,
+      `Bakersfield CA ${listing.zip} rental`,
+      `rent house Bakersfield ${listing.zip}`,
+      'direct landlord rental Bakersfield',
+      'no broker fee Bakersfield rental',
+    ],
     alternates: { canonical: canonicalUrl },
     openGraph: {
-      title: `${listing.address} — For Rent in Bakersfield, CA`,
+      title: ogTitle,
       description,
       url: canonicalUrl,
       siteName: 'Bakersfield Rental Homes',
-      images: [{ url: ogImage, width: 1200, height: 630, alt: listing.title }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: ogTitle }],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${listing.address} — For Rent in Bakersfield, CA`,
+      title: ogTitle,
       description,
       images: [ogImage],
     },
@@ -79,10 +93,37 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
     url: canonicalUrl,
     datePosted: listing.listed_date ?? listing.created_at,
     image: listing.photos ?? [],
+    floorSize: {
+      '@type': 'QuantitativeValue',
+      value: listing.living_area_sqft,
+      unitCode: 'FTK',
+    },
+    numberOfRooms: listing.bedrooms,
+    numberOfBathroomsTotal: listing.bathrooms,
+    petsAllowed: listing.pets_allowed,
+    amenityFeature: (listing.amenities ?? []).map((a: string) => ({
+      '@type': 'LocationFeatureSpecification',
+      name: a,
+      value: true,
+    })),
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: listing.address,
+      addressLocality: listing.city,
+      addressRegion: listing.state ?? 'CA',
+      postalCode: listing.zip,
+      addressCountry: 'US',
+    },
     offers: {
       '@type': 'Offer',
       price: listing.monthly_rent,
       priceCurrency: 'USD',
+      availability: listing.rental_status === 'vacant'
+        ? 'https://schema.org/InStock'
+        : listing.rental_status === 'pending'
+        ? 'https://schema.org/LimitedAvailability'
+        : 'https://schema.org/SoldOut',
+      availabilityStarts: listing.available_date ?? undefined,
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
         price: listing.monthly_rent,
@@ -93,31 +134,10 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
           unitCode: 'MON',
         },
       },
-      availability: listing.rental_status === 'vacant'
-        ? 'https://schema.org/InStock'
-        : listing.rental_status === 'pending'
-        ? 'https://schema.org/LimitedAvailability'
-        : 'https://schema.org/SoldOut',
-    },
-    floorSize: {
-      '@type': 'QuantitativeValue',
-      value: listing.living_area_sqft,
-      unitCode: 'FTK',
-    },
-    numberOfRooms: listing.bedrooms,
-    numberOfBathroomsTotal: listing.bathrooms,
-    petsAllowed: listing.pets_allowed,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: listing.address,
-      addressLocality: listing.city,
-      addressRegion: listing.state ?? 'CA',
-      postalCode: listing.zip,
-      addressCountry: 'US',
-    },
-    landlord: {
-      '@type': 'Person',
-      name: listing.contact_name,
+      seller: {
+        '@type': 'Person',
+        name: listing.contact_name,
+      },
     },
   }
 
