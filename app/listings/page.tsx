@@ -40,7 +40,7 @@ async function getListings(): Promise<Listing[]> {
       `${SUPABASE_URL}/rest/v1/listings?select=*&status=eq.active&city=eq.Bakersfield&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-        next: { revalidate: 3600 },
+        next: { revalidate: 60 },
       }
     )
     if (!res.ok) return []
@@ -56,7 +56,7 @@ async function getLAListings(): Promise<Listing[]> {
       `${SUPABASE_URL}/rest/v1/listings?select=*&status=eq.active&city=eq.Los Angeles&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-        next: { revalidate: 3600 },
+        next: { revalidate: 60 },
       }
     )
     if (!res.ok) return []

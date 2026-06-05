@@ -101,15 +101,13 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
             </div>
             {(() => {
               const dom = daysOnMarket(listing)
-              if (dom === null) return null
               const isRented  = listing.rental_status === 'rented'
               const isPending = listing.rental_status === 'pending'
-              const color = isRented ? '#2D7A4F' : isPending ? '#C9A961' : '#2E7BB8'
+              if (dom === null || (!isRented && !isPending)) return null
+              const color = isRented ? '#2D7A4F' : '#C9A961'
               const label = isRented
                 ? `Rented in ${dom} day${dom !== 1 ? 's' : ''}`
-                : isPending
-                ? `${dom} day${dom !== 1 ? 's' : ''} on market`
-                : `Available ${dom} day${dom !== 1 ? 's' : ''}`
+                : `${dom} day${dom !== 1 ? 's' : ''} on market`
               return (
                 <div className="mt-3 flex items-center gap-1.5 text-[11px]"
                   style={{ color, fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
