@@ -127,11 +127,11 @@ export default function Hero({ heroHeadline }: HeroProps) {
                 fontFamily: 'Playfair Display, Georgia, serif',
                 fontSize: 'clamp(2rem, 5vw, 3.4rem)',
                 fontWeight: 700,
-                color: '#C9A961',
+                color: '#7ECEC4',
                 lineHeight: 1.18,
                 letterSpacing: '-0.02em',
                 whiteSpace: 'pre-line',
-                textShadow: '0 2px 28px rgba(0,0,0,0.6)',
+                textShadow: '0 1px 8px rgba(0,0,0,0.3)',
                 marginBottom: '14px',
               }}
             >
@@ -217,7 +217,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
       >
         <p
           className="text-xs font-semibold tracking-widest uppercase"
-          style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif', letterSpacing: '0.18em', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}
+          style={{ color: '#7ECEC4', fontFamily: 'Inter, sans-serif', letterSpacing: '0.18em', textShadow: '0 1px 4px rgba(0,0,0,0.25)' }}
         >
           Scroll
         </p>
@@ -236,7 +236,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
                 filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.8))',
               }}
             >
-              <path d="M1 1L9 9L17 1" stroke="#C9A961" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M1 1L9 9L17 1" stroke="#7ECEC4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           ))}
         </div>
