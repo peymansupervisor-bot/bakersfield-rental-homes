@@ -124,7 +124,7 @@ const faqSchema = {
       name: 'What are the best neighborhoods in Bakersfield for renters?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Popular neighborhoods for renters in Bakersfield include Northwest Bakersfield (family-friendly, top-rated schools), Rosedale (quiet suburban feel), Oleander-Sunset (central, walkable), and East Bakersfield (most affordable). Use our listings page to filter by zip code and find homes in your preferred area.',
+        text: 'Popular neighborhoods for renters in Bakersfield include Northwest Bakersfield (newer construction, near shopping and parks), Rosedale (tree-lined streets, established community), Oleander-Sunset (central, walkable), and East Bakersfield (affordable rents, near downtown). Use our listings page to filter by zip code and find homes in your preferred area.',
       },
     },
     {
@@ -140,7 +140,7 @@ const faqSchema = {
       name: 'What are the rental application requirements in Bakersfield CA?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Typical rental application requirements in Bakersfield include a valid photo ID, proof of income (pay stubs or bank statements), credit check, rental history or references, and a completed application form. Requirements vary by landlord — contact the property owner directly through our listings for specifics.',
+        text: 'Typical rental application requirements in Bakersfield include a valid photo ID, proof of ability to pay (such as recent bank statements or pay stubs), credit check, rental history or references, and a completed application form. Requirements vary by landlord — contact the property owner directly through our listings for specifics.',
       },
     },
   ],

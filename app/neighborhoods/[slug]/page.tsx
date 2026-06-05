@@ -18,7 +18,7 @@ async function getListingsByZips(zips: string[]): Promise<Listing[]> {
           apikey: SUPABASE_KEY,
           Authorization: `Bearer ${SUPABASE_KEY}`,
         },
-        next: { revalidate: 60 },
+        cache: 'no-store',
       }
     )
     if (!res.ok) return []
