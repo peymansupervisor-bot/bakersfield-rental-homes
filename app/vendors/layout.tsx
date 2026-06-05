@@ -12,6 +12,13 @@ export const metadata: Metadata = {
     url: 'https://bakersfieldrentalhomes.com/vendors',
     siteName: 'Bakersfield Rental Homes',
     type: 'website',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Vendor Application — Bakersfield, CA' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vendor Application — Bakersfield, CA',
+    description: 'Apply to join our trusted network of licensed contractors and service providers in Bakersfield, CA.',
+    images: ['/opengraph-image'],
   },
 }
 

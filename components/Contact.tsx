@@ -82,7 +82,7 @@ export default function Contact({ headline, description }: ContactProps) {
           <div className="text-center py-16 card-animate" role="status" aria-live="polite">
             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
               style={{ backgroundColor: 'rgba(45,122,79,0.1)' }} aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
                 <path d="M6 14L11 19L22 9" stroke="#2D7A4F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>

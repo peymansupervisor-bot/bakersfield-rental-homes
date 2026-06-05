@@ -48,10 +48,10 @@ export default function Footer() {
 
         {/* Key SEO pages */}
         <nav aria-label="Key pages" className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-          <Link href="/direct-landlord-rentals" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.55)' }}>
+          <Link href="/direct-landlord-rentals" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Direct Landlord Rentals
           </Link>
-          <Link href="/neighborhoods" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.55)' }}>
+          <Link href="/neighborhoods" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Rentals by Neighborhood
           </Link>
         </nav>
@@ -76,7 +76,7 @@ export default function Footer() {
 
         {/* Legal */}
         <div className="flex flex-col items-center gap-1">
-          <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.80)' }}>
             © 2026 Bakersfield Rental Homes. All rights reserved.
           </p>
           <a href="tel:+16613811818"
@@ -86,22 +86,22 @@ export default function Footer() {
             <span aria-hidden="true">📞 </span>(661) 381-1818
           </a>
           <div className="flex items-center gap-3">
-            <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Privacy Policy
             </Link>
-            <span style={{ color: 'rgba(255,255,255,0.2)' }} aria-hidden="true">·</span>
-            <Link href="/disclaimer" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }} aria-hidden="true">·</span>
+            <Link href="/disclaimer" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Disclaimer
             </Link>
-            <span style={{ color: 'rgba(255,255,255,0.2)' }} aria-hidden="true">·</span>
-            <Link href="/accessibility" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }} aria-hidden="true">·</span>
+            <Link href="/accessibility" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Accessibility
             </Link>
           </div>
 
           {/* Legal notice */}
           <div className="mt-4 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.60)', fontFamily: 'Inter, sans-serif' }}>
+            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Inter, sans-serif' }}>
               This website is an informational platform only — listings are posted by independent landlords and no brokerage, agency, or property management services are provided through this site. No content constitutes legal, financial, or professional advice.
             </p>
           </div>

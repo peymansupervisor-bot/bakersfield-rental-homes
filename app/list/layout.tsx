@@ -12,13 +12,13 @@ export const metadata: Metadata = {
     url: 'https://bakersfieldrentalhomes.com/list',
     siteName: 'Bakersfield Rental Homes',
     type: 'website',
-    images: [{ url: 'https://bakersfieldrentalhomes.com/og-image.jpg', width: 1200, height: 630, alt: 'List Your Rental Property in Bakersfield, CA' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'List Your Rental Property in Bakersfield, CA' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'List Your Rental Property in Bakersfield, CA',
     description: 'Landlords: list your Bakersfield rental home for free. Reach qualified tenants fast.',
-    images: ['https://bakersfieldrentalhomes.com/og-image.jpg'],
+    images: ['/opengraph-image'],
   },
 }
 

@@ -10,13 +10,13 @@ export const metadata: Metadata = {
     url: 'https://bakersfieldrentalhomes.com/community',
     siteName: 'Bakersfield Rental Homes',
     type: 'website',
-    images: [{ url: 'https://bakersfieldrentalhomes.com/og-image.jpg', width: 1200, height: 630, alt: 'Bakersfield Community Board' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Bakersfield Community Board' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Bakersfield Community Board',
     description: 'Buy, sell, trade and connect with Bakersfield neighbors.',
-    images: ['https://bakersfieldrentalhomes.com/og-image.jpg'],
+    images: ['/opengraph-image'],
   },
 }
 

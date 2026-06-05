@@ -141,37 +141,37 @@ export default function Navbar() {
           aria-hidden={!menuOpen}
         >
           <nav className="flex flex-col px-6 py-6 gap-5" aria-label="Mobile navigation">
-            <Link href="/listings" onClick={() => setMenuOpen(false)}
+            <Link href="/listings" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Find a Home
             </Link>
-            <Link href="/direct-landlord-rentals" onClick={() => setMenuOpen(false)}
+            <Link href="/direct-landlord-rentals" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Direct Landlord Rentals
             </Link>
-            <Link href="/neighborhoods" onClick={() => setMenuOpen(false)}
+            <Link href="/neighborhoods" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Neighborhoods
             </Link>
-            <Link href="/vendors" onClick={() => setMenuOpen(false)}
+            <Link href="/vendors" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Vendors
             </Link>
-            <Link href="/community" onClick={() => setMenuOpen(false)}
+            <Link href="/community" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Community
             </Link>
-            <a href="/#contact" onClick={handleContact}
+            <a href="/#contact" onClick={handleContact} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Contact
             </a>
-            <Link href="/list" onClick={() => setMenuOpen(false)}
+            <Link href="/list" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase px-5 py-3 rounded-full text-center transition-all duration-200 hover:opacity-90"
               style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.12em' }}>
               List Your Home

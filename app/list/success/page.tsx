@@ -38,7 +38,7 @@ function SuccessContent() {
           className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8"
           style={{ backgroundColor: 'rgba(45,122,79,0.1)' }}
         >
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
             <path d="M8 18L14 24L28 10" stroke="#2D7A4F" strokeWidth="3"
               strokeLinecap="round" strokeLinejoin="round"/>
           </svg>

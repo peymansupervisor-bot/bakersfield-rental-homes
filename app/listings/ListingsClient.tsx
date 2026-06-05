@@ -49,7 +49,7 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
                   <rect width="40" height="40" rx="20" fill="#f0ece4"/>
                   <path d="M12 28l6-8 4 5 3-4 5 7H12z" fill="#C9A961" opacity="0.5"/>
                 </svg>

@@ -86,7 +86,7 @@ export default function Subscribe() {
           >
             <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
               style={{ backgroundColor: 'rgba(45,122,79,0.15)' }} aria-hidden="true">
-              <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
                 <path d="M6 14L11 19L22 9" stroke="#2D7A4F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
