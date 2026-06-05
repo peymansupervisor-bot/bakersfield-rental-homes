@@ -30,9 +30,17 @@ export async function POST(req: NextRequest) {
 
   // ── 1. Generate voiceover with ElevenLabs ──────────────────────────────────
   const bedsLabel = listing.bedrooms === 0 ? 'a studio' : `${listing.bedrooms} bedroom${listing.bedrooms > 1 ? 's' : ''}`
+
+  const cleanForSpeech = (text: string) => text
+    .replace(/(\d+)\s*BD/gi, (_, n) => `${n} bedroom`)
+    .replace(/(\d+)\s*BA/gi, (_, n) => `${n} bathroom`)
+    .replace(/(\d+)\s*BR/gi, (_, n) => `${n} bedroom`)
+    .replace(/sqft/gi, 'square feet')
+    .replace(/sq\.?\s*ft\.?/gi, 'square feet')
+
   const ttsText = [
-    `Welcome to ${listing.title}.`,
-    listing.description,
+    `Welcome to ${cleanForSpeech(listing.title)}.`,
+    cleanForSpeech(listing.description),
     `This property features ${bedsLabel}, ${listing.bathrooms} bathroom${listing.bathrooms > 1 ? 's' : ''}, and ${listing.living_area_sqft.toLocaleString()} square feet of living space.`,
     `Located at ${listing.address} in ${listing.city}, California.`,
     listing.pets_allowed ? 'Pets are welcome.' : '',
