@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
 import ConditionalLayout from '@/components/ConditionalLayout'
 import dynamic from 'next/dynamic'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false })
 const CookieConsent = dynamic(() => import('@/components/CookieConsent'), { ssr: false })
 
@@ -165,6 +166,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ConditionalLayout>{children}</ConditionalLayout>
         <ChatWidget />
         <CookieConsent />
+        <SpeedInsights />
       </body>
     </html>
   )
