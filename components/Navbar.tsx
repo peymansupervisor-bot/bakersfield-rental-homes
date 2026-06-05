@@ -33,9 +33,8 @@ export default function Navbar() {
     }
   }
 
-  // Pages whose hero is dark navy — navbar text must be white until scrolled
-  const darkHeroPages = ['/vendors', '/community', '/neighborhoods', '/direct-landlord-rentals', '/privacy', '/disclaimer', '/accessibility']
-  const hasDarkHero = darkHeroPages.some(p => pathname.startsWith(p)) || pathname === '/listings' || pathname === '/list'
+  // All pages have a dark hero by default — only listing detail pages (/listings/[slug]) have a light background
+  const hasDarkHero = !(pathname.startsWith('/listings/') && pathname !== '/listings')
 
   const navBg     = scrolled || menuOpen ? 'rgba(247,245,240,0.95)' : 'transparent'
   const navBorder = scrolled || menuOpen ? '1px solid rgba(201,169,97,0.2)' : 'none'
