@@ -104,6 +104,10 @@ export type Listing = {
   rented_date: string | null
   // Photos
   photos: string[]
+  // Video tour
+  video_url: string | null
+  video_render_id: string | null
+  video_status: 'rendering' | 'done' | 'failed' | null
   // Contact
   contact_name: string
   contact_email: string

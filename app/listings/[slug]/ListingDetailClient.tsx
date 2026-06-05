@@ -6,6 +6,130 @@ import Image from 'next/image'
 import type { Listing } from '@/lib/supabase'
 import { statusLabel, statusColor, statusBg, showDaysOnMarket } from '@/lib/rentalStatus'
 
+function VideoTour({ listing }: { listing: Listing }) {
+  const [videoUrl, setVideoUrl]     = useState<string | null>(listing.video_url ?? null)
+  const [status, setStatus]         = useState<string | null>(listing.video_status ?? null)
+  const [renderId, setRenderId]     = useState<string | null>(listing.video_render_id ?? null)
+  const [generating, setGenerating] = useState(false)
+  const [error, setError]           = useState('')
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const stopPolling = () => {
+    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null }
+  }
+
+  useEffect(() => {
+    // Resume polling if we already have a render ID but no video yet
+    if (renderId && status === 'rendering' && !videoUrl) startPolling(renderId)
+    return stopPolling
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const startPolling = (id: string) => {
+    stopPolling()
+    pollRef.current = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/video-status/${id}`)
+        const data = await res.json()
+        if (data.status === 'done' && data.url) {
+          setVideoUrl(data.url)
+          setStatus('done')
+          stopPolling()
+        } else if (data.status === 'failed') {
+          setStatus('failed')
+          setError('Video generation failed. Please try again.')
+          stopPolling()
+        }
+      } catch { /* keep polling */ }
+    }, 6000)
+  }
+
+  const handleGenerate = async () => {
+    setGenerating(true)
+    setError('')
+    try {
+      const res = await fetch('/api/generate-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listingId: listing.id }),
+      })
+      const data = await res.json()
+      if (!res.ok || !data.renderId) throw new Error(data.error || 'Failed to start')
+      setRenderId(data.renderId)
+      setStatus('rendering')
+      startPolling(data.renderId)
+    } catch (e: any) {
+      setError(e.message || 'Something went wrong')
+      setStatus(null)
+    } finally {
+      setGenerating(false)
+    }
+  }
+
+  return (
+    <div>
+      <h2 className="text-xl font-semibold mb-4"
+        style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+        Video Tour
+      </h2>
+
+      {videoUrl ? (
+        <div className="rounded-2xl overflow-hidden" style={{ aspectRatio: '16/9', backgroundColor: '#000' }}>
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            src={videoUrl}
+            controls
+            playsInline
+            poster={listing.photos?.[0]}
+            className="w-full h-full object-contain"
+            aria-label={`Video tour of ${listing.title}`}
+          />
+        </div>
+      ) : status === 'rendering' ? (
+        <div className="rounded-2xl flex flex-col items-center justify-center gap-4 py-14"
+          style={{ backgroundColor: '#f0ece4', border: '1px solid rgba(201,169,97,0.2)' }}>
+          <div className="w-10 h-10 rounded-full border-4 border-t-transparent animate-spin"
+            style={{ borderColor: '#C9A961', borderTopColor: 'transparent' }} aria-hidden="true" />
+          <p className="text-sm font-medium" style={{ color: '#1C3D5A' }}>
+            Generating your video tour… this takes 1–2 minutes
+          </p>
+        </div>
+      ) : (
+        <div className="rounded-2xl flex flex-col items-center justify-center gap-5 py-12"
+          style={{ backgroundColor: '#f8f6f2', border: '1px dashed rgba(201,169,97,0.4)' }}>
+          <div className="w-14 h-14 rounded-full flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(201,169,97,0.12)' }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A961" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <div className="text-center px-6">
+            <p className="text-sm font-semibold mb-1" style={{ color: '#1C3D5A' }}>
+              AI-Narrated Video Tour
+            </p>
+            <p className="text-xs" style={{ color: '#616161' }}>
+              Auto-generates a slideshow with voiceover from the property description
+            </p>
+          </div>
+          {error && (
+            <p className="text-xs px-5 py-2 rounded-lg" style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}>
+              {error}
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={handleGenerate}
+            disabled={generating}
+            className="px-7 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-50"
+            style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.1em' }}>
+            {generating ? 'Starting…' : 'Generate Video Tour'}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function ListingDetailClient({ listing }: { listing: Listing }) {
   const [photoIndex, setPhotoIndex] = useState(0)
   const [lightbox, setLightbox]     = useState(false)
@@ -225,6 +349,9 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 {listing.description}
               </p>
             </div>
+
+            {/* Video Tour */}
+            <VideoTour listing={listing} />
 
             {/* Amenities */}
             {listing.amenities?.length > 0 && (
