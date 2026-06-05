@@ -25,9 +25,10 @@ export default function ChatWidget() {
   const [step, setStep] = useState<'chat' | 'collect'>('chat')
   const [unread, setUnread] = useState(0)
   const [quickRepliesUsed, setQuickRepliesUsed] = useState(false)
-  const bottomRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const bottomRef    = useRef<HTMLDivElement>(null)
+  const inputRef     = useRef<HTMLInputElement>(null)
   const toggleBtnRef = useRef<HTMLButtonElement>(null)
+  const chatPanelRef = useRef<HTMLDivElement>(null)
   const [bannerVisible, setBannerVisible] = useState(false)
 
   useEffect(() => {
@@ -51,6 +52,13 @@ export default function ChatWidget() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  useEffect(() => {
+    const panel = chatPanelRef.current
+    if (!panel) return
+    if (open) panel.removeAttribute('inert')
+    else panel.setAttribute('inert', '')
+  }, [open])
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || sending) return
@@ -115,12 +123,12 @@ export default function ChatWidget() {
     <>
       {/* Chat panel */}
       <div
+        ref={chatPanelRef}
         id="chat-panel"
         role="dialog"
         aria-label="Live chat with Bakersfield Rental Homes"
         aria-modal="true"
         aria-hidden={!open}
-        {...(!open ? { inert: 'true' } as unknown as React.HTMLAttributes<HTMLDivElement> : {})}
         style={{
           position: 'fixed', bottom: bannerVisible ? '250px' : '90px', right: '20px', width: '340px', maxWidth: 'calc(100vw - 40px)',
           backgroundColor: '#ffffff', borderRadius: '20px', zIndex: 1000,
