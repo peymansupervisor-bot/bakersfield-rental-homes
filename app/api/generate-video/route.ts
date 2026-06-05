@@ -96,36 +96,35 @@ export async function POST(req: NextRequest) {
     transition: { in: 'fade', out: 'fade' },
   }))
 
-  // Title card — first clip
+  // Title at top — first clip only
   const titleOverlay = {
     asset: {
       type: 'html',
-      html: `<div style="font-family:Georgia,serif;color:#fff;text-align:center;padding:0 60px;text-shadow:2px 2px 12px rgba(0,0,0,0.85)"><p style="font-size:42px;font-weight:bold;margin:0 0 8px">${listing.title}</p><p style="font-size:26px;color:#C9A961;margin:0">${listing.city}, CA</p></div>`,
+      html: `<div style="background:rgba(28,61,90,0.82);padding:14px 32px;font-family:Georgia,serif;text-align:center;width:1280px"><p style="font-size:32px;font-weight:bold;color:#fff;margin:0 0 4px">${listing.title}</p><p style="font-size:20px;color:#C9A961;margin:0">${listing.city}, CA</p></div>`,
       width: 1280,
-      height: 200,
+      height: 90,
     },
     start: 0,
     length: clipDuration,
-    position: 'center',
+    position: 'top',
     transition: { in: 'fade', out: 'fade' },
   }
 
-  // Persistent price + specs bar at bottom
+  // Price + specs bar at bottom — always visible
   const specsOverlay = {
     asset: {
       type: 'html',
-      html: `<div style="background:rgba(28,61,90,0.82);padding:12px 32px;border-radius:8px;font-family:Georgia,serif;text-align:center"><span style="font-size:28px;font-weight:bold;color:#fff">$${listing.monthly_rent.toLocaleString()}/mo</span><span style="font-size:18px;color:#C9A961;margin-left:20px">${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} BD`} · ${listing.bathrooms} BA · ${listing.living_area_sqft.toLocaleString()} sqft</span></div>`,
+      html: `<div style="background:rgba(28,61,90,0.82);padding:14px 32px;font-family:Georgia,serif;text-align:center;width:1280px"><span style="font-size:28px;font-weight:bold;color:#fff">$${listing.monthly_rent.toLocaleString()}/mo</span><span style="font-size:18px;color:#C9A961;margin-left:20px">${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} BD`} · ${listing.bathrooms} BA · ${listing.living_area_sqft.toLocaleString()} sqft</span></div>`,
       width: 1280,
       height: 70,
     },
     start: 0,
     length: totalDuration,
     position: 'bottom',
-    offset: { y: 0.06 },
     transition: { in: 'fade', out: 'fade' },
   }
 
-  // "Direct Landlord · No Broker Fee" badge — last clip
+  // "Direct Landlord · No Broker Fee" badge — last clip, top position
   const badgeOverlay = {
     asset: {
       type: 'html',
@@ -135,7 +134,7 @@ export async function POST(req: NextRequest) {
     },
     start: totalDuration - clipDuration,
     length: clipDuration,
-    position: 'center',
+    position: 'top',
     transition: { in: 'fade', out: 'fade' },
   }
 
