@@ -5,14 +5,26 @@ import ListingsClient from './ListingsClient'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Homes For Rent in Bakersfield, CA',
+  title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
   description:
-    'Browse houses and homes for rent in Bakersfield, CA. Filter by beds, baths, price, and zip. Single-family, pet-friendly, and long-term rentals in Kern County.',
+    'Browse houses and homes for rent in Bakersfield, CA. Filter by beds, baths, price, and zip. Single-family, pet-friendly, and long-term rentals in Kern County. Rent direct from owner — no broker fees.',
+  keywords: [
+    'houses for rent Bakersfield CA',
+    'homes for rent Bakersfield California',
+    'Kern County rentals',
+    'pet-friendly rentals Bakersfield',
+    'single family homes for rent Bakersfield',
+    'direct landlord rentals Bakersfield CA',
+    'no broker fee rentals Bakersfield',
+    'long term rentals Bakersfield CA',
+    'rent from owner Bakersfield',
+    'Bakersfield rental homes',
+  ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/listings' },
   openGraph: {
-    title: 'Homes For Rent in Bakersfield, CA',
+    title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
     description:
-      'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County.',
+      'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
     url: 'https://bakersfieldrentalhomes.com/listings',
     siteName: 'Bakersfield Rental Homes',
     type: 'website',
@@ -27,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Homes For Rent in Bakersfield, CA',
-    description: 'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County.',
+    title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
+    description: 'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
     images: ['/opengraph-image'],
   },
 }
@@ -68,6 +80,27 @@ async function getLAListings(): Promise<Listing[]> {
   }
 }
 
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: 'Bakersfield Rental Homes',
+  url: 'https://bakersfieldrentalhomes.com',
+  logo: 'https://bakersfieldrentalhomes.com/favicon.svg',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bakersfield',
+    addressRegion: 'CA',
+    addressCountry: 'US',
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Bakersfield', containedInPlace: { '@type': 'State', name: 'California' } },
+    { '@type': 'City', name: 'Los Angeles', containedInPlace: { '@type': 'State', name: 'California' } },
+    { '@type': 'City', name: 'West Hollywood', containedInPlace: { '@type': 'State', name: 'California' } },
+  ],
+  description: 'Direct landlord rentals in Bakersfield and Los Angeles, CA. No broker fees, no middlemen.',
+  sameAs: ['https://bakersfieldrentalhomes.com/listings'],
+}
+
 export default async function ListingsPage() {
   const [listings, laListings] = await Promise.all([getListings(), getLAListings()])
   const itemListSchema = {
@@ -86,6 +119,7 @@ export default async function ListingsPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       <ListingsClient initialListings={listings} laListings={laListings} />
     </>
   )

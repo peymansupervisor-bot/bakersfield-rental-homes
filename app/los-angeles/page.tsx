@@ -190,10 +190,32 @@ export default async function LosAngelesPage() {
     ],
   }
 
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateAgent',
+    name: 'Bakersfield Rental Homes',
+    url: 'https://bakersfieldrentalhomes.com',
+    logo: 'https://bakersfieldrentalhomes.com/favicon.svg',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Bakersfield',
+      addressRegion: 'CA',
+      addressCountry: 'US',
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Bakersfield', containedInPlace: { '@type': 'State', name: 'California' } },
+      { '@type': 'City', name: 'Los Angeles', containedInPlace: { '@type': 'State', name: 'California' } },
+      { '@type': 'City', name: 'West Hollywood', containedInPlace: { '@type': 'State', name: 'California' } },
+    ],
+    description: 'Direct landlord rentals in Los Angeles, West Hollywood, and Bakersfield, CA. No broker fees, no middlemen.',
+    sameAs: ['https://bakersfieldrentalhomes.com/los-angeles'],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
 
       <main id="main-content" className="min-h-screen" style={{ backgroundColor: '#F7F5F0' }}>
 
@@ -245,7 +267,7 @@ export default async function LosAngelesPage() {
                   </p>
                   <h2 className="text-2xl font-bold"
                     style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-                    {listings.length} {listings.length === 1 ? 'Property' : 'Properties'} Available
+                    {listings.length} Direct Landlord {listings.length === 1 ? 'Rental' : 'Rentals'} in Los Angeles & West Hollywood
                   </h2>
                 </div>
                 <Link href="/listings"
