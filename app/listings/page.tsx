@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import type { Listing } from '@/lib/supabase'
 import ListingsClient from './ListingsClient'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Homes For Rent in Bakersfield, CA',
   description:
