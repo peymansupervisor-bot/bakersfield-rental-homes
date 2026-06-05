@@ -93,7 +93,7 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
             style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}
             aria-label={`Rent: $${listing.monthly_rent.toLocaleString()} per month`}
           >
-            ${listing.monthly_rent.toLocaleString()}/mo
+            <span aria-hidden="true">${listing.monthly_rent.toLocaleString()}/mo</span>
           </div>
           {listing.rental_status && (
             <span
@@ -106,12 +106,12 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
           )}
         </div>
         <div className="p-5">
-          <h2
+          <h3
             className="font-semibold text-base mb-1 line-clamp-1 group-hover:text-[#C9A961] transition-colors duration-200"
             style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}
           >
             {listing.title}
-          </h2>
+          </h3>
           <p className="text-xs mb-4 line-clamp-1" style={{ color: '#616161' }}>
             {listing.address}, {listing.city}, CA {listing.zip}
           </p>

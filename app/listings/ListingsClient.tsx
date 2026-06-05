@@ -49,7 +49,7 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
                 priority={isPriority}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center" aria-hidden="true">
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
                   <rect width="40" height="40" rx="20" fill="#f0ece4"/>
                   <path d="M12 28l6-8 4 5 3-4 5 7H12z" fill="#C9A961" opacity="0.5"/>
@@ -58,8 +58,9 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
             )}
             {/* Rent badge */}
             <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full text-sm font-bold"
+              aria-label={`Rent: $${listing.monthly_rent.toLocaleString()} per month`}
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
-              ${listing.monthly_rent.toLocaleString()}/mo
+              <span aria-hidden="true">${listing.monthly_rent.toLocaleString()}/mo</span>
             </div>
             {/* Rental status ribbon */}
             {listing.rental_status && (
@@ -455,21 +456,21 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                       beds_desc:  'Most Beds',
                       sqft_desc:  'Largest',
                     }[sortBy]}
-                    <button onClick={() => setSortBy('newest')} aria-label="Remove sort" style={{ color: '#616161', marginLeft: 2 }}>×</button>
+                    <button onClick={() => setSortBy('newest')} aria-label="Remove sort filter" className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-black/10 transition-colors" style={{ color: '#616161', marginLeft: 2 }}>×</button>
                   </span>
                 )}
                 {petsOnly && (
                   <span className="text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1"
                     style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#8a6d1f' }}>
                     🐾 Pets
-                    <button onClick={() => setPetsOnly(false)} aria-label="Remove pets filter" style={{ color: '#616161', marginLeft: 2 }}>×</button>
+                    <button onClick={() => setPetsOnly(false)} aria-label="Remove pets filter" className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-black/10 transition-colors" style={{ color: '#616161', marginLeft: 2 }}>×</button>
                   </span>
                 )}
                 {vacantOnly && (
                   <span className="text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1"
                     style={{ backgroundColor: 'rgba(176,58,46,0.08)', color: '#B03A2E' }}>
                     ● Coming Soon
-                    <button onClick={() => setVacantOnly(false)} aria-label="Remove coming soon filter" style={{ color: '#616161', marginLeft: 2 }}>×</button>
+                    <button onClick={() => setVacantOnly(false)} aria-label="Remove coming soon filter" className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-black/10 transition-colors" style={{ color: '#616161', marginLeft: 2 }}>×</button>
                   </span>
                 )}
               </div>
