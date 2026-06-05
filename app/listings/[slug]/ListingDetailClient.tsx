@@ -331,7 +331,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                   >
                     <Image
                       src={url}
-                      alt={`Thumbnail ${i + 1}`}
+                      alt={`${listing.title} — photo ${i + 1} of ${totalPhotos}`}
                       fill
                       sizes="72px"
                       className="object-cover"

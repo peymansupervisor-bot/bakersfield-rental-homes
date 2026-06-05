@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /list/success
+
+Sitemap: https://bakersfieldrentalhomes.com/sitemap.xml

@@ -395,7 +395,7 @@ function ProfileModal({ user, currentAvatarUrl, displayName, onClose, onSaved }:
             aria-label="Choose photo">
             {preview ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+              <img src={preview} alt="Profile photo preview" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center text-xs font-semibold gap-1"
                 style={{ backgroundColor: '#1C3D5A', color: '#C9A961' }}>
@@ -717,7 +717,7 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
           {preview ? (
             <div className="relative w-40 h-32 rounded-xl overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+              <img src={preview} alt="Post photo preview" className="w-full h-full object-cover" />
               <button onClick={() => { setPhoto(null); setPreview(null) }}
                 className="absolute top-1 right-1 w-6 h-6 rounded-full text-white text-xs flex items-center justify-center"
                 style={{ backgroundColor: 'rgba(0,0,0,0.6)' }} aria-label="Remove photo">×</button>

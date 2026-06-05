@@ -525,7 +525,7 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
             {form.photoPreviewUrls.map((url, i) => (
               <div key={url} className="relative rounded-xl overflow-hidden aspect-square group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={url} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
+                <img src={url} alt={`Listing photo ${i + 1} of ${count}`} className="w-full h-full object-cover" />
                 {/* Badge: cover photo */}
                 {i === 0 && (
                   <span className="absolute top-1 left-1 text-[10px] font-semibold px-2 py-0.5 rounded-full"

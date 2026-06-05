@@ -1,5 +1,26 @@
+import type { Metadata } from 'next'
 import { createServiceClient } from '@/lib/supabase'
 import CommunityClient from './CommunityClient'
+
+export const metadata: Metadata = {
+  title: 'Community Forum | Bakersfield Rental Homes',
+  description: 'Connect with local landlords and tenants in Bakersfield, CA. Ask questions, share tips, and stay informed about the local rental market.',
+  alternates: { canonical: 'https://bakersfieldrentalhomes.com/community' },
+  openGraph: {
+    title: 'Community Forum | Bakersfield Rental Homes',
+    description: 'Connect with local landlords and tenants in Bakersfield, CA. Ask questions, share tips, and stay informed about the local rental market.',
+    url: 'https://bakersfieldrentalhomes.com/community',
+    siteName: 'Bakersfield Rental Homes',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Bakersfield Rental Homes Community' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Community Forum | Bakersfield Rental Homes',
+    description: 'Connect with local landlords and tenants in Bakersfield, CA.',
+    images: ['/opengraph-image'],
+  },
+}
 
 async function getInitialPosts() {
   try {
