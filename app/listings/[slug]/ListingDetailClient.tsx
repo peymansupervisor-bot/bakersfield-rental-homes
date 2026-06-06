@@ -595,12 +595,17 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
             <span aria-hidden="true">‹</span>
           </button>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={listing.photos[photoIndex]}
-            alt={`${listing.title} — photo ${photoIndex + 1} of ${totalPhotos}`}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-xl"
+          <div
+            className="relative rounded-xl overflow-hidden"
+            style={{ width: 'min(90vw, calc(90vh * 4 / 3))', height: 'min(90vh, calc(90vw * 3 / 4))' }}
             onClick={e => e.stopPropagation()}
-          />
+          >
+            <img
+              src={listing.photos[photoIndex]}
+              alt={`${listing.title} — photo ${photoIndex + 1} of ${totalPhotos}`}
+              className="w-full h-full object-contain"
+            />
+          </div>
           <button
             aria-label={`Next photo (${(photoIndex + 2) > totalPhotos ? 1 : photoIndex + 2} of ${totalPhotos})`}
             className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-2xl"
