@@ -33,9 +33,8 @@ export default function Niko({ headline, description, photos, cards }: NikoProps
   const displayDesc = description || 'Our beloved companion and unofficial mascot. At Bakersfield Rental Homes, we know pets are family — many of our properties welcome them with open arms (and open yards).'
 
   const [active, setActive] = useState(0)
-  const [animKey, setAnimKey] = useState(0)
 
-  const switchPhoto = (i: number) => { setActive(i); setAnimKey(k => k + 1) }
+  const switchPhoto = (i: number) => { setActive(i) }
 
   return (
     <section className="py-20 px-6" style={{ backgroundColor: '#F7F5F0' }} aria-label="Meet Niko — our pet-friendly mascot">
@@ -58,8 +57,12 @@ export default function Niko({ headline, description, photos, cards }: NikoProps
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="relative rounded-3xl overflow-hidden"
             style={{ aspectRatio: '4/5', boxShadow: '0 24px 64px rgba(28,61,90,0.18)', border: '1px solid rgba(201,169,97,0.2)' }}>
-            <Image key={animKey} src={displayPhotos[active].src} alt={displayPhotos[active].alt}
-              fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover niko-photo-enter" priority={active === 0} />
+            {displayPhotos.map((p, i) => (
+              <Image key={p.src} src={p.src} alt={p.alt}
+                fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover"
+                priority={i === 0}
+                style={{ opacity: active === i ? 1 : 0, transition: 'opacity 0.3s ease' }} />
+            ))}
             <div className="absolute top-5 left-5 px-3 py-1.5 rounded-full text-xs font-semibold"
               style={{ backgroundColor: 'rgba(201,169,97,0.92)', color: '#1C3D5A', backdropFilter: 'blur(6px)', letterSpacing: '0.08em' }}>
               <span aria-hidden="true">🐾 </span>Pets Welcome
