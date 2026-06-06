@@ -132,7 +132,7 @@ const pageSchema = {
   description: 'Rent directly from local landlords in Bakersfield, CA with no broker fees or middlemen.',
   url: 'https://bakersfieldrentalhomes.com/direct-landlord-rentals',
   provider: {
-    '@type': 'RealEstateAgent',
+    '@type': 'Organization',
     name: 'Bakersfield Rental Homes',
     url: 'https://bakersfieldrentalhomes.com',
   },

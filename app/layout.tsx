@@ -36,11 +36,9 @@ export const metadata: Metadata = {
   verification: { google: 'qHesuDsAQNBfL8wULF0DGs-LNlNpAbQ2rrxfg53PDS8' },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
-    shortcut: '/favicon.ico',
-    apple: '/favicon.svg',
+    apple: '/og-image.jpg',
   },
   openGraph: {
     type: 'website', locale: 'en_US', url: SITE_URL,
@@ -55,7 +53,7 @@ export const metadata: Metadata = {
 
 const localBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'RealEstateAgent',
+  '@type': 'Organization',
   name: 'Bakersfield Rental Homes',
   url: 'https://bakersfieldrentalhomes.com',
   logo: 'https://bakersfieldrentalhomes.com/og-image.jpg',

@@ -82,7 +82,7 @@ async function getLAListings(): Promise<Listing[]> {
 
 const localBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'RealEstateAgent',
+  '@type': 'Organization',
   name: 'Bakersfield Rental Homes',
   url: 'https://bakersfieldrentalhomes.com',
   logo: 'https://bakersfieldrentalhomes.com/favicon.svg',

@@ -547,7 +547,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
               Direct Landlord Rentals in Los Angeles
             </h2>
             <p className="text-sm max-w-xl" style={{ color: '#616161' }}>
-              We also manage a select number of properties in Los Angeles — rented directly by the owner, no broker fees.
+              A select number of properties in Los Angeles are listed here — rented directly by the owner, no broker fees.
             </p>
           </div>
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">

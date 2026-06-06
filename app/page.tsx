@@ -11,7 +11,7 @@ import { getHomepage, urlFor } from '@/lib/sanity.client'
 export const metadata: Metadata = {
   title: 'Bakersfield Rental Homes | Houses & Homes For Rent in Bakersfield CA',
   description:
-    'Find houses and homes for rent in Bakersfield, CA. Single-family rentals, pet-friendly homes, and short-term leases throughout Kern County. Trusted local management.',
+    'Find houses and homes for rent in Bakersfield, CA. Browse listings posted directly by local landlords — no broker fees, no middlemen. Single-family homes and pet-friendly rentals in Kern County.',
   alternates: { canonical: 'https://bakersfieldrentalhomes.com' },
 }
 

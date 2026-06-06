@@ -89,11 +89,11 @@ export default async function NeighborhoodPage({
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'RealEstateListing',
+    '@type': 'CollectionPage',
     name: `Direct Landlord Rentals in ${hood.name}, Bakersfield CA`,
     description: hood.description,
     url: `https://bakersfieldrentalhomes.com/neighborhoods/${hood.slug}`,
-    areaServed: {
+    about: {
       '@type': 'Place',
       name: `${hood.name}, Bakersfield, CA`,
       address: {
@@ -103,6 +103,11 @@ export default async function NeighborhoodPage({
         postalCode: hood.zips[0],
         addressCountry: 'US',
       },
+    },
+    provider: {
+      '@type': 'Organization',
+      name: 'Bakersfield Rental Homes',
+      url: 'https://bakersfieldrentalhomes.com',
     },
   }
 
