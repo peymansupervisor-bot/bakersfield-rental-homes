@@ -19,13 +19,20 @@ export async function POST(req: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer())
 
-    const processed = await sharp(buffer)
-      .rotate()                          // apply EXIF orientation first
+    // Apply EXIF orientation first, then check if portrait
+    const rotated = sharp(buffer).rotate()
+    const { width = 0, height = 0 } = await rotated.metadata()
+
+    // Force landscape: if portrait after EXIF correction, rotate 90° so all listing
+    // photos are consistent in the gallery and lightbox
+    const normalized = height > width ? rotated.rotate(90) : rotated
+
+    const processed = await normalized
       .resize(1600, 1200, {
-        fit: 'inside',                   // preserve aspect ratio (portrait stays portrait)
-        withoutEnlargement: true,        // never upscale smaller images
+        fit: 'inside',           // never crop; fits within 1600×1200
+        withoutEnlargement: true,
       })
-      .jpeg({ quality: 85, progressive: true })
+      .jpeg({ quality: 90, progressive: true })
       .toBuffer()
 
     const db = createServiceClient()
