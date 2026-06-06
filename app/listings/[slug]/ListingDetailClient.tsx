@@ -270,7 +270,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                       sizes="(max-width: 1024px) 100vw, 66vw"
                       quality={90}
                       className="object-cover pointer-events-none"
-                      priority={photoIndex === 0}
+                      priority
                     />
                   )}
                   <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full text-xs"
