@@ -7,52 +7,44 @@ const services = [
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-        <path d="M8 28C8 28 6 20 10 14C14 8 16 6 16 6C16 6 18 8 22 14C26 20 24 28 24 28" stroke="#2D7A4F" strokeWidth="2" strokeLinecap="round"/>
-        <path d="M16 6V28" stroke="#2D7A4F" strokeWidth="2" strokeLinecap="round"/>
-        <ellipse cx="16" cy="14" rx="4" ry="3" fill="#2D7A4F" opacity="0.3"/>
+        <path d="M16 4L4 14h4v14h8v-8h8v8h-4v2h6V14h4L16 4z" stroke="#2D7A4F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: 'Professional Gardening',
-    description: 'An unkept yard is the first thing a tenant notices — and the first reason they leave. Weekly care, seasonal upkeep, and irrigation management keep your curb appeal and your tenants.',
+    title: 'Advertise Your Property',
+    description: 'Landlords: post your Bakersfield rental directly to local tenants for just $1. No commissions, no agents, no middlemen — just your listing in front of real renters.',
     accent: '#2D7A4F',
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-        <ellipse cx="16" cy="20" rx="10" ry="5" stroke="#1C3D5A" strokeWidth="2"/>
-        <path d="M6 20C6 20 6 12 16 12C26 12 26 20 26 20" stroke="#1C3D5A" strokeWidth="2"/>
-        <path d="M13 16C13 16 15 18 16 18C17 18 19 16 19 16" stroke="#C9A961" strokeWidth="2" strokeLinecap="round"/>
+        <circle cx="13" cy="13" r="8" stroke="#1C3D5A" strokeWidth="2"/>
+        <path d="M19 19l7 7" stroke="#1C3D5A" strokeWidth="2.5" strokeLinecap="round"/>
       </svg>
     ),
-    title: 'Pool Maintenance',
-    description: "A green pool ends a lease fast. Chemical balancing, routine cleaning, and equipment checks mean your tenants enjoy it — and your liability doesn't.",
+    title: 'Browse Homes for Rent',
+    description: 'Tenants: search available homes across Bakersfield by price, bedrooms, zip code, and pet policy. Every listing comes straight from the owner — no broker fees, ever.',
     accent: '#1C3D5A',
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-        <rect x="8" y="10" width="16" height="12" rx="2" stroke="#C9A961" strokeWidth="2"/>
-        <path d="M12 10V8C12 6.89 12.89 6 14 6H18C19.11 6 20 6.89 20 8V10" stroke="#C9A961" strokeWidth="2"/>
-        <path d="M8 16H24" stroke="#C9A961" strokeWidth="2"/>
-        <circle cx="16" cy="16" r="2" fill="#C9A961"/>
-        <path d="M16 22V26M12 26H20" stroke="#C9A961" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M6 10h20M6 16h14M6 22h10" stroke="#C9A961" strokeWidth="2" strokeLinecap="round"/>
       </svg>
     ),
-    title: 'HVAC Service',
-    description: 'Nothing drives a tenant out faster than a broken AC in a Bakersfield summer. Regular tune-ups, filter changes, and same-day emergency calls keep your tenants comfortable — and renewing.',
+    title: 'No Broker Fees',
+    description: 'This is a direct-to-owner platform. Tenants never pay a finder\'s fee or broker commission. Landlords keep 100% of their rent — no agent cuts, no management fees.',
     accent: '#C9A961',
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
-        <path d="M10 22L20 12" stroke="#1C3D5A" strokeWidth="2.5" strokeLinecap="round"/>
-        <path d="M18 10L22 14L20 12" stroke="#1C3D5A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <circle cx="10" cy="22" r="3" fill="#C9A961" opacity="0.6"/>
-        <path d="M6 26L9 23" stroke="#1C3D5A" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M16 4C16 4 8 10 8 18a8 8 0 0016 0c0-8-8-14-8-14z" stroke="#1C3D5A" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M16 18v-6" stroke="#C9A961" strokeWidth="2" strokeLinecap="round"/>
+        <circle cx="16" cy="20" r="1.5" fill="#C9A961"/>
       </svg>
     ),
-    title: 'Licensed Handyman',
-    description: 'Small repairs ignored become big reasons to leave. Leaky faucet, broken door, scuffed walls — we handle it before your tenant starts looking elsewhere. Licensed, insured, and actually available.',
+    title: 'Local & Community-Driven',
+    description: 'Every landlord and tenant on this platform is part of the Bakersfield community. Real local owners, real available homes — not national corporations or out-of-state investors.',
     accent: '#1C3D5A',
   },
 ]
@@ -83,7 +75,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
       style={{ backgroundColor: '#F7F5F0' }}
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-8" style={{ color: '#1C3D5A' }}>Our Services</h2>
+        <h2 className="text-2xl font-semibold mb-8" style={{ color: '#1C3D5A' }}>Why Use This Platform</h2>
         {/* CTA Buttons */}
         <div className={`flex flex-col sm:flex-row gap-5 reveal-up ${inView ? 'in-view' : ''}`}>
           {/* Landlord button */}

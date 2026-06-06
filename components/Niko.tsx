@@ -12,7 +12,7 @@ const DEFAULT_PHOTOS = [
 
 const DEFAULT_CARDS = [
   { icon: '🏡', title: 'Fenced Yards',        desc: 'Several of our homes feature fully fenced yards — perfect for pets to roam safely.' },
-  { icon: '🐕', title: 'Pet-Friendly Policy', desc: 'We work with tenants who have pets. Ask us about pet deposits and approved breeds.' },
+  { icon: '🐕', title: 'Pet-Friendly Listings', desc: 'Many homes on this site welcome pets. Filter by pet-friendly when you browse to find the right fit.' },
   { icon: '🌳', title: 'Great Neighborhoods', desc: 'Tree-lined streets and nearby parks make Bakersfield a wonderful place for dogs.' },
   { icon: '💛', title: 'Niko Approved',        desc: 'If Niko loves it, you will too. He\'s our unofficial seal of approval.' },
 ]

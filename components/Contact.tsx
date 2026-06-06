@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 const DEFAULT_HEADLINE = "Let's Make It\nSimple from Here."
-const DEFAULT_DESC = "Whether you're a tenant looking for a home that's actually taken care of, or an investor who's tired of managing from a distance — we handle it. Tell us where you are and we'll take it from there."
+const DEFAULT_DESC = "Whether you're a landlord looking to advertise your property and reach local tenants, or a renter searching for your next home — reach out and we'll point you in the right direction."
 
 interface ContactProps { headline?: string; description?: string }
 

@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 const DEFAULT_STATS = [
-  { value: '100%', label: 'Occupied',     sub: 'Consistent occupancy, minimal downtime' },
-  { value: '24hr', label: 'We Answer',    sub: 'Tenants call, we respond — same day' },
-  { value: '3yr+', label: 'Avg. Tenancy', sub: 'Good management keeps good tenants' },
+  { value: '$1',   label: 'To List',      sub: 'Post your rental for just $1 — no commissions' },
+  { value: '0%',   label: 'Broker Fees',  sub: 'Tenants pay no finder\'s fees, ever' },
+  { value: '100%', label: 'Local Owners', sub: 'Every listing comes directly from the landlord' },
 ]
 
 interface StatItem { value: string; label: string; sub: string }

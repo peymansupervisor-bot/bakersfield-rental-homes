@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'List Your Rental Property in Bakersfield, CA',
-  description: 'Landlords: list your Bakersfield rental home for free. Reach qualified tenants fast. Simple form, quick approval, and professional property management support.',
+  description: 'Landlords: advertise your Bakersfield rental property and reach qualified local tenants directly. Simple listing form, no commissions, no broker fees.',
   alternates: {
     canonical: 'https://bakersfieldrentalhomes.com/list',
   },
