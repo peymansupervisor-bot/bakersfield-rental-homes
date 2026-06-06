@@ -75,10 +75,10 @@ export async function GET() {
     // Listing URL
     ListingURL: `${baseUrl}/listings/${l.slug ?? l.id}`,
 
-    // Agent / contact
-    ListAgentFullName:  l.contact_name,
-    ListAgentEmail:     l.contact_email,
-    ListAgentPhone:     l.contact_phone ?? null,
+    // Agent / contact — brand name used intentionally to avoid exposing landlord identity
+    ListAgentFullName:  'Bakersfield Rental Homes',
+    ListAgentEmail:     'info@bakersfieldrentalhomes.com',
+    ListAgentPhone:     null,
     ListOfficeName:     'Bakersfield Rental Homes',
     ListOfficeURL:      baseUrl,
   }))
