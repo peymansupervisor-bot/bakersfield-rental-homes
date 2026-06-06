@@ -268,6 +268,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                       alt={`${listing.title} — photo ${photoIndex + 1} of ${totalPhotos}`}
                       fill
                       sizes="(max-width: 1024px) 100vw, 66vw"
+                      quality={90}
                       className="object-cover pointer-events-none"
                       priority={photoIndex === 0}
                     />
