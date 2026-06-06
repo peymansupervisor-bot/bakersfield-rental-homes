@@ -19,7 +19,9 @@ export default function Hero({ heroHeadline }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const [muted, setMuted] = useState(true)
+  const [playing, setPlaying] = useState(!prefersReducedMotion)
   const [currentTime, setCurrentTime] = useState(0)
 
   // Detect mobile
@@ -56,6 +58,14 @@ export default function Hero({ heroHeadline }: HeroProps) {
     }
   }
 
+  const handlePlayToggle = () => {
+    const video = videoRef.current
+    if (video) {
+      playing ? video.pause() : video.play()
+      setPlaying(!playing)
+    }
+  }
+
   const headline = heroHeadline || OVERLAYS[0].headline
   const activeOverlay = OVERLAYS.find(
     (o) => currentTime >= o.start && currentTime < o.end
@@ -67,13 +77,13 @@ export default function Hero({ heroHeadline }: HeroProps) {
       className="relative w-full overflow-hidden"
       style={{ height: '100vh', backgroundColor: '#d6cfc4' }}
     >
-      {/* Desktop: autoplay video */}
+      {/* Desktop: autoplay video — paused if user prefers reduced motion */}
       {!isMobile && (
         <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
           src="/hero.mp4"
-          autoPlay
+          autoPlay={!prefersReducedMotion}
           muted
           loop
           playsInline
@@ -155,26 +165,57 @@ export default function Hero({ heroHeadline }: HeroProps) {
       </div>
 
 
-      {/* Tagline — bottom-left, clear of video content */}
-      {/* Sound toggle — bottom-right */}
+      {/* Video controls — bottom-left: pause/play + mute */}
       {!isMobile && (
-        <button
-          onClick={handleSoundToggle}
-          aria-label={muted ? 'Unmute background video' : 'Mute background video'}
-          aria-pressed={!muted}
-          className="absolute bottom-8 left-6 md:left-10 flex items-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
-          style={{
-            backgroundColor: 'rgba(247,245,240,0.15)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(247,245,240,0.25)',
-            color: 'rgba(247,245,240,0.85)',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '11px',
-            letterSpacing: '0.1em',
-            cursor: 'pointer',
-            zIndex: 20,
-          }}
-        >
+        <div className="absolute bottom-8 left-6 md:left-10 flex items-center gap-2" style={{ zIndex: 20 }}>
+          <button
+            onClick={handlePlayToggle}
+            aria-label={playing ? 'Pause background video' : 'Play background video'}
+            aria-pressed={!playing}
+            className="flex items-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
+            style={{
+              backgroundColor: 'rgba(247,245,240,0.15)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(247,245,240,0.25)',
+              color: 'rgba(247,245,240,0.85)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              letterSpacing: '0.1em',
+              cursor: 'pointer',
+            }}
+          >
+            {playing ? (
+              <>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+                </svg>
+                <span>Pause</span>
+              </>
+            ) : (
+              <>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span>Play</span>
+              </>
+            )}
+          </button>
+          <button
+            onClick={handleSoundToggle}
+            aria-label={muted ? 'Unmute background video' : 'Mute background video'}
+            aria-pressed={!muted}
+            className="flex items-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
+            style={{
+              backgroundColor: 'rgba(247,245,240,0.15)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(247,245,240,0.25)',
+              color: 'rgba(247,245,240,0.85)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              letterSpacing: '0.1em',
+              cursor: 'pointer',
+            }}
+          >
           {muted ? (
             <>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -194,6 +235,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
             </>
           )}
         </button>
+        </div>
       )}
 
       {/* Watermark cover — bottom-right corner */}

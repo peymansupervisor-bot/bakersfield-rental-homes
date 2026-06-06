@@ -58,15 +58,13 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
             )}
             {/* Rent badge */}
             <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full text-sm font-bold"
-              aria-label={`Rent: $${listing.monthly_rent.toLocaleString()} per month`}
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
-              <span aria-hidden="true">${listing.monthly_rent.toLocaleString()}/mo</span>
+              ${listing.monthly_rent.toLocaleString()}/mo
             </div>
             {/* Rental status ribbon */}
             {listing.rental_status && (
               <span
                 className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase"
-                aria-label={`Status: ${listing.rental_status}`}
                 style={{
                   backgroundColor: statusColor(listing.rental_status),
                   color: '#fff',
@@ -503,7 +501,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
           <div className="text-center py-24">
             <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
               style={{ backgroundColor: '#f0ece4' }}>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
                 <path d="M16 4L28 10V28H20V22H12V28H4V10L16 4Z" fill="#C9A961" opacity="0.4"/>
               </svg>
             </div>

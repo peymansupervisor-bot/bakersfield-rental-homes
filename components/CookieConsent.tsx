@@ -34,6 +34,7 @@ export default function CookieConsent() {
   return (
     <div
       role="dialog"
+      aria-modal="true"
       aria-label="Cookie consent"
       className="fixed bottom-4 left-4 right-4 md:left-auto md:right-5 md:max-w-sm z-50 bg-[#0d1b2e] text-white rounded-2xl shadow-2xl p-5"
     >
