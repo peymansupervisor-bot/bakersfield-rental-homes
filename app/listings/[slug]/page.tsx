@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     : `${listing.bedrooms} bed, ${listing.bathrooms} bath apartment for rent in ${listing.city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
   const urlSlug = listing.slug ?? listing.id
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
-  const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-default.jpg'
+  const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-image.jpg'
   const bedsLabel = listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms}-Bedroom`
   const city = listing.city ?? 'Bakersfield'
   const zip = listing.zip ?? ''
@@ -145,11 +145,25 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
     },
   }
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bakersfieldrentalhomes.com' },
+      { '@type': 'ListItem', position: 2, name: 'Listings', item: 'https://bakersfieldrentalhomes.com/listings' },
+      { '@type': 'ListItem', position: 3, name: listing.title, item: canonicalUrl },
+    ],
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <ListingDetailClient listing={listing} />
     </>

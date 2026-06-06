@@ -178,17 +178,23 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
 
   const fetchListings = async () => {
     setSearching(true)
-    const params = new URLSearchParams()
-    if (minBeds)  params.set('minBeds', minBeds)
-    if (minBaths) params.set('minBaths', minBaths)
-    if (minRent)  params.set('minRent', minRent)
-    if (maxRent)  params.set('maxRent', maxRent)
-    if (zip)      params.set('zip', zip)
-    if (district) params.set('district', district)
-    const res = await fetch(`/api/listings?${params.toString()}`)
-    const { listings: data } = await res.json()
-    setAllListings(data || [])
-    setSearching(false)
+    try {
+      const params = new URLSearchParams()
+      if (minBeds)  params.set('minBeds', minBeds)
+      if (minBaths) params.set('minBaths', minBaths)
+      if (minRent)  params.set('minRent', minRent)
+      if (maxRent)  params.set('maxRent', maxRent)
+      if (zip)      params.set('zip', zip)
+      if (district) params.set('district', district)
+      const res = await fetch(`/api/listings?${params.toString()}`)
+      if (!res.ok) throw new Error()
+      const { listings: data } = await res.json()
+      setAllListings(data || [])
+    } catch {
+      // keep existing listings visible on error
+    } finally {
+      setSearching(false)
+    }
   }
 
   const displayed = useMemo(() => {

@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Legal Disclaimer | Bakersfield Rental Homes',
   description: 'Legal disclaimer, limitation of liability, no-agency notice, and terms of use for BakersfieldRentalHomes.com — governed by California and Kern County law.',
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/disclaimer' },
+  robots: { index: false, follow: false },
 }
 
 export default function DisclaimerPage() {

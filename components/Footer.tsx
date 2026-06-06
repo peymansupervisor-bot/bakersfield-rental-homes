@@ -66,9 +66,9 @@ export default function Footer() {
               key={n.slug}
               href={`/neighborhoods/${n.slug}`}
               className="text-xs transition-all hover:opacity-80"
-              style={{ color: 'rgba(201,169,97,0.7)' }}
+              style={{ color: '#C9A961' }}
             >
-              {n.name}
+              {n.name} Rentals
             </Link>
           ))}
         </nav>

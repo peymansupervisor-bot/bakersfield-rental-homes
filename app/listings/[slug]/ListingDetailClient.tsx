@@ -76,7 +76,6 @@ function VideoTour({ listing }: { listing: Listing }) {
 
       {videoUrl ? (
         <div className="rounded-2xl overflow-hidden" style={{ aspectRatio: '16/9', backgroundColor: '#000' }}>
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
             src={videoUrl}
             controls
@@ -84,7 +83,9 @@ function VideoTour({ listing }: { listing: Listing }) {
             poster={listing.photos?.[0]}
             className="w-full h-full object-contain"
             aria-label={`Video tour of ${listing.title}`}
-          />
+          >
+            <track kind="captions" label="No captions available" srcLang="en" default />
+          </video>
         </div>
       ) : status === 'rendering' ? (
         <div className="rounded-2xl flex flex-col items-center justify-center gap-4 py-14"
@@ -642,8 +643,8 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 function StatBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl p-3 text-center" style={{ backgroundColor: '#f8f6f2' }}>
-      <dd className="text-lg font-bold mb-0.5" style={{ color: '#1C3D5A' }}>{value}</dd>
       <dt className="text-xs" style={{ color: '#595959' }}>{label}</dt>
+      <dd className="text-lg font-bold mt-0.5" style={{ color: '#1C3D5A' }}>{value}</dd>
     </div>
   )
 }
