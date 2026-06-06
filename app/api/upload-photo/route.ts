@@ -28,8 +28,8 @@ export async function POST(req: NextRequest) {
     const normalized = height > width ? rotated.rotate(90) : rotated
 
     const processed = await normalized
-      .resize(1400, 1050, {
-        fit: 'inside',           // never crop; fits within 1400×1050
+      .resize(960, 720, {
+        fit: 'inside',           // never crop; fits within 960×720
         withoutEnlargement: true,
       })
       .jpeg({ quality: 88 })
