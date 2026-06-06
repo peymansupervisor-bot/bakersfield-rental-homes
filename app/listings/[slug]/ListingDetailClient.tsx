@@ -307,7 +307,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 <button
                   onClick={() => setLightbox(true)}
                   className="mt-2 text-xs underline transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961] rounded"
-                  style={{ color: '#616161', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px' }}
+                  style={{ color: '#595959', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px' }}
                   aria-label={`Open photo ${photoIndex + 1} in full screen view`}>
                   View full screen
                 </button>
@@ -382,7 +382,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
                 Location
               </h2>
-              <p className="text-sm mb-3" style={{ color: '#616161' }}>{fullAddress}</p>
+              <p className="text-sm mb-3" style={{ color: '#595959' }}>{fullAddress}</p>
               <div className="rounded-2xl overflow-hidden" style={{ height: '320px' }}>
                 <iframe
                   title={`Map showing location of ${fullAddress}`}
@@ -424,17 +424,17 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
                 {listing.title}
               </p>
-              <p className="text-sm mb-4" style={{ color: '#616161' }}>
+              <p className="text-sm mb-4" style={{ color: '#595959' }}>
                 {listing.address}, {listing.city}
               </p>
 
               <div className="text-3xl font-bold mb-1" style={{ color: '#1C3D5A' }}>
                 <span aria-label={`$${listing.monthly_rent.toLocaleString()} per month`}>
                   ${listing.monthly_rent.toLocaleString()}
-                  <span className="text-base font-light text-[#616161]" aria-hidden="true">/mo</span>
+                  <span className="text-base font-light text-[#595959]" aria-hidden="true">/mo</span>
                 </span>
               </div>
-              <p className="text-sm mb-3" style={{ color: '#616161' }}>
+              <p className="text-sm mb-3" style={{ color: '#595959' }}>
                 ${listing.deposit.toLocaleString()} deposit
               </p>
 

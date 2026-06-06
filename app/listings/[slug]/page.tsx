@@ -40,14 +40,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const rawDesc = listing.description?.slice(0, 160) ?? ''
   const description = rawDesc
     ? (rawDesc.length < (listing.description?.length ?? 0) ? rawDesc.replace(/\s\S*$/, '…') : rawDesc)
-    : `${listing.bedrooms} bed, ${listing.bathrooms} bath home for rent in ${listing.city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
+    : `${listing.bedrooms} bed, ${listing.bathrooms} bath apartment for rent in ${listing.city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
   const urlSlug = listing.slug ?? listing.id
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
   const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-default.jpg'
   const bedsLabel = listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms}-Bedroom`
   const city = listing.city ?? 'Bakersfield'
   const zip = listing.zip ?? ''
-  const propertyWord = city === 'Bakersfield' ? 'House' : 'Condo'
+  const propertyWord = city === 'Bakersfield' ? 'House' : 'Apartment'
   const seoTitle = `${bedsLabel} ${propertyWord} for Rent in ${city} CA ${zip} — ${listing.address}`
   const ogTitle = `${listing.address} — ${bedsLabel} For Rent in ${city}, CA`
   return {
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       title: ogTitle,
       description,
       url: canonicalUrl,
-      siteName: 'Bakersfield Rental Homes',
+      siteName: city === 'Bakersfield' ? 'Bakersfield Rental Homes' : 'Direct Landlord Rentals',
       images: [{ url: ogImage, width: 1200, height: 630, alt: ogTitle }],
       type: 'website',
     },
