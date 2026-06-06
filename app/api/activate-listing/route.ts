@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase'
+import { warmPhotoCache } from '@/lib/warmPhotoCache'
 
 export async function POST(req: NextRequest) {
   try {
@@ -38,13 +39,20 @@ export async function POST(req: NextRequest) {
     }
 
     // Both checks passed — activate without payment
-    const { error: updateErr } = await db
+    const { data: fullListing, error: updateErr } = await db
       .from('listings')
       .update({ status: 'active' })
       .eq('id', listingId)
+      .select('photos')
+      .single()
 
     if (updateErr) {
       return NextResponse.json({ error: 'Failed to activate listing' }, { status: 500 })
+    }
+
+    // Warm Vercel image cache so photos load instantly for the first visitor
+    if (fullListing?.photos?.length) {
+      warmPhotoCache(fullListing.photos).catch(() => {})
     }
 
     return NextResponse.json({ success: true, listingId })

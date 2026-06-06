@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createServiceClient } from '@/lib/supabase'
+import { warmPhotoCache } from '@/lib/warmPhotoCache'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-06-20',
@@ -35,10 +36,12 @@ export async function POST(req: NextRequest) {
 
     if (listingId) {
       const db = createServiceClient()
-      const { error } = await db
+      const { data: activated, error } = await db
         .from('listings')
         .update({ status: 'active' })
         .eq('id', listingId)
+        .select('photos')
+        .single()
 
       if (error) {
         console.error('Failed to activate listing:', error)
@@ -46,6 +49,11 @@ export async function POST(req: NextRequest) {
       }
 
       console.log(`Listing ${listingId} activated after payment ${session.id}`)
+
+      // Warm Vercel image cache so photos load instantly for the first visitor
+      if (activated?.photos?.length) {
+        warmPhotoCache(activated.photos).catch(() => {})
+      }
     }
   }
 
