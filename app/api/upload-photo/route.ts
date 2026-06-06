@@ -28,11 +28,11 @@ export async function POST(req: NextRequest) {
     const normalized = height > width ? rotated.rotate(90) : rotated
 
     const processed = await normalized
-      .resize(1600, 1200, {
-        fit: 'inside',           // never crop; fits within 1600×1200
+      .resize(1400, 1050, {
+        fit: 'inside',           // never crop; fits within 1400×1050
         withoutEnlargement: true,
       })
-      .jpeg({ quality: 90, progressive: true })
+      .jpeg({ quality: 82, progressive: true })
       .toBuffer()
 
     const db = createServiceClient()

@@ -594,18 +594,31 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
             onClick={e => { e.stopPropagation(); setPhotoIndex(i => (i - 1 + totalPhotos) % totalPhotos) }}>
             <span aria-hidden="true">‹</span>
           </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <div
             className="relative rounded-xl overflow-hidden"
             style={{ width: 'min(90vw, calc(90vh * 4 / 3))', height: 'min(90vh, calc(90vw * 3 / 4))' }}
             onClick={e => e.stopPropagation()}
           >
-            <img
+            <Image
               src={listing.photos[photoIndex]}
               alt={`${listing.title} — photo ${photoIndex + 1} of ${totalPhotos}`}
-              className="w-full h-full object-contain"
+              fill
+              sizes="90vw"
+              quality={90}
+              className="object-contain"
+              priority
             />
           </div>
+          {/* Preload next photo so lightbox navigation feels instant */}
+          {totalPhotos > 1 && listing.photos[(photoIndex + 1) % totalPhotos] && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={listing.photos[(photoIndex + 1) % totalPhotos]}
+              alt=""
+              aria-hidden="true"
+              className="hidden"
+            />
+          )}
           <button
             aria-label={`Next photo (${(photoIndex + 2) > totalPhotos ? 1 : photoIndex + 2} of ${totalPhotos})`}
             className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-2xl"
