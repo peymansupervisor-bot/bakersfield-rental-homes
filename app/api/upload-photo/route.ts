@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
         fit: 'inside',           // never crop; fits within 1400×1050
         withoutEnlargement: true,
       })
-      .jpeg({ quality: 82, progressive: true })
+      .jpeg({ quality: 88 })
       .toBuffer()
 
     const db = createServiceClient()
