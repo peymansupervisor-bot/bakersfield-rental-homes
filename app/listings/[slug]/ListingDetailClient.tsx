@@ -108,7 +108,7 @@ function VideoTour({ listing }: { listing: Listing }) {
             <p className="text-sm font-semibold mb-1" style={{ color: '#1C3D5A' }}>
               AI-Narrated Video Tour
             </p>
-            <p className="text-xs" style={{ color: '#616161' }}>
+            <p className="text-xs" style={{ color: '#595959' }}>
               Auto-generates a slideshow with voiceover from the property description
             </p>
           </div>
@@ -122,6 +122,7 @@ function VideoTour({ listing }: { listing: Listing }) {
             onClick={handleGenerate}
             disabled={generating}
             className="px-7 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-50"
+            aria-label="Generate AI-narrated video tour for this property"
             style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.1em' }}>
             {generating ? 'Starting…' : 'Generate Video Tour'}
           </button>
@@ -189,7 +190,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 
   useEffect(() => {
     if (!lightbox) return
-    setTimeout(() => closeButtonRef.current?.focus(), 50)
+    setTimeout(() => closeButtonRef.current?.focus(), 100)
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { setLightbox(false); return }
       if (e.key === 'ArrowRight') { e.preventDefault(); setPhotoIndex(i => (i + 1) % totalPhotos); return }
@@ -274,12 +275,12 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                     />
                   )}
                   <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full text-xs"
-                    style={{ backgroundColor: 'rgba(0,0,0,0.55)', color: 'white' }}
+                    style={{ backgroundColor: 'rgba(0,0,0,0.70)', color: 'white' }}
                     aria-hidden="true">
                     {photoIndex + 1} / {totalPhotos}
                   </div>
                   <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs"
-                    style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white' }}
+                    style={{ backgroundColor: 'rgba(0,0,0,0.70)', color: 'white' }}
                     aria-hidden="true">
                     Click to enlarge
                   </div>
@@ -289,14 +290,14 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                         aria-label={`Previous photo (${photoIndex === 0 ? totalPhotos : photoIndex} of ${totalPhotos})`}
                         onClick={e => { e.stopPropagation(); setPhotoIndex(i => (i - 1 + totalPhotos) % totalPhotos) }}
                         className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white', zIndex: 1 }}>
+                        style={{ backgroundColor: 'rgba(0,0,0,0.65)', color: 'white', zIndex: 1 }}>
                         <span aria-hidden="true">‹</span>
                       </button>
                       <button
                         aria-label={`Next photo (${(photoIndex + 2) > totalPhotos ? 1 : photoIndex + 2} of ${totalPhotos})`}
                         onClick={e => { e.stopPropagation(); setPhotoIndex(i => (i + 1) % totalPhotos) }}
                         className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white', zIndex: 1 }}>
+                        style={{ backgroundColor: 'rgba(0,0,0,0.65)', color: 'white', zIndex: 1 }}>
                         <span aria-hidden="true">›</span>
                       </button>
                     </>
