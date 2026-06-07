@@ -34,7 +34,11 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
   const isPriority = index < 3
   return (
     <div className="card-animate" style={{ animationDelay: `${index * 0.06}s` }}>
-      <Link href={`/listings/${listing.slug ?? listing.id}`} className="block group">
+      <Link
+        href={`/listings/${listing.slug ?? listing.id}`}
+        className="block group"
+        aria-label={`${listing.title} — ${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} bed`}, ${listing.bathrooms} bath, $${listing.monthly_rent.toLocaleString()}/mo${listing.rental_status ? ` — ${statusLabel(listing.rental_status)}` : ''}`}
+      >
         <div className="bg-white rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg"
           style={{ border: '1px solid rgba(201,169,97,0.12)' }}>
           {/* Photo */}
@@ -267,7 +271,8 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      <section className="max-w-6xl mx-auto px-6 py-10" aria-labelledby="bakersfield-listings-heading">
+        <h2 id="bakersfield-listings-heading" className="sr-only">Bakersfield Rental Listings</h2>
         {/* ── Filter + Sort Panel ───────────────────────────────── */}
         <div
           role="search"
@@ -552,7 +557,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
             ))}
           </div>
         )}
-      </div>
+      </section>
 
       {/* LA listings — only rendered if data exists */}
       {laListings.length > 0 && (
