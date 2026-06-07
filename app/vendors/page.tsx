@@ -601,7 +601,7 @@ export default function VendorsPage() {
 
         {/* Trust line */}
         <p className="text-center text-xs mt-8" style={{ color: '#595959' }}>
-          Your documents are stored securely and reviewed only by our team. Questions?{' '}
+          Your documents are stored securely and used only for the purpose of reviewing your vendor application. Questions?{' '}
           <a href="tel:+16613811818" className="underline" style={{ color: '#8a6d1f' }}>(661) 381-1818</a>
         </p>
       </div>
