@@ -4,7 +4,23 @@ import { createServiceClient, getAuthUserId } from '@/lib/supabase'
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const category = searchParams.get('category')
+  const id = searchParams.get('id')
   const db = createServiceClient()
+
+  // Single-post fetch — used by notification handler to avoid full table scan
+  if (id) {
+    const { data, error } = await db
+      .from('community_posts')
+      .select('id, title')
+      .eq('id', id)
+      .single()
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ post: data }, {
+      headers: { 'Cache-Control': 's-maxage=120, stale-while-revalidate=600' },
+    })
+  }
+
+  // Full feed fetch
   let query = db
     .from('community_posts')
     .select('*, profiles(display_name, avatar_url), community_comments(count)')

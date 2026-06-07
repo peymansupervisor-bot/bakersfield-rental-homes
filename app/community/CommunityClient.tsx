@@ -1106,14 +1106,13 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
           const comment = payload.new as { post_id: string; user_id: string; body: string }
           if (comment.user_id === user.id) return // ignore own comments
           if (!userPostIds.current.has(comment.post_id)) return // not their post
-          // Fetch post title and commenter name
-          const [postRes, profileRes] = await Promise.all([
-            fetch(`/api/community/posts`).then(r => r.json()),
-            fetch(`/api/community/comments?post_id=${comment.post_id}`).then(r => r.json()),
+          // Fetch only the specific post and the latest comment — avoid full posts scan
+          const [postRes, commentsRes] = await Promise.all([
+            fetch(`/api/community/posts?id=${comment.post_id}`).then(r => r.json()),
+            fetch(`/api/community/comments?post_id=${comment.post_id}&limit=1`).then(r => r.json()),
           ])
-          const post = (postRes.posts ?? []).find((p: Post) => p.id === comment.post_id)
-          const postTitle = post?.title ?? 'your post'
-          const commenterName = profileRes.comments?.slice(-1)[0]?.profiles?.display_name ?? 'Someone'
+          const postTitle = postRes.post?.title ?? 'your post'
+          const commenterName = commentsRes.comments?.slice(-1)[0]?.profiles?.display_name ?? 'Someone'
           setNotifications(prev => [{ id: Date.now().toString(), postTitle, commenterName }, ...prev.slice(0, 9)])
         }
       )
@@ -1126,7 +1125,7 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
   const fetchPosts = useCallback(async () => {
     setLoading(true)
     const url = category === 'all' ? '/api/community/posts' : `/api/community/posts?category=${category}`
-    const res = await fetch(url, { cache: 'no-store' })
+    const res = await fetch(url)
     const { posts: data } = await res.json()
     const fetched = data ?? []
     setPosts(fetched)
