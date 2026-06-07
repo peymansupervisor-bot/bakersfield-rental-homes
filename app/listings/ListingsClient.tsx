@@ -285,7 +285,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
         >
           <span className="text-xl flex-shrink-0" aria-hidden="true">✅</span>
           <p className="text-xs" style={{ color: '#616161' }}>
-            <span className="font-semibold" style={{ color: '#1C3D5A' }}>We charge a $1 fee</span> to verify that every landlord is real and every listing is legitimate — keeping scammers and fake listings off the platform.
+            <span className="font-semibold" style={{ color: '#1C3D5A' }}>Every landlord is identity-verified</span> before going live — keeping scammers and fake listings off the platform.
           </p>
         </div>
       </div>

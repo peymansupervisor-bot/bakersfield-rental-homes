@@ -7,7 +7,7 @@ const LINES = [
   { speaker: 'picasso', text: "Hello! Another landlord is here to list on Bakersfield Rental Homes! Squawk!", audio: '/chat-audio/picasso1.mp3' },
   { speaker: 'niko',    text: "Smart human! No broker fees, no middlemen — just real tenants!", audio: '/chat-audio/niko1.mp3' },
   { speaker: 'niko',    text: "Yes. Local landlords, local renters. Honestly the best decision they've made all year.", audio: '/chat-audio/niko2.mp3' },
-  { speaker: 'picasso', text: "And if it doesn't work out and your house isn't rented in 3 months… We will refund your $1. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
+  { speaker: 'picasso', text: "And we verify every landlord — so only real people with real properties get listed. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
   { speaker: 'niko',    text: "Woof! Now scroll down to complete the form and join the family. 🐾", audio: '/chat-audio/niko3.mp3' },
 ]
 

@@ -641,7 +641,7 @@ function Step4({ form, set, onSubmit, loading }: {
         <Row label="Deposit" value={`$${Number(form.deposit).toLocaleString()}`} />
         <Row label="Photos" value={`${form.photoFiles.length} photos`} />
         <div className="border-t border-[#d5d0c8] mt-3 pt-3 flex justify-between">
-          <span className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>Verification</span>
+          <span className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>Identity Verification</span>
           <span className="text-sm font-bold" style={{ color: '#2D7A4F' }}>Free</span>
         </div>
       </div>
@@ -841,7 +841,7 @@ export default function ListPage() {
           List Your Rental Property in Bakersfield, CA
         </h1>
         <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.87)' }}>
-          We charge a $1 fee to verify that every landlord is real and every listing is legitimate — keeping scammers and fake listings off the platform.
+          Every landlord is identity-verified before going live — keeping scammers and fake listings off the platform.
         </p>
       </div>
 
