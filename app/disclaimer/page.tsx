@@ -344,7 +344,7 @@ export default function DisclaimerPage() {
             </p>
             <p>
               DMCA notices should be sent to:<br />
-              <strong>DMCA Agent: Peter Karami — Bakersfield Rental Homes</strong><br />
+              <strong>DMCA Agent: Bakersfield Rental Homes</strong><br />
               Email: <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a><br />
               Phone: <a href="tel:+16613811818" style={{ color: '#7d6019' }}>(661) 381-1818</a><br />
               Subject line: <em>DMCA Takedown Notice</em>
