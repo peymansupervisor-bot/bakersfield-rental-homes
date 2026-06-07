@@ -76,7 +76,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
+          <ul className="hidden lg:flex items-center gap-7 list-none m-0 p-0">
             <li className="flex items-center gap-3">
               <Link href="/listings"
                 className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
@@ -114,7 +114,7 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden flex flex-col justify-center items-center w-11 h-11 rounded-full transition-all duration-200"
+            className="lg:hidden flex flex-col justify-center items-center w-11 h-11 rounded-full transition-all duration-200"
             style={{ backgroundColor: menuOpen ? 'rgba(201,169,97,0.15)' : 'transparent' }}
             onClick={() => setMenuOpen(o => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -130,7 +130,7 @@ export default function Navbar() {
         {/* Mobile menu — CSS transition */}
         <div
           id="mobile-menu"
-          className="md:hidden overflow-hidden transition-all duration-300"
+          className="lg:hidden overflow-hidden transition-all duration-300"
           style={{
             maxHeight: menuOpen ? '400px' : '0',
             opacity: menuOpen ? 1 : 0,
