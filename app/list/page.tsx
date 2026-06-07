@@ -70,19 +70,23 @@ const inputCls = `
 const labelCls = 'text-xs font-semibold tracking-widest uppercase text-[#1C3D5A]'
 const sectionCls = 'space-y-6'
 
-function Field({ label, children, group }: { label: string; children: ReactNode; group?: boolean }) {
+function Field({ label, children, group, required, fieldId }: { label: string; children: ReactNode; group?: boolean; required?: boolean; fieldId?: string }) {
   if (group) {
     return (
       <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
-        <legend className={`${labelCls} block mb-2`}>{label}</legend>
+        <legend className={`${labelCls} block mb-2`}>
+          {label}{required && <span aria-hidden="true" className="ml-1 text-red-600">*</span>}
+        </legend>
         {children}
       </fieldset>
     )
   }
   return (
     <div>
-      <label className={labelCls} style={{ display: 'block', cursor: 'default' }}>
-        <span className="block mb-2">{label}</span>
+      <label htmlFor={fieldId} className={labelCls} style={{ display: 'block', cursor: 'default' }}>
+        <span className="block mb-2">
+          {label}{required && <span aria-hidden="true" className="ml-1 text-red-600">*</span>}
+        </span>
         {children}
       </label>
     </div>
@@ -228,8 +232,10 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
 function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any) => void }) {
   return (
     <div className={sectionCls}>
-      <Field label="Listing Title">
-        <input className={inputCls} placeholder="e.g. Charming 3BR in West Bakersfield"
+      <p className="text-xs" style={{ color: '#767676' }}>Fields marked <span aria-hidden="true" className="text-red-600 font-bold">*</span> <span className="sr-only">(asterisk)</span> are required.</p>
+      <Field label="Listing Title" required fieldId="field-title">
+        <input id="field-title" className={inputCls} placeholder="e.g. Charming 3BR in West Bakersfield"
+          aria-required="true"
           value={form.title} onChange={e => set('title', e.target.value)} />
       </Field>
 
@@ -248,27 +254,27 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       />
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="City">
-          <input className={inputCls} placeholder="Bakersfield"
+        <Field label="City" required fieldId="field-city">
+          <input id="field-city" className={inputCls} placeholder="Bakersfield" aria-required="true"
             value={form.city} onChange={e => set('city', e.target.value)} />
         </Field>
-        <Field label="ZIP Code">
-          <input className={inputCls} placeholder="93301"
+        <Field label="ZIP Code" required fieldId="field-zip">
+          <input id="field-zip" className={inputCls} placeholder="93301" aria-required="true"
             value={form.zip} onChange={e => set('zip', e.target.value)} />
         </Field>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Bedrooms">
-          <select className={inputCls} value={form.bedrooms} onChange={e => set('bedrooms', e.target.value)}>
+        <Field label="Bedrooms" required fieldId="field-bedrooms">
+          <select id="field-bedrooms" className={inputCls} aria-required="true" value={form.bedrooms} onChange={e => set('bedrooms', e.target.value)}>
             <option value="">Select</option>
             {['Studio', '1', '2', '3', '4', '5', '6+'].map(n => (
               <option key={n} value={n}>{n === 'Studio' ? 'Studio' : `${n} BR`}</option>
             ))}
           </select>
         </Field>
-        <Field label="Bathrooms">
-          <select className={inputCls} value={form.bathrooms} onChange={e => set('bathrooms', e.target.value)}>
+        <Field label="Bathrooms" required fieldId="field-bathrooms">
+          <select id="field-bathrooms" className={inputCls} aria-required="true" value={form.bathrooms} onChange={e => set('bathrooms', e.target.value)}>
             <option value="">Select</option>
             {['1', '1.5', '2', '2.5', '3', '3.5', '4+'].map(n => (
               <option key={n} value={n}>{n} Bath</option>
@@ -289,12 +295,12 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Monthly Rent ($)">
-          <input className={inputCls} type="number" placeholder="1,800"
+        <Field label="Monthly Rent ($)" required fieldId="field-rent">
+          <input id="field-rent" className={inputCls} type="number" placeholder="1,800" aria-required="true"
             value={form.monthly_rent} onChange={e => set('monthly_rent', e.target.value)} />
         </Field>
-        <Field label="Security Deposit ($)">
-          <input className={inputCls} type="number" placeholder="1,800"
+        <Field label="Security Deposit ($)" required fieldId="field-deposit">
+          <input id="field-deposit" className={inputCls} type="number" placeholder="1,800" aria-required="true"
             value={form.deposit} onChange={e => set('deposit', e.target.value)} />
         </Field>
       </div>
@@ -614,12 +620,12 @@ function Step4({ form, set, onSubmit, loading }: {
   return (
     <div className={sectionCls}>
       {/* Contact info */}
-      <Field label="Your Name">
-        <input className={inputCls} placeholder="Jane Smith" autoComplete="name"
+      <Field label="Your Name" required fieldId="field-contact-name">
+        <input id="field-contact-name" className={inputCls} placeholder="Jane Smith" autoComplete="name" aria-required="true"
           value={form.contact_name} onChange={e => set('contact_name', e.target.value)} />
       </Field>
-      <Field label="Email Address">
-        <input className={inputCls} type="email" placeholder="jane@example.com" autoComplete="email"
+      <Field label="Email Address" required fieldId="field-contact-email">
+        <input id="field-contact-email" className={inputCls} type="email" placeholder="jane@example.com" autoComplete="email" aria-required="true"
           value={form.contact_email} onChange={e => set('contact_email', e.target.value)} />
       </Field>
       <Field label="Phone (optional)">

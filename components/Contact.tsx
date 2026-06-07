@@ -12,6 +12,7 @@ export default function Contact({ headline, description }: ContactProps) {
   const displayDesc = description || DEFAULT_DESC
 
   const ref = useRef<HTMLElement>(null)
+  const successRef = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', message: '' })
@@ -46,6 +47,7 @@ export default function Contact({ headline, description }: ContactProps) {
       })
       if (!res.ok) throw new Error()
       setSubmitted(true)
+      setTimeout(() => successRef.current?.focus(), 50)
     } catch {
       setError('Something went wrong. Please try again or call us at (661) 381-1818.')
     } finally {
@@ -79,7 +81,7 @@ export default function Contact({ headline, description }: ContactProps) {
         </div>
 
         {submitted ? (
-          <div className="text-center py-16 card-animate" role="status" aria-live="polite">
+          <div ref={successRef} tabIndex={-1} className="text-center py-16 card-animate outline-none" role="status" aria-live="polite">
             <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
               style={{ backgroundColor: 'rgba(45,122,79,0.1)' }} aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">

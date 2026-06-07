@@ -158,7 +158,7 @@ export default function Subscribe() {
             >
               {sending ? 'Signing up…' : 'Notify Me'}
             </button>
-            <p className="text-xs" style={{ color: 'rgba(247,245,240,0.35)', fontFamily: 'Inter, sans-serif' }}>
+            <p className="text-xs" style={{ color: 'rgba(247,245,240,0.65)', fontFamily: 'Inter, sans-serif' }}>
               No spam. Unsubscribe anytime.
             </p>
           </form>

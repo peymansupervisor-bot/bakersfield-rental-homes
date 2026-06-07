@@ -170,6 +170,7 @@ export default function ChatWidget() {
         {/* Messages */}
         <div
           style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+          role="log"
           aria-live="polite"
           aria-label="Chat messages"
         >
@@ -285,6 +286,7 @@ export default function ChatWidget() {
         }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.08)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+        className="focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
       >
         {open ? (
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F7F5F0" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">

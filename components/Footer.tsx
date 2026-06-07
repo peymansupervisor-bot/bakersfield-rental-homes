@@ -29,7 +29,7 @@ export default function Footer() {
               Bakersfield
             </p>
             <p className="text-xs tracking-wider uppercase"
-              style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>
+              style={{ color: '#d4b56a', fontFamily: 'Inter, sans-serif' }}>
               Rental Homes
             </p>
           </div>
@@ -66,7 +66,7 @@ export default function Footer() {
               key={n.slug}
               href={`/neighborhoods/${n.slug}`}
               className="text-xs transition-all hover:opacity-80"
-              style={{ color: '#C9A961' }}
+              style={{ color: '#d4b56a' }}
             >
               {n.name} Rentals
             </Link>
