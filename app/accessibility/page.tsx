@@ -48,6 +48,7 @@ export default function AccessibilityPage() {
                 style={{ color: '#1C3D5A', textDecoration: 'underline' }}
               >
                 Web Content Accessibility Guidelines (WCAG) 2.1
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>{' '}
               at <strong>Level AA</strong>. These guidelines explain how to make web content more
               accessible to people with disabilities including visual, auditory, physical, speech,
@@ -158,6 +159,7 @@ export default function AccessibilityPage() {
                 style={{ color: '#1C3D5A', textDecoration: 'underline' }}
               >
                 U.S. Department of Justice ADA Information Line
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>{' '}
               at 1-800-514-0301 (voice) or 1-800-514-0383 (TTY).
             </p>

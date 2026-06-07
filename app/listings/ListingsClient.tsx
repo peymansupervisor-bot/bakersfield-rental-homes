@@ -40,7 +40,9 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
         aria-label={`${listing.title} — ${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} bed`}, ${listing.bathrooms} bath, $${listing.monthly_rent.toLocaleString()}/mo${listing.rental_status ? ` — ${statusLabel(listing.rental_status)}` : ''}`}
       >
         <div className="bg-white rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg"
-          style={{ border: '1px solid rgba(201,169,97,0.12)' }}>
+          style={{ border: '1px solid rgba(201,169,97,0.12)' }}
+          aria-hidden="true"
+        >
           {/* Photo */}
           <div className="relative overflow-hidden aspect-[4/3]" style={{ backgroundColor: '#e8e5df' }}>
             {listing.photos?.[0] ? (
@@ -215,7 +217,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
     setAllListings(initialListings)
   }
 
-  const inputCls = 'px-4 py-2.5 rounded-xl text-sm border outline-none transition-colors duration-200 focus:border-[#C9A961]'
+  const inputCls = 'px-4 py-2.5 rounded-xl text-sm border outline-none transition-colors duration-200 focus:border-[#C9A961] focus-visible:ring-2 focus-visible:ring-[#C9A961] focus-visible:ring-offset-1'
   const inputStyle = { borderColor: '#e0ddd8', backgroundColor: 'white', color: '#2B2B2B', width: '100%' }
 
   return (

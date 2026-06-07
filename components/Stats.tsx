@@ -30,12 +30,12 @@ export default function Stats({ stats }: StatsProps) {
   return (
     <section ref={ref} aria-label="Performance statistics" className="py-24 px-6 md:px-10" style={{ backgroundColor: '#1C3D5A' }}>
       <div className="max-w-5xl mx-auto">
-        <p
+        <h2
           className={`text-center text-xs font-semibold tracking-widest uppercase mb-16 reveal-up ${inView ? 'in-view' : ''}`}
-          style={{ color: '#C9A961', letterSpacing: '0.2em' }}
+          style={{ color: '#C9A961', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}
         >
           What the Results Look Like
-        </p>
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 text-center">
           {items.map((stat, i) => (
             <div

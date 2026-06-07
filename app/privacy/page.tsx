@@ -216,9 +216,9 @@ export default function PrivacyPage() {
             <Sub title="Third-party services">
               <p>Our site integrates with the following third-party services that may process data independently under their own privacy policies:</p>
               <ul>
-                <li><strong>Supabase</strong> — authentication and database (<a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>supabase.com/privacy</a>)</li>
-                <li><strong>Vercel</strong> — hosting and analytics (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>vercel.com/legal/privacy-policy</a>)</li>
-                <li><strong>Stripe</strong> — payment processing (<a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>stripe.com/privacy</a>)</li>
+                <li><strong>Supabase</strong> — authentication and database (<a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>supabase.com/privacy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
+                <li><strong>Vercel</strong> — hosting and analytics (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>vercel.com/legal/privacy-policy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
+                <li><strong>Stripe</strong> — payment processing (<a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>stripe.com/privacy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
               </ul>
             </Sub>
           </Section>
