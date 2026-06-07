@@ -122,7 +122,7 @@ export default function NikoPicassoChat() {
                 }}
               >
                 <Image
-                  src={isNiko ? '/niko/niko-1.jpg' : '/picasso/picasso-3.png'}
+                  src={isNiko ? '/niko/niko-closeup.jpg' : '/picasso/picasso-3.png'}
                   alt={isNiko ? 'Niko' : 'Picasso'}
                   width={56}
                   height={56}
