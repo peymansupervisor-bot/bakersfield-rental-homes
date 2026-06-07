@@ -789,22 +789,23 @@ export default function ListPage() {
           Reach Bakersfield renters for just $1
         </p>
 
-        {/* Niko + Picasso inside the hero, sitting on the bottom edge */}
+        {/* Niko sitting on the border line, left */}
         <div
           aria-hidden="true"
-          className="hidden lg:block absolute bottom-0 left-10 pointer-events-none"
+          className="hidden lg:block absolute bottom-0 left-16 pointer-events-none"
           style={{ zIndex: 10 }}
         >
-          <img src="/niko/niko-nobg.png" alt="" width={200}
-            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(0,0,0,0.35))' }} />
+          <img src="/niko/niko-nobg.png" alt="" width={280}
+            style={{ display: 'block', filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.4))' }} />
         </div>
+        {/* Picasso standing on the border line like a bird on a wire, right */}
         <div
           aria-hidden="true"
-          className="hidden lg:block absolute bottom-0 right-10 pointer-events-none"
+          className="hidden lg:block absolute bottom-0 right-16 pointer-events-none"
           style={{ zIndex: 10 }}
         >
-          <img src="/picasso/picasso-1-nobg.png" alt="" width={150}
-            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(220,100,20,0.5))' }} />
+          <img src="/picasso/picasso-2-nobg.png" alt="" width={260}
+            style={{ display: 'block', filter: 'drop-shadow(0 4px 20px rgba(220,100,20,0.55))' }} />
         </div>
       </div>
 
