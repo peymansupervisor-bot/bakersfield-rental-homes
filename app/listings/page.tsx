@@ -5,7 +5,7 @@ import ListingsClient from './ListingsClient'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
+  title: 'Homes For Rent in Bakersfield CA',
   description:
     'Browse houses and homes for rent in Bakersfield, CA. Filter by beds, baths, price, and zip. Single-family, pet-friendly, and long-term rentals in Kern County. Rent direct from owner — no broker fees.',
   keywords: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/listings' },
   openGraph: {
-    title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
+    title: 'Homes For Rent in Bakersfield CA',
     description:
       'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
     url: 'https://bakersfieldrentalhomes.com/listings',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
+    title: 'Homes For Rent in Bakersfield CA',
     description: 'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
     images: ['/opengraph-image'],
   },

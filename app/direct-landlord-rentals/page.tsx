@@ -8,7 +8,7 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const metadata: Metadata = {
-  title: 'Direct Landlord Rentals in Bakersfield CA | No Broker Fees',
+  title: 'Direct Landlord Rentals in Bakersfield CA',
   description:
     'Rent directly from local landlords in Bakersfield, CA. No broker fees, no middlemen, faster approvals. Browse houses for rent by owner in Bakersfield — updated daily.',
   keywords: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/direct-landlord-rentals' },
   openGraph: {
-    title: 'Direct Landlord Rentals in Bakersfield CA | No Broker Fees',
+    title: 'Direct Landlord Rentals in Bakersfield CA',
     description: 'Rent directly from local landlords in Bakersfield. No broker fees, no middlemen, faster approvals.',
     url: 'https://bakersfieldrentalhomes.com/direct-landlord-rentals',
     siteName: 'Bakersfield Rental Homes',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Direct Landlord Rentals in Bakersfield CA | No Broker Fees',
+    title: 'Direct Landlord Rentals in Bakersfield CA',
     description: 'Rent directly from local landlords in Bakersfield. No broker fees, faster approvals.',
     images: ['/opengraph-image'],
   },

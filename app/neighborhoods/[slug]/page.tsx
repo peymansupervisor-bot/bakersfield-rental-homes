@@ -43,7 +43,7 @@ export async function generateMetadata({
   const hood = getNeighborhood(params.slug)
   if (!hood) return { title: 'Neighborhood Not Found' }
 
-  const title = `Houses for Rent in ${hood.name}, Bakersfield CA`
+  const title = `Houses for Rent in ${hood.name} CA`
   const description = `Find direct landlord rentals in ${hood.name}, Bakersfield CA. ${hood.tagline}. No broker fees, fast approvals, updated listings daily.`
   const url = `https://bakersfieldrentalhomes.com/neighborhoods/${hood.slug}`
 

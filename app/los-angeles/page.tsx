@@ -13,7 +13,7 @@ const SITE_URL = 'https://bakersfieldrentalhomes.com'
 const PAGE_URL = `${SITE_URL}/los-angeles`
 
 export const metadata: Metadata = {
-  title: 'Condos & Apartments for Rent in Los Angeles & West Hollywood CA | No Broker Fees',
+  title: 'Rentals in Los Angeles & West Hollywood CA',
   description:
     'Browse direct landlord rentals in Los Angeles and West Hollywood, CA. No broker fees, no middlemen — rent directly from the owner. Updated listings with photos, pricing, and contact info.',
   keywords: [
