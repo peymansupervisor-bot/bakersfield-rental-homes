@@ -42,7 +42,7 @@ const INITIAL: FormData = {
   title: '', address: '', city: '', state: 'CA', zip: '',
   bedrooms: '', bathrooms: '', living_area_sqft: '', lot_size_sqft: '',
   monthly_rent: '', deposit: '',
-  rental_status: 'vacant', available_date: '', lease_term: '12 months', pets_allowed: false, solar: false, parking: 'Street',
+  rental_status: 'vacant', available_date: '', lease_term: '12 Months', pets_allowed: false, solar: false, parking: 'Street',
   description: '', amenities: [],
   photoFiles: [], photoPreviewUrls: [],
   contact_name: '', contact_email: '', contact_phone: '',

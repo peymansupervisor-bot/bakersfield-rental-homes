@@ -465,7 +465,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 
               <dl className="space-y-2 text-sm border-t border-[#f0ece4] pt-4 mb-6">
                 {listing.available_date && (
-                  <DetailRow label="Available" value={new Date(listing.available_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} />
+                  <DetailRow label="Available" value={(() => { const [y, m, d] = listing.available_date!.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) })()} />
                 )}
                 <DetailRow label="Lease" value={listing.lease_term} />
                 <DetailRow label="Pets" value={listing.pets_allowed ? 'Allowed' : 'Not allowed'} />
