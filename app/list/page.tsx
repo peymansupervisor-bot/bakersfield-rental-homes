@@ -56,7 +56,7 @@ const AMENITY_LIST = [
   'Horse Property',
 ]
 
-const STEPS = ['Property Details', 'Description', 'Photos', 'Contact & Pay']
+const STEPS = ['Property Details', 'Description', 'Photos', 'Contact & Verify']
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -641,12 +641,12 @@ function Step4({ form, set, onSubmit, loading }: {
         <Row label="Deposit" value={`$${Number(form.deposit).toLocaleString()}`} />
         <Row label="Photos" value={`${form.photoFiles.length} photos`} />
         <div className="border-t border-[#d5d0c8] mt-3 pt-3 flex justify-between">
-          <span className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>Listing fee</span>
-          <span className="text-sm font-bold" style={{ color: '#2D7A4F' }}>$1.00</span>
+          <span className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>Verification</span>
+          <span className="text-sm font-bold" style={{ color: '#2D7A4F' }}>Free</span>
         </div>
       </div>
 
-      {/* Pay button */}
+      {/* Verify button */}
       <button
         type="button"
         onClick={onSubmit}
@@ -659,11 +659,11 @@ function Step4({ form, set, onSubmit, loading }: {
           letterSpacing: '0.12em',
         }}
       >
-        {loading ? 'Processing…' : 'Pay $1 & Publish Listing →'}
+        {loading ? 'Processing…' : 'Verify Identity & Publish Listing →'}
       </button>
 
       <p className="text-xs text-center" style={{ color: '#595959' }}>
-        We charge a $1 fee to verify that every landlord is real and every listing is legitimate — keeping scammers and fake listings off the platform.
+        We verify your identity via a quick selfie + ID scan to confirm you're a real landlord — keeping scammers and fake listings off the platform. It's free and takes under a minute.
       </p>
     </div>
   )
@@ -810,14 +810,14 @@ export default function ListPage() {
         return
       }
 
-      // 3b. Standard flow — Stripe checkout
-      const ckRes = await fetch('/api/create-checkout', {
+      // 3b. Standard flow — Stripe Identity verification
+      const ckRes = await fetch('/api/create-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ listingId: id }),
       })
       const { url, error: ckErr } = await ckRes.json()
-      if (ckErr || !url) throw new Error(ckErr || 'Failed to create checkout')
+      if (ckErr || !url) throw new Error(ckErr || 'Failed to create verification session')
 
       window.location.href = url
     } catch (e: any) {
