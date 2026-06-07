@@ -779,33 +779,34 @@ export default function ListPage() {
       {/* Header */}
       <div
         className="relative py-16 px-6 text-center"
-        style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)', paddingBottom: '5rem' }}
+        style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)', overflow: 'visible', zIndex: 1 }}
       >
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           List Your Rental Property in Bakersfield, CA
         </h1>
-        <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.65)' }}>
+        <p className="text-sm font-light mb-10" style={{ color: 'rgba(247,245,240,0.65)' }}>
           Reach Bakersfield renters for just $1
         </p>
 
-        {/* Niko sitting on the border line, left */}
+        {/* Niko — bottom straddling the border line */}
         <div
           aria-hidden="true"
-          className="hidden lg:block absolute bottom-0 left-16 pointer-events-none"
-          style={{ zIndex: 10 }}
+          className="hidden lg:block absolute pointer-events-none"
+          style={{ bottom: -60, left: 64, zIndex: 20 }}
         >
-          <img src="/niko/niko-nobg.png" alt="" width={280}
-            style={{ display: 'block', filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.4))' }} />
+          <img src="/niko/niko-nobg.png" alt="" width={300}
+            style={{ display: 'block', filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.4))' }} />
         </div>
-        {/* Picasso standing on the border line like a bird on a wire, right */}
+
+        {/* Picasso — standing on the border line, right side */}
         <div
           aria-hidden="true"
-          className="hidden lg:block absolute bottom-0 right-16 pointer-events-none"
-          style={{ zIndex: 10 }}
+          className="hidden lg:block absolute pointer-events-none"
+          style={{ bottom: -60, right: 64, zIndex: 20 }}
         >
-          <img src="/picasso/picasso-2-nobg.png" alt="" width={260}
-            style={{ display: 'block', filter: 'drop-shadow(0 4px 20px rgba(220,100,20,0.55))' }} />
+          <img src="/picasso/picasso-1-nobg.png" alt="" width={280}
+            style={{ display: 'block', filter: 'drop-shadow(0 6px 20px rgba(220,100,20,0.55))' }} />
         </div>
       </div>
 
