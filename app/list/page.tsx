@@ -790,6 +790,31 @@ export default function ListPage() {
         </p>
       </div>
 
+      {/* Welcome video */}
+      <div className="flex justify-center py-8 px-6" style={{ backgroundColor: '#F0EDE6' }}>
+        <div className="w-full max-w-sm text-center">
+          <p className="text-xs font-semibold tracking-widest uppercase mb-3"
+            style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif', letterSpacing: '0.18em' }}>
+            A message for landlords
+          </p>
+          <div className="rounded-2xl overflow-hidden shadow-lg" style={{ border: '2px solid rgba(201,169,97,0.3)' }}>
+            <video
+              src="/bakersfield-welcome.mp4"
+              controls
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full"
+              style={{ display: 'block', backgroundColor: '#0D1F2D' }}
+            />
+          </div>
+          <p className="text-xs mt-3" style={{ color: '#888', fontFamily: 'Inter, sans-serif' }}>
+            Your next great tenant is already looking here.
+          </p>
+        </div>
+      </div>
+
       {/* Step indicator */}
       <div className="max-w-2xl mx-auto px-6 pt-10 pb-2">
         <nav aria-label="Form progress" className="flex items-center gap-0">
