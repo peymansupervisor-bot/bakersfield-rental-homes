@@ -200,6 +200,16 @@ export default function DisclaimerPage() {
               due diligence. The Website assumes no responsibility for losses arising from a
               user&apos;s failure to exercise appropriate caution.
             </p>
+            <div className="rounded-xl p-4 my-2" style={{ backgroundColor: '#fdf8ee', border: '1px solid rgba(201,169,97,0.35)' }}>
+              <p style={{ color: '#7d6019' }}>
+                <strong>Fraud Risk Notice:</strong> While we do our best to eliminate scammers and
+                fraudulent individuals through identity verification and ongoing monitoring, we cannot
+                guarantee 100% protection against fraud or misrepresentation. By choosing to use this
+                Website, you acknowledge and accept that you do so entirely at your own risk.
+                Bakersfield Rental Homes shall not be liable for any losses, damages, or harm
+                resulting from fraudulent activity by any third party.
+              </p>
+            </div>
           </Section>
 
           <Section num="6" title="Fair Housing Compliance">

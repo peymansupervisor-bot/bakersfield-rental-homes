@@ -177,6 +177,12 @@ export default function TermsPage() {
               landlord or tenant will follow through on any commitment; or (d) the Website will
               be available, error-free, or uninterrupted at any time.
             </p>
+            <p>
+              <strong>Fraud Risk:</strong> While we do our best to eliminate scammers and fraudulent
+              individuals through identity verification and ongoing monitoring, we cannot guarantee
+              100% protection against fraud or misrepresentation by third parties. By choosing to
+              use this Website, you acknowledge and accept that you do so entirely at your own risk.
+            </p>
           </Section>
 
           <Section num="9" title="Intellectual Property">
