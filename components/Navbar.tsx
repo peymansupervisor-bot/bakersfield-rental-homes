@@ -76,7 +76,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-5 list-none m-0 p-0">
+          <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
             <li className="flex items-center gap-3">
               <Link href="/listings"
                 className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
