@@ -102,21 +102,27 @@ export default function Contact({ headline, description }: ContactProps) {
             style={{ animationDelay: inView ? '0.2s' : '0s' }}
             noValidate aria-label="Contact form" aria-describedby={error ? 'contact-error' : undefined}>
             <div>
-              <label htmlFor="contact-name" className="sr-only">Your full name</label>
+              <label htmlFor="contact-name" className="block text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: '#1C3D5A' }}>
+                Full Name <span aria-hidden="true" style={{ color: '#c0392b' }}>*</span>
+              </label>
               <input id="contact-name" type="text" name="name" placeholder="Your full name" required
                 autoComplete="name" value={form.name} onChange={handleChange} style={inputBase}
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(28,61,90,0.15)')} />
             </div>
             <div>
-              <label htmlFor="contact-email" className="sr-only">Your email address</label>
+              <label htmlFor="contact-email" className="block text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: '#1C3D5A' }}>
+                Email Address <span aria-hidden="true" style={{ color: '#c0392b' }}>*</span>
+              </label>
               <input id="contact-email" type="email" name="email" placeholder="Your email address" required
                 autoComplete="email" value={form.email} onChange={handleChange} style={inputBase}
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(28,61,90,0.15)')} />
             </div>
             <div>
-              <label htmlFor="contact-message" className="sr-only">Your message</label>
+              <label htmlFor="contact-message" className="block text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: '#1C3D5A' }}>
+                Message <span aria-hidden="true" style={{ color: '#c0392b' }}>*</span>
+              </label>
               <textarea id="contact-message" name="message" rows={5} required
                 placeholder="Your message"
                 value={form.message} onChange={handleChange}

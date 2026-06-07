@@ -19,6 +19,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/accessibility`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/direct-landlord-rentals`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE_URL}/horse-property-for-rent-bakersfield`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE_URL}/pet-friendly-rentals-bakersfield`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE_URL}/3-bedroom-houses-for-rent-bakersfield`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
     { url: `${SITE_URL}/neighborhoods`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     ...NEIGHBORHOODS.map(n => ({
       url: `${SITE_URL}/neighborhoods/${n.slug}`,

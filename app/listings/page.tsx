@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import type { Listing } from '@/lib/supabase'
 import ListingsClient from './ListingsClient'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Homes For Rent in Bakersfield CA',
@@ -57,7 +57,7 @@ async function getListings(): Promise<Listing[]> {
       `${SUPABASE_URL}/rest/v1/listings?select=*&status=eq.active&city=eq.Bakersfield&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-        cache: 'no-store',
+        next: { revalidate: 60 },
       }
     )
     if (!res.ok) return []
@@ -73,7 +73,7 @@ async function getLAListings(): Promise<Listing[]> {
       `${SUPABASE_URL}/rest/v1/listings?select=*&status=eq.active&city=in.(Los Angeles,West Hollywood)&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-        cache: 'no-store',
+        next: { revalidate: 60 },
       }
     )
     if (!res.ok) return []

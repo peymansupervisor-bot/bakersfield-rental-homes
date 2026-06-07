@@ -141,10 +141,13 @@ export default function Subscribe() {
             {error && (
               <p id="subscribe-error" role="alert" className="text-sm" style={{ color: '#e57373' }}>{error}</p>
             )}
+            <p className="text-xs" style={{ color: 'rgba(247,245,240,0.55)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
+              By providing your phone number you consent to receive SMS alerts about new listings via automated technology. Message &amp; data rates may apply.
+            </p>
             <button
               type="submit"
               disabled={sending}
-              className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01]"
+              className="w-full py-4 rounded-xl font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
               style={{
                 backgroundColor: '#C9A961',
                 color: '#1C3D5A',
