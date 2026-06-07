@@ -1135,19 +1135,25 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
       )}
 
       {/* Header */}
-      <div className="relative py-16 px-6 text-center overflow-visible"
+      <div className="relative py-16 px-6 text-center"
         style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)' }}>
 
-        {/* Niko + Picasso greeting visitors */}
+        {/* Niko + Picasso sitting inside the hero, bottom corners */}
         <div
           aria-hidden="true"
-          className="hidden lg:flex items-end gap-0 absolute left-8 bottom-0 pointer-events-none"
-          style={{ zIndex: 10, transform: 'translateY(30%)' }}
+          className="hidden lg:block absolute bottom-0 left-10 pointer-events-none"
+          style={{ zIndex: 10 }}
         >
-          <img src="/niko/niko-nobg.png" alt="" width={140} height={140}
-            style={{ objectFit: 'contain', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.3))' }} />
-          <img src="/picasso/picasso-2-nobg.png" alt="" width={80} height={110}
-            style={{ objectFit: 'contain', filter: 'drop-shadow(0 6px 14px rgba(220,100,20,0.4))', marginBottom: 24, transform: 'scaleX(-1)' }} />
+          <img src="/niko/niko-nobg.png" alt="" width={200}
+            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(0,0,0,0.35))' }} />
+        </div>
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute bottom-0 right-10 pointer-events-none"
+          style={{ zIndex: 10 }}
+        >
+          <img src="/picasso/picasso-1-nobg.png" alt="" width={160}
+            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(220,100,20,0.5))' }} />
         </div>
 
         <h1 className="text-4xl font-bold mb-3"
