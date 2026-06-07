@@ -818,13 +818,15 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null)
   const [editingCommentText, setEditingCommentText] = useState('')
   const cat = CATEGORIES.find(c => c.id === post.category)
-  const commentCount = post.community_comments?.[0]?.count ?? 0
+  const [commentCount, setCommentCount] = useState(post.community_comments?.[0]?.count ?? 0)
 
   const loadComments = useCallback(async () => {
     setLoadingC(true)
     const res = await fetch(`/api/community/comments?post_id=${post.id}`)
     const { comments: data } = await res.json()
-    setComments(data ?? [])
+    const fetched = data ?? []
+    setComments(fetched)
+    setCommentCount(fetched.length)
     setLoadingC(false)
   }, [post.id])
 
