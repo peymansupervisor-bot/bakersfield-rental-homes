@@ -1127,15 +1127,20 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
 
   const fetchPosts = useCallback(async () => {
     setLoading(true)
-    const url = category === 'all' ? '/api/community/posts' : `/api/community/posts?category=${category}`
-    const res = await fetch(url)
-    const { posts: data } = await res.json()
-    const fetched = data ?? []
-    setPosts(fetched)
-    if (user) {
-      userPostIds.current = new Set(fetched.filter((p: Post) => p.user_id === user.id).map((p: Post) => p.id))
+    try {
+      const url = category === 'all' ? '/api/community/posts' : `/api/community/posts?category=${category}`
+      const res = await fetch(url)
+      const { posts: data } = await res.json()
+      const fetched = data ?? []
+      setPosts(fetched)
+      if (user) {
+        userPostIds.current = new Set(fetched.filter((p: Post) => p.user_id === user.id).map((p: Post) => p.id))
+      }
+    } catch {
+      // keep existing posts visible on error
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }, [category, user])
 
   useEffect(() => {
@@ -1347,7 +1352,7 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
         ) : (
           <div>
             {posts.map(p => (
-              <PostCard key={p.id} post={p} currentUser={user} onDeleted={fetchPosts} onMessage={p => setChatPartner(p)} />
+              <PostCard key={p.id} post={p} currentUser={user} onDeleted={fetchPosts} onMessage={p => { setChatPartner(p); setUnreadDMs(0) }} />
             ))}
           </div>
         )}
