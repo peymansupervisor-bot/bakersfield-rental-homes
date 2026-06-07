@@ -86,7 +86,7 @@ const BENEFITS = [
       </svg>
     ),
     title: 'Real Local Landlords',
-    body: 'Every listing comes from a registered local Bakersfield property owner — not a national corporation or out-of-state management company.',
+    body: 'Every listing is a real home in Bakersfield — posted by a real property owner, not a national corporation or out-of-state management company.',
   },
   {
     icon: (
@@ -114,7 +114,7 @@ const FAQS = [
   },
   {
     q: 'Are direct landlord rentals safe?',
-    a: 'All landlords on Bakersfield Rental Homes are registered local owners. We recommend visiting the property in person before signing any lease and never sending payment before a signed rental agreement is in place.',
+    a: 'All landlords on Bakersfield Rental Homes are real property owners verified through our listing process. We recommend visiting the property in person before signing any lease and never sending payment before a signed rental agreement is in place.',
   },
 ]
 
