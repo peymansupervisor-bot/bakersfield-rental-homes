@@ -92,7 +92,20 @@ export default function Hero({ heroHeadline }: HeroProps) {
       className="relative w-full overflow-hidden"
       style={{ height: '100vh', backgroundColor: '#d6cfc4' }}
     >
-      {/* Desktop: autoplay video — paused if user prefers reduced motion */}
+      {/* Priority background image — always rendered immediately for fast LCP on both desktop and mobile */}
+      <div className="absolute inset-0 w-full h-full" aria-hidden="true">
+        <Image
+          src="/hero-mobile.jpg"
+          alt=""
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+
+      {/* Desktop: autoplay video layered on top — fades in once playing */}
       {!isMobile && (
         <video
           ref={videoRef}
@@ -102,25 +115,9 @@ export default function Hero({ heroHeadline }: HeroProps) {
           muted
           loop
           playsInline
-          preload="none"
-          poster="/hero-mobile.jpg"
+          preload="metadata"
           aria-hidden="true"
         />
-      )}
-
-      {/* Mobile: static fallback image — next/image for WebP/AVIF + LCP priority */}
-      {isMobile && (
-        <div className="absolute inset-0 w-full h-full" aria-hidden="true">
-          <Image
-            src="/hero-mobile.jpg"
-            alt=""
-            aria-hidden="true"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-        </div>
       )}
 
       {/* Subtle vignette — darkens edges slightly for depth */}
@@ -141,7 +138,8 @@ export default function Hero({ heroHeadline }: HeroProps) {
         style={{
           zIndex: 5,
           opacity: activeOverlay ? 1 : 0,
-          transition: 'opacity 0.7s ease',
+          // Only transition OUT (when leaving scene), not on initial paint
+          transition: currentTime > 0 ? 'opacity 0.7s ease' : 'none',
         }}
         aria-hidden="true"
       >
