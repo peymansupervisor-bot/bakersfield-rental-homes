@@ -4,6 +4,7 @@ import Services from '@/components/Services'
 import Stats from '@/components/Stats'
 import Community from '@/components/Community'
 import Niko from '@/components/Niko'
+import Picasso from '@/components/Picasso'
 import Contact from '@/components/Contact'
 import Subscribe from '@/components/Subscribe'
 import { getHomepage, urlFor } from '@/lib/sanity.client'
@@ -51,6 +52,7 @@ export default async function Home() {
         photos={nikoPhotos}
         cards={cms?.nikoCards}
       />
+      <Picasso />
       <Contact
         headline={cms?.contactHeadline}
         description={cms?.contactDescription}
