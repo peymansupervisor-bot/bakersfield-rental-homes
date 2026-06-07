@@ -822,12 +822,17 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
 
   const loadComments = useCallback(async () => {
     setLoadingC(true)
-    const res = await fetch(`/api/community/comments?post_id=${post.id}`)
-    const { comments: data } = await res.json()
-    const fetched = data ?? []
-    setComments(fetched)
-    setCommentCount(fetched.length)
-    setLoadingC(false)
+    try {
+      const res = await fetch(`/api/community/comments?post_id=${post.id}`)
+      const { comments: data } = await res.json()
+      const fetched = data ?? []
+      setComments(fetched)
+      setCommentCount(fetched.length)
+    } catch {
+      // keep existing comments visible on error
+    } finally {
+      setLoadingC(false)
+    }
   }, [post.id])
 
   const toggleComments = () => {
