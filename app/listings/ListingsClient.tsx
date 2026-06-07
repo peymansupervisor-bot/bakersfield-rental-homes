@@ -34,9 +34,15 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
   const isPriority = index < 3
   return (
     <div className="card-animate" style={{ animationDelay: `${index * 0.06}s` }}>
-      <Link href={`/listings/${listing.slug ?? listing.id}`} className="block group">
+      <Link
+        href={`/listings/${listing.slug ?? listing.id}`}
+        className="block group"
+        aria-label={`${listing.title} — ${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} bed`}, ${listing.bathrooms} bath, $${listing.monthly_rent.toLocaleString()}/mo${listing.rental_status ? ` — ${statusLabel(listing.rental_status)}` : ''}`}
+      >
         <div className="bg-white rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg"
-          style={{ border: '1px solid rgba(201,169,97,0.12)' }}>
+          style={{ border: '1px solid rgba(201,169,97,0.12)' }}
+          aria-hidden="true"
+        >
           {/* Photo */}
           <div className="relative overflow-hidden aspect-[4/3]" style={{ backgroundColor: '#e8e5df' }}>
             {listing.photos?.[0] ? (
@@ -173,6 +179,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
   const [sortBy,     setSortBy]     = useState<SortKey>('newest')
   const [petsOnly,   setPetsOnly]   = useState(false)
   const [vacantOnly, setVacantOnly] = useState(false)
+  const [horseOnly,  setHorseOnly]  = useState(false)
 
   const fetchListings = async () => {
     setSearching(true)
@@ -199,17 +206,18 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
     let result = allListings
     if (petsOnly)   result = result.filter(l => l.pets_allowed)
     if (vacantOnly) result = result.filter(l => l.rental_status === 'vacant' || l.rental_status === 'coming_soon')
+    if (horseOnly)  result = result.filter(l => l.amenities?.includes('Horse Property'))
     return sortListings(result, sortBy)
-  }, [allListings, sortBy, petsOnly, vacantOnly])
+  }, [allListings, sortBy, petsOnly, vacantOnly, horseOnly])
 
   const clearAll = () => {
     setMinBeds(''); setMinBaths(''); setMinRent(''); setMaxRent('')
     setZip(''); setDistrict('')
-    setSortBy('newest'); setPetsOnly(false); setVacantOnly(false)
+    setSortBy('newest'); setPetsOnly(false); setVacantOnly(false); setHorseOnly(false)
     setAllListings(initialListings)
   }
 
-  const inputCls = 'px-4 py-2.5 rounded-xl text-sm border outline-none transition-colors duration-200 focus:border-[#C9A961]'
+  const inputCls = 'px-4 py-2.5 rounded-xl text-sm border outline-none transition-colors duration-200 focus:border-[#C9A961] focus-visible:ring-2 focus-visible:ring-[#C9A961] focus-visible:ring-offset-1'
   const inputStyle = { borderColor: '#e0ddd8', backgroundColor: 'white', color: '#2B2B2B', width: '100%' }
 
   return (
@@ -265,7 +273,25 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      {/* $1 verification trust banner */}
+      <div className="max-w-6xl mx-auto px-6 pt-4 pb-0">
+        <div
+          className="flex items-center gap-3 px-5 py-3 rounded-2xl mb-2"
+          style={{
+            backgroundColor: 'white',
+            border: '1px solid rgba(201,169,97,0.25)',
+            boxShadow: '0 2px 12px rgba(28,61,90,0.06)',
+          }}
+        >
+          <span className="text-xl flex-shrink-0" aria-hidden="true">✅</span>
+          <p className="text-xs" style={{ color: '#616161' }}>
+            <span className="font-semibold" style={{ color: '#1C3D5A' }}>Every landlord is identity-verified</span> before going live — keeping scammers and fake listings off the platform.
+          </p>
+        </div>
+      </div>
+
+      <section className="max-w-6xl mx-auto px-6 py-10" aria-labelledby="bakersfield-listings-heading">
+        <h2 id="bakersfield-listings-heading" className="sr-only">Bakersfield Rental Listings</h2>
         {/* ── Filter + Sort Panel ───────────────────────────────── */}
         <div
           role="search"
@@ -438,6 +464,23 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                 />
                 Coming Soon Only
               </button>
+
+              <button
+                type="button"
+                role="switch"
+                aria-checked={horseOnly}
+                onClick={() => setHorseOnly(v => !v)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
+                style={{
+                  border: `1.5px solid ${horseOnly ? '#5a3e1b' : '#e0ddd8'}`,
+                  backgroundColor: horseOnly ? 'rgba(90,62,27,0.08)' : 'white',
+                  color: horseOnly ? '#5a3e1b' : '#555',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                <span aria-hidden="true">🐴</span>
+                Horse Property
+              </button>
             </div>
           </div>
         </div>
@@ -449,7 +492,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
               Showing <strong style={{ color: '#1C3D5A' }}>{displayed.length}</strong> of{' '}
               {allListings.length} {allListings.length === 1 ? 'property' : 'properties'}
             </p>
-            {(petsOnly || vacantOnly || sortBy !== 'newest') && (
+            {(petsOnly || vacantOnly || horseOnly || sortBy !== 'newest') && (
               <div className="flex flex-wrap gap-2">
                 {sortBy !== 'newest' && (
                   <span className="text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1"
@@ -477,6 +520,13 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                     <button onClick={() => setVacantOnly(false)} aria-label="Remove coming soon filter" className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-black/10 transition-colors" style={{ color: '#616161', marginLeft: 2 }}>×</button>
                   </span>
                 )}
+                {horseOnly && (
+                  <span className="text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1"
+                    style={{ backgroundColor: 'rgba(90,62,27,0.08)', color: '#5a3e1b' }}>
+                    🐴 Horse Property
+                    <button onClick={() => setHorseOnly(false)} aria-label="Remove horse property filter" className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-black/10 transition-colors" style={{ color: '#616161', marginLeft: 2 }}>×</button>
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -484,7 +534,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
 
         {/* ── Grid ─────────────────────────────────────────────── */}
         {searching ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" aria-busy="true" aria-label="Loading listings">
+          <div role="status" aria-live="polite" aria-label="Loading listings" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" aria-busy="true">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden animate-pulse"
                 style={{ border: '1px solid rgba(201,169,97,0.12)' }}>
@@ -498,7 +548,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
             ))}
           </div>
         ) : displayed.length === 0 ? (
-          <div className="text-center py-24">
+          <div role="status" aria-live="polite" className="text-center py-24">
             <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
               style={{ backgroundColor: '#f0ece4' }}>
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -526,7 +576,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
             ))}
           </div>
         )}
-      </div>
+      </section>
 
       {/* LA listings — only rendered if data exists */}
       {laListings.length > 0 && (

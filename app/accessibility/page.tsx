@@ -22,7 +22,7 @@ export default function AccessibilityPage() {
           Accessibility Statement
         </h1>
         <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.65)' }}>
-          Last updated: June 1, 2026
+          Last updated: June 7, 2026
         </p>
       </div>
 
@@ -48,6 +48,7 @@ export default function AccessibilityPage() {
                 style={{ color: '#1C3D5A', textDecoration: 'underline' }}
               >
                 Web Content Accessibility Guidelines (WCAG) 2.1
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>{' '}
               at <strong>Level AA</strong>. These guidelines explain how to make web content more
               accessible to people with disabilities including visual, auditory, physical, speech,
@@ -129,13 +130,13 @@ export default function AccessibilityPage() {
                 Bakersfield, California
               </p>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
-                📧{' '}
+                <span aria-hidden="true">📧 </span>
                 <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#1C3D5A', textDecoration: 'underline' }}>
                   info@bakersfieldrentalhomes.com
                 </a>
               </p>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
-                📞{' '}
+                <span aria-hidden="true">📞 </span>
                 <a href="tel:+16613811818" style={{ color: '#1C3D5A', textDecoration: 'underline' }}>
                   (661) 381-1818
                 </a>
@@ -158,6 +159,7 @@ export default function AccessibilityPage() {
                 style={{ color: '#1C3D5A', textDecoration: 'underline' }}
               >
                 U.S. Department of Justice ADA Information Line
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>{' '}
               at 1-800-514-0301 (voice) or 1-800-514-0383 (TTY).
             </p>

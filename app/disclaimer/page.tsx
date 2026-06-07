@@ -53,6 +53,8 @@ export default function DisclaimerPage() {
                 'Indemnification and Hold Harmless',
                 'Applicable California and Local Laws',
                 'Third-Party Links and Content',
+                'Section 230 — Communications Decency Act',
+                'DMCA — Copyright Notice and Takedown Policy',
                 'Governing Law and Dispute Resolution',
                 'Changes to This Disclaimer',
                 'Contact Information',
@@ -79,7 +81,6 @@ export default function DisclaimerPage() {
           <Section num="2" title="No Agency Relationship Created">
             <p>
               BakersfieldRentalHomes.com is an informational platform only. The Website itself does not
-              BakersfieldRentalHomes.com is an informational platform. The Website itself does not
               act as a real estate agent or broker with respect to any transaction facilitated between
               users of the platform.
             </p>
@@ -199,6 +200,16 @@ export default function DisclaimerPage() {
               due diligence. The Website assumes no responsibility for losses arising from a
               user&apos;s failure to exercise appropriate caution.
             </p>
+            <div className="rounded-xl p-4 my-2" style={{ backgroundColor: '#fdf8ee', border: '1px solid rgba(201,169,97,0.35)' }}>
+              <p style={{ color: '#7d6019' }}>
+                <strong>Fraud Risk Notice:</strong> While we do our best to eliminate scammers and
+                fraudulent individuals through identity verification and ongoing monitoring, we cannot
+                guarantee 100% protection against fraud or misrepresentation. By choosing to use this
+                Website, you acknowledge and accept that you do so entirely at your own risk.
+                Bakersfield Rental Homes shall not be liable for any losses, damages, or harm
+                resulting from fraudulent activity by any third party.
+              </p>
+            </div>
           </Section>
 
           <Section num="6" title="Fair Housing Compliance">
@@ -296,7 +307,56 @@ export default function DisclaimerPage() {
             </p>
           </Section>
 
-          <Section num="11" title="Governing Law and Dispute Resolution">
+          <Section num="11" title="Section 230 — Communications Decency Act">
+            <p>
+              BakersfieldRentalHomes.com is an interactive computer service as defined under
+              <strong> Section 230 of the Communications Decency Act (47 U.S.C. § 230)</strong>.
+              The Website is not the publisher or speaker of any information provided by third-party
+              users, including landlords, tenants, vendors, or community members. Accordingly, the
+              Website shall not be treated as the publisher or speaker of any user-submitted content
+              and is immune from liability for such content to the fullest extent provided by law.
+            </p>
+            <p>
+              This immunity applies to all user-generated content on this Website, including but not
+              limited to rental listings, property descriptions, photos, community board posts,
+              vendor applications, and private messages.
+            </p>
+          </Section>
+
+          <Section num="12" title="DMCA — Copyright Notice and Takedown Policy">
+            <p>
+              BakersfieldRentalHomes.com respects intellectual property rights and complies with the
+              <strong> Digital Millennium Copyright Act (17 U.S.C. § 512)</strong>. If you believe
+              that any content on this Website infringes your copyright, please send a written notice
+              to our designated DMCA agent containing the following:
+            </p>
+            <ul>
+              <li>Your name, address, telephone number, and email address;</li>
+              <li>A description of the copyrighted work you claim has been infringed;</li>
+              <li>The URL or specific location of the infringing content on our Website;</li>
+              <li>A statement that you have a good-faith belief that the use is not authorized by the copyright owner, its agent, or the law;</li>
+              <li>A statement, made under penalty of perjury, that the information in your notice is accurate and that you are the copyright owner or authorized to act on the owner&apos;s behalf;</li>
+              <li>Your physical or electronic signature.</li>
+            </ul>
+            <p>
+              Bakersfield Rental Homes is registered with the U.S. Copyright Office DMCA Designated
+              Agent Directory. <strong>Registration Number: DMCA-1073876</strong>.
+            </p>
+            <p>
+              DMCA notices should be sent to:<br />
+              <strong>DMCA Agent: Bakersfield Rental Homes</strong><br />
+              Email: <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#7d6019' }}>info@bakersfieldrentalhomes.com</a><br />
+              Phone: <a href="tel:+16613811818" style={{ color: '#7d6019' }}>(661) 381-1818</a><br />
+              Subject line: <em>DMCA Takedown Notice</em>
+            </p>
+            <p>
+              Upon receipt of a valid DMCA notice, we will promptly investigate and, if appropriate,
+              remove or disable access to the allegedly infringing content. Repeat infringers may
+              have their access to the Website terminated.
+            </p>
+          </Section>
+
+          <Section num="14" title="Governing Law and Dispute Resolution">
             <p>
               This Disclaimer and any dispute arising out of or related to your use of this Website
               shall be governed by and construed in accordance with the laws of the <strong>State
@@ -311,7 +371,7 @@ export default function DisclaimerPage() {
             </p>
           </Section>
 
-          <Section num="12" title="Changes to This Disclaimer">
+          <Section num="15" title="Changes to This Disclaimer">
             <p>
               The Website reserves the right to modify this Disclaimer at any time. Changes will
               be effective upon posting to the Website with an updated effective date. Your continued
@@ -320,7 +380,7 @@ export default function DisclaimerPage() {
             </p>
           </Section>
 
-          <Section num="13" title="Contact Information">
+          <Section num="16" title="Contact Information">
             <p>
               If you have questions about this Disclaimer or wish to report potentially fraudulent
               or illegal content, please contact us:

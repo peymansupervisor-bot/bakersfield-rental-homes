@@ -5,7 +5,7 @@ import ListingsClient from './ListingsClient'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
+  title: 'Homes For Rent in Bakersfield CA',
   description:
     'Browse houses and homes for rent in Bakersfield, CA. Filter by beds, baths, price, and zip. Single-family, pet-friendly, and long-term rentals in Kern County. Rent direct from owner — no broker fees.',
   keywords: [
@@ -19,10 +19,13 @@ export const metadata: Metadata = {
     'long term rentals Bakersfield CA',
     'rent from owner Bakersfield',
     'Bakersfield rental homes',
+    'horse property for rent Bakersfield CA',
+    'horse property rental Kern County',
+    'equestrian rental Bakersfield',
   ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/listings' },
   openGraph: {
-    title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
+    title: 'Homes For Rent in Bakersfield CA',
     description:
       'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
     url: 'https://bakersfieldrentalhomes.com/listings',
@@ -39,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Homes For Rent in Bakersfield, CA | Direct Landlord · No Broker Fees',
+    title: 'Homes For Rent in Bakersfield CA',
     description: 'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
     images: ['/opengraph-image'],
   },
@@ -116,10 +119,19 @@ export default async function ListingsPage() {
       name: l.title,
     })),
   }
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bakersfieldrentalhomes.com' },
+      { '@type': 'ListItem', position: 2, name: 'Listings', item: 'https://bakersfieldrentalhomes.com/listings' },
+    ],
+  }
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <ListingsClient initialListings={listings} laListings={laListings} />
     </>
   )

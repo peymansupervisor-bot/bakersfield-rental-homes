@@ -7,7 +7,7 @@ const LINES = [
   { speaker: 'picasso', text: "Hello! Another landlord is here to list on Bakersfield Rental Homes! Squawk!", audio: '/chat-audio/picasso1.mp3' },
   { speaker: 'niko',    text: "Smart human! No broker fees, no middlemen — just real tenants!", audio: '/chat-audio/niko1.mp3' },
   { speaker: 'niko',    text: "Yes. Local landlords, local renters. Honestly the best decision they've made all year.", audio: '/chat-audio/niko2.mp3' },
-  { speaker: 'picasso', text: "And if it doesn't work out and your house isn't rented in 3 months… we will make it right. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
+  { speaker: 'picasso', text: "And we verify every landlord — so only real people with real properties get listed. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
   { speaker: 'niko',    text: "Woof! Now scroll down to complete the form and join the family. 🐾", audio: '/chat-audio/niko3.mp3' },
 ]
 
@@ -18,6 +18,9 @@ export default function NikoPicassoChat() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const indexRef = useRef(0)
   const startedRef = useRef(false)
+
+  const prefersReducedMotion = () =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   function playFrom(index: number) {
     if (index >= LINES.length) { setPlaying(false); return }
@@ -31,16 +34,23 @@ export default function NikoPicassoChat() {
     audio.onended = () => playFrom(index + 1)
   }
 
+  function showAll() {
+    setVisible(LINES.length - 1)
+    setPlaying(false)
+  }
+
   function restart() {
     if (audioRef.current) { audioRef.current.onended = null; audioRef.current.pause() }
+    if (prefersReducedMotion()) { showAll(); return }
     setVisible(-1)
     setTimeout(() => playFrom(0), 300)
   }
 
-  // Autoplay when scrolled into view — fires only once
+  // Autoplay when scrolled into view — fires only once; skipped for reduced-motion users
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
+    if (prefersReducedMotion()) { showAll(); return }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !startedRef.current) {
@@ -62,12 +72,13 @@ export default function NikoPicassoChat() {
       style={{ background: 'linear-gradient(135deg, #0D1F2D 0%, #1C3D5A 100%)' }}
     >
       <div className="flex items-center justify-center gap-4 mb-8">
-        <p className="text-xs font-semibold tracking-widest uppercase"
+        <p id="niko-picasso-label" className="text-xs font-semibold tracking-widest uppercase"
           style={{ color: '#C9A961', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}>
           A word from Niko &amp; Picasso
         </p>
         <button
           onClick={restart}
+          aria-label={playing ? 'Replay the Niko and Picasso introduction' : 'Play the Niko and Picasso introduction'}
           className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-opacity hover:opacity-80"
           style={{
             backgroundColor: playing ? 'rgba(201,169,97,0.15)' : '#C9A961',
@@ -76,11 +87,11 @@ export default function NikoPicassoChat() {
             fontFamily: 'Inter, sans-serif',
           }}
         >
-          {playing ? '↺ Replay' : '▶ Play'}
+          <span aria-hidden="true">{playing ? '↺ Replay' : '▶ Play'}</span>
         </button>
       </div>
 
-      <div className="max-w-2xl mx-auto space-y-5">
+      <div className="max-w-2xl mx-auto space-y-5" aria-live="polite" aria-label="Niko and Picasso conversation" aria-atomic="false">
         {LINES.map((line, i) => {
           const isNiko = line.speaker === 'niko'
           const show = i <= visible
@@ -88,6 +99,7 @@ export default function NikoPicassoChat() {
             <div
               key={i}
               className="flex items-end gap-3"
+              aria-hidden={!show}
               style={{
                 opacity: show ? 1 : 0,
                 transform: show ? 'translateY(0)' : 'translateY(14px)',
@@ -110,7 +122,7 @@ export default function NikoPicassoChat() {
                 }}
               >
                 <Image
-                  src={isNiko ? '/niko/niko-1.jpg' : '/picasso/picasso-3.png'}
+                  src={isNiko ? '/niko/niko-closeup.jpg' : '/picasso/picasso-3.png'}
                   alt={isNiko ? 'Niko' : 'Picasso'}
                   width={56}
                   height={56}

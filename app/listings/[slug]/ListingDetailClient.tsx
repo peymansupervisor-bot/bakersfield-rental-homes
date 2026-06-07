@@ -83,9 +83,7 @@ function VideoTour({ listing }: { listing: Listing }) {
             poster={listing.photos?.[0]}
             className="w-full h-full object-contain"
             aria-label={`Video tour of ${listing.title}`}
-          >
-            <track kind="captions" label="No captions available" srcLang="en" default />
-          </video>
+          />
         </div>
       ) : status === 'rendering' ? (
         <div className="rounded-2xl flex flex-col items-center justify-center gap-4 py-14"

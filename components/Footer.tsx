@@ -29,7 +29,7 @@ export default function Footer() {
               Bakersfield
             </p>
             <p className="text-xs tracking-wider uppercase"
-              style={{ color: '#C9A961', fontFamily: 'Inter, sans-serif' }}>
+              style={{ color: '#d4b56a', fontFamily: 'Inter, sans-serif' }}>
               Rental Homes
             </p>
           </div>
@@ -42,7 +42,7 @@ export default function Footer() {
         </p>
 
         <p className="text-sm font-light max-w-lg leading-relaxed"
-          style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'Inter, sans-serif' }}>
+          style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Inter, sans-serif' }}>
           Rooted in hard work, driven by pride, and united by the belief that when neighbors lift each other up — the whole city rises.
         </p>
 
@@ -66,7 +66,7 @@ export default function Footer() {
               key={n.slug}
               href={`/neighborhoods/${n.slug}`}
               className="text-xs transition-all hover:opacity-80"
-              style={{ color: '#C9A961' }}
+              style={{ color: '#d4b56a' }}
             >
               {n.name} Rentals
             </Link>
@@ -89,6 +89,10 @@ export default function Footer() {
             <span aria-hidden="true">📞 </span>(661) 381-1818
           </a>
           <div className="flex items-center gap-3">
+            <Link href="/terms" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
+              Terms of Service
+            </Link>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }} aria-hidden="true">·</span>
             <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Privacy Policy
             </Link>

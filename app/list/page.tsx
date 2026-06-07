@@ -53,9 +53,10 @@ const AMENITY_LIST = [
   'Dishwasher', 'Refrigerator', 'Microwave', 'Pool', 'Spa/Hot Tub',
   'Backyard', 'Patio/Deck', 'Fireplace', 'Hardwood Floors', 'Carpet',
   'High Ceilings', 'Walk-in Closet', 'Storage', 'Gym/Fitness Center',
+  'Horse Property',
 ]
 
-const STEPS = ['Property Details', 'Description', 'Photos', 'Contact & Pay']
+const STEPS = ['Property Details', 'Description', 'Photos', 'Contact & Verify']
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -63,18 +64,29 @@ const inputCls = `
   w-full px-4 py-3 rounded-xl text-sm text-[#2B2B2B]
   border border-[#e0ddd8] bg-white outline-none
   focus:border-[#C9A961] transition-colors duration-200
-  placeholder:text-[#aaa] font-[Inter,sans-serif]
+  placeholder:text-[#767676] font-[Inter,sans-serif]
 `.trim()
 
 const labelCls = 'text-xs font-semibold tracking-widest uppercase text-[#1C3D5A]'
 const sectionCls = 'space-y-6'
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
+function Field({ label, children, group, required, fieldId }: { label: string; children: ReactNode; group?: boolean; required?: boolean; fieldId?: string }) {
+  if (group) {
+    return (
+      <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
+        <legend className={`${labelCls} block mb-2`}>
+          {label}{required && <span aria-hidden="true" className="ml-1 text-red-600">*</span>}
+        </legend>
+        {children}
+      </fieldset>
+    )
+  }
   return (
     <div>
-      {/* Implicit label association: any form control inside <label> is automatically linked */}
-      <label className={labelCls} style={{ display: 'block', cursor: 'default' }}>
-        <span className="block mb-2">{label}</span>
+      <label htmlFor={fieldId} className={labelCls} style={{ display: 'block', cursor: 'default' }}>
+        <span className="block mb-2">
+          {label}{required && <span aria-hidden="true" className="ml-1 text-red-600">*</span>}
+        </span>
         {children}
       </label>
     </div>
@@ -93,12 +105,16 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
 }) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [open, setOpen] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const listboxId = 'address-listbox'
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false)
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false); setActiveIndex(-1)
+      }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
@@ -106,11 +122,10 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
 
   const lookup = (val: string) => {
     if (timerRef.current) clearTimeout(timerRef.current)
-    if (val.length < 5) { setSuggestions([]); setOpen(false); return }
+    if (val.length < 5) { setSuggestions([]); setOpen(false); setActiveIndex(-1); return }
     timerRef.current = setTimeout(async () => {
       try {
         const query = encodeURIComponent(`${val}, Bakersfield, California, USA`)
-        // viewbox covers Kern County; bounded=0 allows fallback outside the box
         const res = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5&countrycodes=us&viewbox=-119.5,35.2,-118.5,35.6&bounded=0`,
           { headers: { 'Accept-Language': 'en' } }
@@ -130,45 +145,79 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
           .filter((r: Suggestion) => r.address)
         setSuggestions(results)
         setOpen(results.length > 0)
+        setActiveIndex(-1)
       } catch { setSuggestions([]); setOpen(false) }
     }, 350)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!open || suggestions.length === 0) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(i => (i + 1) % suggestions.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(i => (i - 1 + suggestions.length) % suggestions.length)
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault()
+      const s = suggestions[activeIndex]
+      onSelect(s.address, s.city, s.zip)
+      setOpen(false); setActiveIndex(-1)
+    } else if (e.key === 'Escape') {
+      setOpen(false); setActiveIndex(-1)
+    }
+  }
+
   return (
     <div ref={wrapRef} style={{ position: 'relative' }}>
-      <label className="text-xs font-semibold tracking-widest uppercase block mb-2"
+      <label htmlFor="address-input" className="text-xs font-semibold tracking-widest uppercase block mb-2"
         style={{ color: '#1C3D5A', cursor: 'default' }}>
         Street Address
       </label>
       <input
+        id="address-input"
         className={inputCls}
         placeholder="123 Oak Street"
         value={address}
         autoComplete="off"
         onChange={e => { onAddressChange(e.target.value); lookup(e.target.value) }}
         onFocus={() => suggestions.length > 0 && setOpen(true)}
-        aria-label="Street address"
+        onKeyDown={handleKeyDown}
         role="combobox"
         aria-autocomplete="list"
         aria-expanded={open}
         aria-haspopup="listbox"
+        aria-controls={listboxId}
+        aria-activedescendant={activeIndex >= 0 ? `address-option-${activeIndex}` : undefined}
       />
       {open && suggestions.length > 0 && (
         <ul
+          id={listboxId}
           role="listbox"
+          aria-label="Address suggestions"
           className="absolute left-0 right-0 z-50 rounded-xl overflow-hidden shadow-lg mt-1"
           style={{ backgroundColor: 'white', border: '1px solid #e0ddd8', top: '100%' }}
         >
           {suggestions.map((s, i) => (
-            <li key={i} role="option" aria-selected={false}>
+            <li
+              key={i}
+              id={`address-option-${i}`}
+              role="option"
+              aria-selected={i === activeIndex}
+              style={{
+                backgroundColor: i === activeIndex ? '#f7f5f0' : 'white',
+                borderBottom: i < suggestions.length - 1 ? '1px solid #f0ece4' : 'none',
+              }}
+            >
               <button
                 type="button"
-                className="w-full text-left px-4 py-3 text-sm transition-colors hover:bg-[#f7f5f0]"
-                style={{ color: '#2B2B2B', borderBottom: i < suggestions.length - 1 ? '1px solid #f0ece4' : 'none' }}
-                onClick={() => { onSelect(s.address, s.city, s.zip); setOpen(false) }}
+                tabIndex={-1}
+                className="w-full text-left px-4 py-3 text-sm"
+                style={{ color: '#2B2B2B', background: 'none', border: 'none' }}
+                onClick={() => { onSelect(s.address, s.city, s.zip); setOpen(false); setActiveIndex(-1) }}
               >
                 <span className="font-medium">{s.address}</span>
-                <span className="text-xs ml-2" style={{ color: '#aaa' }}>{s.city}{s.zip ? `, ${s.zip}` : ''}</span>
+                <span className="text-xs ml-2" style={{ color: '#767676' }}>{s.city}{s.zip ? `, ${s.zip}` : ''}</span>
               </button>
             </li>
           ))}
@@ -183,8 +232,10 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
 function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any) => void }) {
   return (
     <div className={sectionCls}>
-      <Field label="Listing Title">
-        <input className={inputCls} placeholder="e.g. Charming 3BR in West Bakersfield"
+      <p className="text-xs" style={{ color: '#767676' }}>Fields marked <span aria-hidden="true" className="text-red-600 font-bold">*</span> <span className="sr-only">(asterisk)</span> are required.</p>
+      <Field label="Listing Title" required fieldId="field-title">
+        <input id="field-title" className={inputCls} placeholder="e.g. Charming 3BR in West Bakersfield"
+          aria-required="true"
           value={form.title} onChange={e => set('title', e.target.value)} />
       </Field>
 
@@ -203,27 +254,27 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       />
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="City">
-          <input className={inputCls} placeholder="Bakersfield"
+        <Field label="City" required fieldId="field-city">
+          <input id="field-city" className={inputCls} placeholder="Bakersfield" aria-required="true"
             value={form.city} onChange={e => set('city', e.target.value)} />
         </Field>
-        <Field label="ZIP Code">
-          <input className={inputCls} placeholder="93301"
+        <Field label="ZIP Code" required fieldId="field-zip">
+          <input id="field-zip" className={inputCls} placeholder="93301" aria-required="true"
             value={form.zip} onChange={e => set('zip', e.target.value)} />
         </Field>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Bedrooms">
-          <select className={inputCls} value={form.bedrooms} onChange={e => set('bedrooms', e.target.value)}>
+        <Field label="Bedrooms" required fieldId="field-bedrooms">
+          <select id="field-bedrooms" className={inputCls} aria-required="true" value={form.bedrooms} onChange={e => set('bedrooms', e.target.value)}>
             <option value="">Select</option>
             {['Studio', '1', '2', '3', '4', '5', '6+'].map(n => (
               <option key={n} value={n}>{n === 'Studio' ? 'Studio' : `${n} BR`}</option>
             ))}
           </select>
         </Field>
-        <Field label="Bathrooms">
-          <select className={inputCls} value={form.bathrooms} onChange={e => set('bathrooms', e.target.value)}>
+        <Field label="Bathrooms" required fieldId="field-bathrooms">
+          <select id="field-bathrooms" className={inputCls} aria-required="true" value={form.bathrooms} onChange={e => set('bathrooms', e.target.value)}>
             <option value="">Select</option>
             {['1', '1.5', '2', '2.5', '3', '3.5', '4+'].map(n => (
               <option key={n} value={n}>{n} Bath</option>
@@ -244,22 +295,23 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Monthly Rent ($)">
-          <input className={inputCls} type="number" placeholder="1,800"
+        <Field label="Monthly Rent ($)" required fieldId="field-rent">
+          <input id="field-rent" className={inputCls} type="number" placeholder="1,800" aria-required="true"
             value={form.monthly_rent} onChange={e => set('monthly_rent', e.target.value)} />
         </Field>
-        <Field label="Security Deposit ($)">
-          <input className={inputCls} type="number" placeholder="1,800"
+        <Field label="Security Deposit ($)" required fieldId="field-deposit">
+          <input id="field-deposit" className={inputCls} type="number" placeholder="1,800" aria-required="true"
             value={form.deposit} onChange={e => set('deposit', e.target.value)} />
         </Field>
       </div>
 
-      <Field label="Listing Status">
-        <div className="flex gap-3 mt-1">
+      <Field label="Listing Status" group>
+        <div role="radiogroup" aria-label="Listing Status" className="flex gap-3 mt-1">
           {([['vacant', 'Available Now'], ['coming_soon', 'Coming Soon']] as const).map(([val, label]) => (
             <button key={val} type="button"
+              role="radio"
+              aria-checked={form.rental_status === val}
               onClick={() => set('rental_status', val)}
-              aria-pressed={form.rental_status === val}
               className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
               style={{
                 backgroundColor: form.rental_status === val
@@ -301,12 +353,13 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
             ))}
           </select>
         </Field>
-        <Field label="Pets Allowed">
-          <div className="flex gap-3 mt-1">
+        <Field label="Pets Allowed" group>
+          <div role="radiogroup" aria-label="Pets Allowed" className="flex gap-3 mt-1">
             {[true, false].map(v => (
               <button key={String(v)} type="button"
+                role="radio"
+                aria-checked={form.pets_allowed === v}
                 onClick={() => set('pets_allowed', v)}
-                aria-pressed={form.pets_allowed === v}
                 className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
                 style={{
                   backgroundColor: form.pets_allowed === v ? '#1C3D5A' : 'white',
@@ -320,12 +373,13 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
         </Field>
       </div>
 
-      <Field label="Solar Panels">
-        <div className="flex gap-3 mt-1">
+      <Field label="Solar Panels" group>
+        <div role="radiogroup" aria-label="Solar Panels" className="flex gap-3 mt-1">
           {[true, false].map(v => (
             <button key={String(v)} type="button"
+              role="radio"
+              aria-checked={form.solar === v}
               onClick={() => set('solar', v)}
-              aria-pressed={form.solar === v}
               className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
               style={{
                 backgroundColor: form.solar === v ? '#1C3D5A' : 'white',
@@ -491,7 +545,7 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           onDragOver={e => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={e => { e.preventDefault(); setDragging(false); void addFiles(e.dataTransfer.files) }}
-          className="border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 mb-4"
+          className="border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 mb-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
           style={{
             borderColor: dragging ? '#C9A961' : '#d5d0c8',
             backgroundColor: dragging ? 'rgba(201,169,97,0.05)' : '#faf9f7',
@@ -566,16 +620,16 @@ function Step4({ form, set, onSubmit, loading }: {
   return (
     <div className={sectionCls}>
       {/* Contact info */}
-      <Field label="Your Name">
-        <input className={inputCls} placeholder="Jane Smith"
+      <Field label="Your Name" required fieldId="field-contact-name">
+        <input id="field-contact-name" className={inputCls} placeholder="Jane Smith" autoComplete="name" aria-required="true"
           value={form.contact_name} onChange={e => set('contact_name', e.target.value)} />
       </Field>
-      <Field label="Email Address">
-        <input className={inputCls} type="email" placeholder="jane@example.com"
+      <Field label="Email Address" required fieldId="field-contact-email">
+        <input id="field-contact-email" className={inputCls} type="email" placeholder="jane@example.com" autoComplete="email" aria-required="true"
           value={form.contact_email} onChange={e => set('contact_email', e.target.value)} />
       </Field>
       <Field label="Phone (optional)">
-        <input className={inputCls} type="tel" placeholder="(661) 555-0100"
+        <input className={inputCls} type="tel" placeholder="(661) 555-0100" autoComplete="tel"
           value={form.contact_phone} onChange={e => set('contact_phone', e.target.value)} />
       </Field>
 
@@ -593,12 +647,12 @@ function Step4({ form, set, onSubmit, loading }: {
         <Row label="Deposit" value={`$${Number(form.deposit).toLocaleString()}`} />
         <Row label="Photos" value={`${form.photoFiles.length} photos`} />
         <div className="border-t border-[#d5d0c8] mt-3 pt-3 flex justify-between">
-          <span className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>Listing fee</span>
-          <span className="text-sm font-bold" style={{ color: '#2D7A4F' }}>$1.00</span>
+          <span className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>Identity Verification</span>
+          <span className="text-sm font-bold" style={{ color: '#2D7A4F' }}>Free</span>
         </div>
       </div>
 
-      {/* Pay button */}
+      {/* Verify button */}
       <button
         type="button"
         onClick={onSubmit}
@@ -611,11 +665,11 @@ function Step4({ form, set, onSubmit, loading }: {
           letterSpacing: '0.12em',
         }}
       >
-        {loading ? 'Processing…' : 'Pay $1 & Publish Listing →'}
+        {loading ? 'Processing…' : 'Verify Identity & Publish Listing →'}
       </button>
 
       <p className="text-xs text-center" style={{ color: '#595959' }}>
-        Secure payment via Stripe. Your listing typically goes live within minutes of payment.
+        We verify your identity via a quick selfie + ID scan to confirm you're a real landlord — keeping scammers and fake listings off the platform. It's free and takes under a minute.
       </p>
     </div>
   )
@@ -638,6 +692,8 @@ export default function ListPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const stepHeadingRef = useRef<HTMLHeadingElement>(null)
+  const errorRef = useRef<HTMLParagraphElement>(null)
 
   const set = useCallback((k: keyof FormData, v: any) => {
     setFormData(prev => ({ ...prev, [k]: v }))
@@ -669,18 +725,22 @@ export default function ListPage() {
     return ''
   }
 
+  const advanceStep = (delta: 1 | -1) => {
+    setStep(s => s + delta)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setTimeout(() => stepHeadingRef.current?.focus(), 50)
+  }
+
   const next = () => {
     const err = validate()
-    if (err) { setError(err); return }
+    if (err) { setError(err); setTimeout(() => errorRef.current?.focus(), 50); return }
     setError('')
-    setStep(s => s + 1)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    advanceStep(1)
   }
 
   const back = () => {
     setError('')
-    setStep(s => s - 1)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    advanceStep(-1)
   }
 
   // ── Photo upload via server route (rotates EXIF + resizes before storing) ──
@@ -756,14 +816,14 @@ export default function ListPage() {
         return
       }
 
-      // 3b. Standard flow — Stripe checkout
-      const ckRes = await fetch('/api/create-checkout', {
+      // 3b. Standard flow — Stripe Identity verification
+      const ckRes = await fetch('/api/create-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ listingId: id }),
       })
       const { url, error: ckErr } = await ckRes.json()
-      if (ckErr || !url) throw new Error(ckErr || 'Failed to create checkout')
+      if (ckErr || !url) throw new Error(ckErr || 'Failed to create verification session')
 
       window.location.href = url
     } catch (e: any) {
@@ -786,8 +846,8 @@ export default function ListPage() {
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           List Your Rental Property in Bakersfield, CA
         </h1>
-        <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.65)' }}>
-          Reach Bakersfield renters for just $1
+        <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.87)' }}>
+          Every landlord is identity-verified before going live — keeping scammers and fake listings off the platform.
         </p>
       </div>
 
@@ -795,43 +855,50 @@ export default function ListPage() {
 
       {/* Step indicator */}
       <div className="max-w-2xl mx-auto px-6 pt-10 pb-2">
-        <nav aria-label="Form progress" className="flex items-center gap-0">
-          {STEPS.map((s, i) => (
-            <div key={s} className="flex items-center flex-1 last:flex-none">
-              <div className="flex flex-col items-center">
-                <div
-                  role="img"
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
-                  aria-current={i === step ? 'step' : undefined}
-                  aria-label={i < step ? `${s} — completed` : i === step ? `${s} — current step` : `${s} — not yet reached`}
-                  style={{
-                    backgroundColor: i < step ? '#2D7A4F' : i === step ? '#C9A961' : '#e0ddd8',
-                    color: i <= step ? '#fff' : '#555',
-                  }}
-                >
-                  <span aria-hidden="true">{i < step ? '✓' : i + 1}</span>
+        <nav aria-label="Form progress">
+          <ol className="flex items-center gap-0 list-none m-0 p-0">
+            {STEPS.map((s, i) => (
+              <li key={s} className="flex items-center flex-1 last:flex-none"
+                aria-current={i === step ? 'step' : undefined}>
+                <div className="flex flex-col items-center">
+                  <div
+                    aria-hidden="true"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
+                    style={{
+                      backgroundColor: i < step ? '#2D7A4F' : i === step ? '#C9A961' : '#e0ddd8',
+                      color: i <= step ? '#fff' : '#555',
+                    }}
+                  >
+                    {i < step ? '✓' : i + 1}
+                  </div>
+                  <span className="text-[10px] mt-1 font-medium whitespace-nowrap hidden sm:block"
+                    style={{ color: i === step ? '#1C3D5A' : '#595959' }}>
+                    {s}
+                  </span>
+                  <span className="sr-only">
+                    {i < step ? `${s} — completed` : i === step ? `${s} — current step` : s}
+                  </span>
                 </div>
-                <span className="text-[10px] mt-1 font-medium whitespace-nowrap hidden sm:block"
-                  aria-hidden="true"
-                  style={{ color: i === step ? '#1C3D5A' : '#595959' }}>
-                  {s}
-                </span>
-              </div>
-              {i < STEPS.length - 1 && (
-                <div className="flex-1 h-px mx-2 transition-all duration-300"
-                  style={{ backgroundColor: i < step ? '#2D7A4F' : '#e0ddd8' }} />
-              )}
-            </div>
-          ))}
+                {i < STEPS.length - 1 && (
+                  <div className="flex-1 h-px mx-2 transition-all duration-300" aria-hidden="true"
+                    style={{ backgroundColor: i < step ? '#2D7A4F' : '#e0ddd8' }} />
+                )}
+              </li>
+            ))}
+          </ol>
         </nav>
       </div>
 
       {/* Form card */}
       <div className="max-w-2xl mx-auto px-6 py-8">
         <div className="bg-white rounded-3xl p-8 shadow-sm" style={{ border: '1px solid rgba(201,169,97,0.15)' }}>
-          {/* Step title */}
-          <h2 className="text-2xl font-bold mb-8"
-            style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+          {/* Step title — receives focus on step change so screen readers announce the new step */}
+          <h2
+            ref={stepHeadingRef}
+            tabIndex={-1}
+            className="text-2xl font-bold mb-8 outline-none"
+            style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}
+          >
             {STEPS[step]}
           </h2>
 
@@ -846,9 +913,11 @@ export default function ListPage() {
           {/* Error message — role="alert" ensures screen readers announce it */}
           {error && (
             <p
+              ref={errorRef}
               role="alert"
               aria-live="assertive"
-              className="mt-4 text-sm px-4 py-3 rounded-xl card-animate"
+              tabIndex={-1}
+              className="mt-4 text-sm px-4 py-3 rounded-xl card-animate outline-none"
               style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}
             >
               {error}
@@ -859,10 +928,19 @@ export default function ListPage() {
           {isUploading && (
             <div className="mt-4">
               <div className="flex justify-between text-xs mb-1" style={{ color: '#616161' }}>
-                <span>Uploading photos…</span>
-                <span>{uploadProgress}%</span>
+                <span id="upload-progress-label">Uploading photos…</span>
+                <span aria-hidden="true">{uploadProgress}%</span>
               </div>
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#e0ddd8' }}>
+              <div
+                role="progressbar"
+                aria-valuenow={uploadProgress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-labelledby="upload-progress-label"
+                aria-valuetext={`${uploadProgress}% uploaded`}
+                className="h-1.5 rounded-full overflow-hidden"
+                style={{ backgroundColor: '#e0ddd8' }}
+              >
                 <div
                   className="h-full rounded-full transition-all duration-300"
                   style={{ backgroundColor: '#C9A961', width: `${uploadProgress}%` }}

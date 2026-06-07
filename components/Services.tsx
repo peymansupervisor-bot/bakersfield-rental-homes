@@ -44,7 +44,7 @@ const services = [
       </svg>
     ),
     title: 'Local & Community-Driven',
-    description: 'Every landlord and tenant on this platform is part of the Bakersfield community. Real local owners, real available homes — not national corporations or out-of-state investors.',
+    description: 'Every listing on this platform is a real home in Bakersfield — owned by real people, not national corporations or faceless investment funds.',
     accent: '#1C3D5A',
   },
 ]
@@ -81,6 +81,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
           {/* Landlord button */}
           <Link
             href="/list"
+            aria-label="I'm a Landlord — list your property"
             className="flex-1 group flex items-center justify-between gap-4 px-10 py-8 rounded-2xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
             style={{
               backgroundColor: '#1C3D5A',
@@ -172,6 +173,7 @@ export default function Services({ services: cmsServices }: ServicesProps) {
           {/* Tenant button */}
           <Link
             href="/listings"
+            aria-label="I'm a Tenant — find a home"
             className="flex-1 group flex items-center justify-between gap-4 px-10 py-8 rounded-2xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]"
             style={{
               backgroundColor: '#C9A961',

@@ -35,10 +35,6 @@ async function getListing(slug: string): Promise<Listing | null> {
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const listing = await getListing(params.slug)
   if (!listing) return { title: 'Listing Not Found' }
-  const rawDesc = listing.description?.slice(0, 160) ?? ''
-  const description = rawDesc
-    ? (rawDesc.length < (listing.description?.length ?? 0) ? rawDesc.replace(/\s\S*$/, '…') : rawDesc)
-    : `${listing.bedrooms} bed, ${listing.bathrooms} bath apartment for rent in ${listing.city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
   const urlSlug = listing.slug ?? listing.id
   const canonicalUrl = `https://bakersfieldrentalhomes.com/listings/${urlSlug}`
   const ogImage = listing.photos?.[0] ?? 'https://bakersfieldrentalhomes.com/og-image.jpg'
@@ -46,7 +42,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const city = listing.city ?? 'Bakersfield'
   const zip = listing.zip ?? ''
   const propertyWord = city === 'Bakersfield' ? 'House' : 'Apartment'
-  const seoTitle = `${bedsLabel} ${propertyWord} for Rent in ${city} CA ${zip} — ${listing.address}`
+  const rawDesc = listing.description?.slice(0, 160) ?? ''
+  const description = rawDesc
+    ? (rawDesc.length < (listing.description?.length ?? 0) ? rawDesc.replace(/\s\S*$/, '…') : rawDesc)
+    : `${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} bed`}, ${listing.bathrooms} bath ${propertyWord.toLowerCase()} for rent in ${city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
+  const seoTitle = `${listing.address} — ${bedsLabel} ${propertyWord} for Rent in ${city}, CA ${zip}`
   const ogTitle = `${listing.address} — ${bedsLabel} For Rent in ${city}, CA`
   return {
     title: seoTitle,
@@ -120,6 +120,7 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
       '@type': 'Offer',
       price: listing.monthly_rent,
       priceCurrency: 'USD',
+      priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       availability: listing.rental_status === 'vacant'
         ? 'https://schema.org/InStock'
         : listing.rental_status === 'pending'

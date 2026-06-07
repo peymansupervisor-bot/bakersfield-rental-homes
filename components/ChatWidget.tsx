@@ -170,6 +170,7 @@ export default function ChatWidget() {
         {/* Messages */}
         <div
           style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+          role="log"
           aria-live="polite"
           aria-label="Chat messages"
         >
@@ -285,6 +286,7 @@ export default function ChatWidget() {
         }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.08)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+        className="focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
       >
         {open ? (
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F7F5F0" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
@@ -295,11 +297,14 @@ export default function ChatWidget() {
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
         )}
-        {unread > 0 && (
-          <span aria-label={`${unread} unread message`} style={{ position: 'absolute', top: '-4px', right: '-4px', width: '20px', height: '20px', backgroundColor: '#e53935', borderRadius: '50%', color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff' }}>
-            {unread}
-          </span>
-        )}
+        <span
+          role="status"
+          aria-live="polite"
+          aria-label={unread > 0 ? `${unread} unread message${unread > 1 ? 's' : ''}` : undefined}
+          style={{ position: 'absolute', top: '-4px', right: '-4px', width: '20px', height: '20px', backgroundColor: '#e53935', borderRadius: '50%', color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, display: unread > 0 ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff' }}
+        >
+          <span aria-hidden="true">{unread}</span>
+        </span>
       </button>
 
       <style>{`

@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 const DEFAULT_STATS = [
-  { value: '$1',   label: 'To List',      sub: 'Post your rental for just $1 — no commissions' },
-  { value: '0%',   label: 'Broker Fees',  sub: 'Tenants pay no finder\'s fees, ever' },
-  { value: '100%', label: 'Local Owners', sub: 'Every listing comes directly from the landlord' },
+  { value: 'Free', label: 'To List',      sub: 'Identity verified — keeps scammers off the platform' },
+  { value: '0%',   label: 'Broker Fees',  sub: 'No representation offered — no fees charged to landlords or tenants' },
+  { value: '100%', label: 'Real Landlords', sub: 'Every listing comes directly from a verified landlord' },
 ]
 
 interface StatItem { value: string; label: string; sub: string }
@@ -30,12 +30,12 @@ export default function Stats({ stats }: StatsProps) {
   return (
     <section ref={ref} aria-label="Performance statistics" className="py-24 px-6 md:px-10" style={{ backgroundColor: '#1C3D5A' }}>
       <div className="max-w-5xl mx-auto">
-        <p
+        <h2
           className={`text-center text-xs font-semibold tracking-widest uppercase mb-16 reveal-up ${inView ? 'in-view' : ''}`}
-          style={{ color: '#C9A961', letterSpacing: '0.2em' }}
+          style={{ color: '#C9A961', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}
         >
           What the Results Look Like
-        </p>
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 text-center">
           {items.map((stat, i) => (
             <div

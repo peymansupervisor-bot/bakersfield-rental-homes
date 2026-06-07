@@ -95,22 +95,45 @@ function ChatWindow({ currentUser, partner, onClose }: {
     setSending(false)
   }
 
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  // Focus the close button when panel opens; trap Tab inside
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!panel) return
+    const focusable = panel.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
+    focusable[0]?.focus()
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      const els = panel.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
+      const first = els[0]; const last = els[els.length - 1]
+      if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        e.preventDefault(); (e.shiftKey ? last : first)?.focus()
+      }
+    }
+    panel.addEventListener('keydown', trap)
+    return () => panel.removeEventListener('keydown', trap)
+  }, [])
+
   return (
-    <div className="fixed bottom-0 right-4 z-50 flex flex-col rounded-t-2xl shadow-2xl overflow-hidden"
+    <div ref={panelRef}
+      role="dialog" aria-modal="true" aria-label={`Chat with ${partner.display_name}`}
+      className="fixed bottom-0 right-4 z-50 flex flex-col rounded-t-2xl shadow-2xl overflow-hidden"
       style={{ width: 320, height: 440, backgroundColor: 'white', border: '1px solid #e0ddd8' }}>
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3"
         style={{ backgroundColor: '#1C3D5A' }}>
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#4ade80' }} />
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#4ade80' }} aria-hidden="true" />
           <p className="text-sm font-semibold" style={{ color: '#F7F5F0' }}>{partner.display_name}</p>
         </div>
         <button onClick={onClose} aria-label="Close chat"
-          className="text-white opacity-60 hover:opacity-100 text-lg leading-none">×</button>
+          className="text-white opacity-60 hover:opacity-100 text-lg leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C9A961]">×</button>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2" style={{ backgroundColor: '#F7F5F0' }}>
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2" style={{ backgroundColor: '#F7F5F0' }}
+        aria-live="polite" aria-label="Messages" aria-atomic="false">
         {messages.length === 0 && (
           <p className="text-xs text-center mt-8" style={{ color: '#595959' }}>
             No messages yet — say hello!
@@ -178,20 +201,44 @@ function InboxPanel({ currentUser, onStartChat, onClose }: {
 
   const filtered = allUsers.filter(u => u.display_name.toLowerCase().includes(search.toLowerCase()))
 
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!panel) return
+    const focusable = panel.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
+    focusable[0]?.focus()
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      const els = panel.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
+      const first = els[0]; const last = els[els.length - 1]
+      if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        e.preventDefault(); (e.shiftKey ? last : first)?.focus()
+      }
+    }
+    panel.addEventListener('keydown', trap)
+    return () => panel.removeEventListener('keydown', trap)
+  }, [tab])
+
   return (
-    <div className="fixed bottom-0 right-4 z-50 flex flex-col rounded-t-2xl shadow-2xl overflow-hidden"
+    <div ref={panelRef}
+      role="dialog" aria-modal="true" aria-label="Messages inbox"
+      className="fixed bottom-0 right-4 z-50 flex flex-col rounded-t-2xl shadow-2xl overflow-hidden"
       style={{ width: 320, height: 440, backgroundColor: 'white', border: '1px solid #e0ddd8' }}>
       <div className="flex items-center justify-between px-4 py-3" style={{ backgroundColor: '#1C3D5A' }}>
         <p className="text-sm font-semibold" style={{ color: '#F7F5F0' }}>Messages</p>
         <button onClick={onClose} aria-label="Close inbox"
-          className="text-white opacity-60 hover:opacity-100 text-lg leading-none">×</button>
+          className="text-white opacity-60 hover:opacity-100 text-lg leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C9A961]">×</button>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b" style={{ borderColor: '#e0ddd8' }}>
+      <div className="flex border-b" style={{ borderColor: '#e0ddd8' }} role="tablist" aria-label="Inbox sections">
         {(['chats', 'users'] as const).map(t => (
           <button key={t} onClick={() => setTab(t)}
-            className="flex-1 py-2 text-xs font-semibold tracking-widest uppercase transition-all"
+            role="tab" aria-selected={tab === t}
+            aria-controls={t === 'chats' ? 'inbox-chats-panel' : 'inbox-users-panel'}
+            id={`inbox-tab-${t}`}
+            className="flex-1 py-2 text-xs font-semibold tracking-widest uppercase transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C9A961]"
             style={{
               color: tab === t ? '#1C3D5A' : '#aaa',
               borderBottom: tab === t ? '2px solid #C9A961' : '2px solid transparent',
@@ -201,7 +248,8 @@ function InboxPanel({ currentUser, onStartChat, onClose }: {
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto" id={tab === 'chats' ? 'inbox-chats-panel' : 'inbox-users-panel'}
+        role="tabpanel" aria-labelledby={`inbox-tab-${tab}`}>
         {tab === 'chats' ? (
           conversations.length === 0 ? (
             <p className="text-xs text-center mt-8" style={{ color: '#595959' }}>No conversations yet.<br />Go to All Users to start one.</p>
@@ -379,11 +427,11 @@ function ProfileModal({ user, currentAvatarUrl, displayName, onClose, onSaved }:
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-      role="dialog" aria-modal="true" aria-label="Edit profile photo">
+      role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
       <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl">
-        <button onClick={onClose} aria-label="Close"
-          className="float-right text-gray-400 hover:text-gray-600 text-xl font-light">×</button>
-        <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+        <button onClick={onClose} aria-label="Close profile photo dialog"
+          className="float-right text-gray-400 hover:text-gray-600 text-xl font-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1C3D5A]">×</button>
+        <h2 id="profile-modal-title" className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
           Profile Photo
         </h2>
         <p className="text-sm mb-6" style={{ color: '#888' }}>Upload a photo — it will be cropped to a square.</p>
@@ -504,12 +552,12 @@ function AuthModal({ onClose, onAuth }: { onClose: () => void; onAuth: (u: User)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-      role="dialog" aria-modal="true"
-      aria-label={mode === 'signup' ? 'Create account' : mode === 'forgot' ? 'Reset password' : 'Sign in'}>
+      role="dialog" aria-modal="true" aria-labelledby="auth-modal-title"
+      onKeyDown={e => e.key === 'Escape' && onClose()}>
       <div ref={modalRef} className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl">
-        <button onClick={onClose} aria-label="Close"
-          className="float-right text-gray-400 hover:text-gray-600 text-xl font-light">×</button>
-        <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+        <button onClick={onClose} aria-label="Close dialog"
+          className="float-right text-gray-400 hover:text-gray-600 text-xl font-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1C3D5A]">×</button>
+        <h2 id="auth-modal-title" className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
           {mode === 'signup' ? 'Join the Community' : mode === 'forgot' ? 'Reset Password' : 'Welcome Back'}
         </h2>
         <p className="text-sm mb-6" style={{ color: '#888' }}>
@@ -645,12 +693,14 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
   const [preview, setPreview]   = useState<string | null>(null)
   const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState('')
+  const [photoAnnounce, setPhotoAnnounce] = useState('')
   const fileRef                 = useRef<HTMLInputElement>(null)
 
   const pickPhoto = (f: File | null) => {
     if (!f) return
     setPhoto(f)
     setPreview(URL.createObjectURL(f))
+    setPhotoAnnounce(''); setTimeout(() => setPhotoAnnounce(`Photo selected: ${f.name}`), 50)
   }
 
   const submit = async () => {
@@ -679,15 +729,15 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
   }
 
   if (!open) return (
-    <button onClick={() => setOpen(true)}
-      className="w-full py-4 rounded-2xl text-sm font-semibold tracking-widest uppercase mb-6 transition-all hover:opacity-90"
+    <button onClick={() => setOpen(true)} aria-expanded={false} aria-controls="new-post-form"
+      className="w-full py-4 rounded-2xl text-sm font-semibold tracking-widest uppercase mb-6 transition-all hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]"
       style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.1em' }}>
       + Post to Community
     </button>
   )
 
   return (
-    <div className="bg-white rounded-3xl p-6 mb-6 shadow-sm" style={{ border: '1px solid rgba(201,169,97,0.2)' }}>
+    <div id="new-post-form" className="bg-white rounded-3xl p-6 mb-6 shadow-sm" style={{ border: '1px solid rgba(201,169,97,0.2)' }}>
       <h3 className="text-lg font-bold mb-4" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
         New Post
       </h3>
@@ -713,18 +763,20 @@ function NewPostForm({ user, onPosted }: { user: User; onPosted: () => void }) {
             value={body} onChange={e => setBody(e.target.value)} />
         </div>
         <div>
-          <label className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>Photo (optional)</label>
+          <label id="np-photo-label" className="block text-xs font-semibold tracking-widest uppercase mb-1.5" style={{ color: '#1C3D5A' }}>Photo (optional)</label>
+          <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{photoAnnounce}</div>
           {preview ? (
             <div className="relative w-40 h-32 rounded-xl overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={preview} alt="Post photo preview" className="w-full h-full object-cover" />
-              <button onClick={() => { setPhoto(null); setPreview(null) }}
-                className="absolute top-1 right-1 w-6 h-6 rounded-full text-white text-xs flex items-center justify-center"
+              <img src={preview} alt={photo ? `Selected photo: ${photo.name}` : 'Post photo preview'} className="w-full h-full object-cover" />
+              <button onClick={() => { setPhoto(null); setPreview(null); setPhotoAnnounce(''); setTimeout(() => setPhotoAnnounce('Photo removed'), 50) }}
+                className="absolute top-1 right-1 w-6 h-6 rounded-full text-white text-xs flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C9A961]"
                 style={{ backgroundColor: 'rgba(0,0,0,0.6)' }} aria-label="Remove photo">×</button>
             </div>
           ) : (
             <button type="button" onClick={() => fileRef.current?.click()}
-              className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all hover:opacity-80"
+              aria-labelledby="np-photo-label"
+              className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
               style={{ border: '1.5px dashed #d5d0c8', color: '#888', backgroundColor: '#faf9f7' }}>
               + Add Photo
             </button>
@@ -902,34 +954,35 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
         {/* Actions */}
         <div className="flex items-center gap-4 mt-4 pt-4" style={{ borderTop: '1px solid #f0ece4' }}>
           <button onClick={toggleComments}
-            className="flex items-center gap-1.5 text-sm transition-all hover:opacity-70"
+            className="flex items-center gap-1.5 text-sm transition-all hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]"
             style={{ color: '#616161' }}
-            aria-expanded={showComments}>
+            aria-expanded={showComments}
+            aria-controls={`comments-${post.id}`}>
             <span aria-hidden="true">💬</span>{' '}
             {commentCount > 0 ? `${commentCount} comment${commentCount !== 1 ? 's' : ''}` : 'Comment'}
           </button>
           {currentUser && currentUser.id !== post.user_id && onMessage && (
             <button
               onClick={() => onMessage({ id: post.user_id, display_name: post.profiles?.display_name ?? 'User' })}
-              className="flex items-center gap-1 text-sm transition-all hover:opacity-70"
+              className="flex items-center gap-1 text-sm transition-all hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7d6019]"
               style={{ color: '#7d6019' }}>
-              <span aria-hidden="true">✉️</span>{' '}Message
+              <span aria-hidden="true">✉️</span>{' '}Message {post.profiles?.display_name ?? 'user'}
             </button>
           )}
           {currentUser?.id === post.user_id && (
             <div className="ml-auto flex gap-3">
               <button onClick={() => { setEditTitle(post.title); setEditBody(post.body); setEditingPost(true) }}
-                className="text-xs transition-all hover:opacity-70" style={{ color: '#1C3D5A' }}
-                aria-label="Edit post">Edit</button>
-              <button onClick={deletePost} className="text-xs transition-all hover:opacity-70" style={{ color: '#B03A2E' }}
-                aria-label="Delete post">Delete</button>
+                className="text-xs transition-all hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]" style={{ color: '#1C3D5A' }}
+                aria-label={`Edit post: ${post.title}`}>Edit</button>
+              <button onClick={deletePost} className="text-xs transition-all hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B03A2E]" style={{ color: '#B03A2E' }}
+                aria-label={`Delete post: ${post.title}`}>Delete</button>
             </div>
           )}
         </div>
 
         {/* Comments */}
         {showComments && (
-          <div className="mt-4 space-y-3">
+          <div id={`comments-${post.id}`} className="mt-4 space-y-3">
             {loadingC ? (
               <p className="text-xs" style={{ color: '#595959' }}>Loading comments…</p>
             ) : comments.length === 0 ? (
@@ -1141,7 +1194,7 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           Bakersfield Community Board
         </h1>
-        <p className="text-sm font-light mb-6" style={{ color: 'rgba(247,245,240,0.65)' }}>
+        <p className="text-sm font-light mb-6" style={{ color: 'rgba(247,245,240,0.87)' }}>
           Your local board for events, trades, farm goods, jobs, and everything Bakersfield
         </p>
         {user ? (
@@ -1197,11 +1250,12 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
 
               {showNotifs && (
                 <div className="absolute right-0 mt-2 w-72 rounded-2xl shadow-xl overflow-hidden z-50"
-                  style={{ backgroundColor: 'white', border: '1px solid #e0ddd8', top: '100%' }}>
+                  style={{ backgroundColor: 'white', border: '1px solid #e0ddd8', top: '100%' }}
+                  role="region" aria-label="Notifications">
                   <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: '#f0ece4' }}>
                     <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: '#1C3D5A' }}>Notifications</p>
                     {notifications.length > 0 && (
-                      <button onClick={() => setNotifications([])} className="text-xs" style={{ color: '#595959' }}>Clear all</button>
+                      <button onClick={() => setNotifications([])} className="text-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1C3D5A]" style={{ color: '#595959' }}>Clear all</button>
                     )}
                   </div>
                   {notifications.length === 0 ? (
@@ -1236,15 +1290,14 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8">
-        {/* Category grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6" role="tablist" aria-label="Filter by category">
+        {/* Category filter buttons — not a tab panel pattern; filters the same post list */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6" role="group" aria-label="Filter posts by category">
           {CATEGORIES.map(c => (
             <button key={c.id}
-              role="tab"
-              aria-selected={category === c.id}
+              aria-pressed={category === c.id}
               aria-label={c.label}
               onClick={() => setCategory(c.id)}
-              className="flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 text-left"
+              className="flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
               style={{
                 backgroundColor: category === c.id ? '#1C3D5A' : 'white',
                 color: category === c.id ? '#F7F5F0' : '#444',
@@ -1261,6 +1314,7 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
         {user && <NewPostForm user={user} onPosted={fetchPosts} />}
 
         {/* Posts feed */}
+        <section aria-label="Community posts" aria-live="polite" aria-busy={loading}>
         {loading ? (
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
@@ -1295,6 +1349,7 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
             ))}
           </div>
         )}
+        </section>
       </div>
       {/* Inbox panel */}
       {showInbox && user && (

@@ -8,7 +8,7 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const metadata: Metadata = {
-  title: 'Direct Landlord Rentals in Bakersfield CA | No Broker Fees',
+  title: 'Direct Landlord Rentals in Bakersfield CA',
   description:
     'Rent directly from local landlords in Bakersfield, CA. No broker fees, no middlemen, faster approvals. Browse houses for rent by owner in Bakersfield — updated daily.',
   keywords: [
@@ -20,10 +20,13 @@ export const metadata: Metadata = {
     'rental listings without realtor Bakersfield',
     'Bakersfield rental homes direct from owner',
     'no middleman rentals Bakersfield',
+    'horse property for rent Bakersfield CA',
+    'horse property rental Bakersfield',
+    'equestrian property rental Kern County',
   ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/direct-landlord-rentals' },
   openGraph: {
-    title: 'Direct Landlord Rentals in Bakersfield CA | No Broker Fees',
+    title: 'Direct Landlord Rentals in Bakersfield CA',
     description: 'Rent directly from local landlords in Bakersfield. No broker fees, no middlemen, faster approvals.',
     url: 'https://bakersfieldrentalhomes.com/direct-landlord-rentals',
     siteName: 'Bakersfield Rental Homes',
@@ -32,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Direct Landlord Rentals in Bakersfield CA | No Broker Fees',
+    title: 'Direct Landlord Rentals in Bakersfield CA',
     description: 'Rent directly from local landlords in Bakersfield. No broker fees, faster approvals.',
     images: ['/opengraph-image'],
   },
@@ -83,7 +86,7 @@ const BENEFITS = [
       </svg>
     ),
     title: 'Real Local Landlords',
-    body: 'Every listing comes from a registered local Bakersfield property owner — not a national corporation or out-of-state management company.',
+    body: 'Every listing is a real home in Bakersfield — posted by a real property owner, not a national corporation or out-of-state management company.',
   },
   {
     icon: (
@@ -111,7 +114,7 @@ const FAQS = [
   },
   {
     q: 'Are direct landlord rentals safe?',
-    a: 'All landlords on Bakersfield Rental Homes are registered local owners. We recommend visiting the property in person before signing any lease and never sending payment before a signed rental agreement is in place.',
+    a: 'We require landlords to complete an identity verification step before their listing goes live, which helps reduce fraudulent postings. However, no platform can guarantee complete elimination of fraud. We strongly recommend visiting any property in person before signing a lease, independently verifying ownership through the Kern County Assessor-Recorder\'s Office, and never sending any payment before a signed rental agreement is in place.',
   },
 ]
 

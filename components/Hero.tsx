@@ -8,7 +8,7 @@ const OVERLAYS = [
   {
     start: 0,
     end: 4.2,
-    headline: 'This website connects\ntenants to landlords directly.',
+    headline: 'Real landlords.\nReal listings.\nNo broker fees.',
     sub: '',
   },
 ]
@@ -19,9 +19,9 @@ export default function Hero({ heroHeadline }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const [muted, setMuted] = useState(true)
-  const [playing, setPlaying] = useState(!prefersReducedMotion)
+  const [playing, setPlaying] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
 
   // Detect mobile
@@ -30,6 +30,21 @@ export default function Hero({ heroHeadline }: HeroProps) {
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Reactively track prefers-reduced-motion and pause/play video accordingly
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const apply = (matches: boolean) => {
+      setPrefersReducedMotion(matches)
+      setPlaying(!matches)
+      const video = videoRef.current
+      if (video) matches ? video.pause() : video.play().catch(() => {})
+    }
+    apply(mq.matches)
+    const handler = (e: MediaQueryListEvent) => apply(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
   }, [])
 
   // Fade out scroll indicator on scroll
@@ -117,36 +132,36 @@ export default function Hero({ heroHeadline }: HeroProps) {
         }}
       />
 
-      {/* Always-present h1 for screen readers and SEO — visually hidden, keyword-bearing */}
-      <h1 className="sr-only">Houses for Rent in Bakersfield, CA — Direct from Landlords</h1>
+      {/* Always-present h1 for screen readers and SEO */}
+      <h1 className="sr-only">{headline} — Houses for Rent in Bakersfield, CA — Direct from Landlords</h1>
 
-      {/* Scene overlay text — centred, fades in/out with each scene */}
+      {/* Scene overlay text — centred, visible only during first scene */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        aria-hidden="true"
         style={{
+          zIndex: 5,
           opacity: activeOverlay ? 1 : 0,
           transition: 'opacity 0.7s ease',
-          zIndex: 5,
         }}
+        aria-hidden="true"
       >
-        {activeOverlay && (
-          <div className="text-center px-6" style={{ maxWidth: '640px' }}>
-            <p
-              style={{
-                fontFamily: 'Playfair Display, Georgia, serif',
-                fontSize: 'clamp(2rem, 5vw, 3.4rem)',
-                fontWeight: 700,
-                color: '#E8845A',
-                lineHeight: 1.18,
-                letterSpacing: '-0.02em',
-                whiteSpace: 'pre-line',
-                textShadow: '0 1px 8px rgba(0,0,0,0.3)',
-                marginBottom: '14px',
-              }}
-            >
-              {headline}
-            </p>
+        <div className="text-center px-6" style={{ maxWidth: '640px' }}>
+          <p
+            style={{
+              fontFamily: 'Playfair Display, Georgia, serif',
+              fontSize: 'clamp(2rem, 5vw, 3.4rem)',
+              fontWeight: 700,
+              color: '#E8845A',
+              lineHeight: 1.18,
+              letterSpacing: '-0.02em',
+              whiteSpace: 'pre-line',
+              textShadow: '0 2px 12px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.5)',
+              marginBottom: '14px',
+            }}
+          >
+            {headline}
+          </p>
+          {activeOverlay?.sub && (
             <p
               style={{
                 fontFamily: 'Inter, sans-serif',
@@ -160,8 +175,8 @@ export default function Hero({ heroHeadline }: HeroProps) {
             >
               {activeOverlay.sub}
             </p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
 

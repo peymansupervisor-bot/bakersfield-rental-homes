@@ -3,8 +3,6 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Privacy Policy | Bakersfield Rental Homes',
   description: 'How Bakersfield Rental Homes collects, uses, and protects your personal information — CCPA compliant.',
-  alternates: { canonical: 'https://bakersfieldrentalhomes.com/privacy' },
-  robots: { index: false, follow: false },
 }
 
 export default function PrivacyPage() {
@@ -58,7 +56,11 @@ export default function PrivacyPage() {
                 'Cookies and Similar Technologies',
                 'Changes to This Privacy Policy',
               ].map((item, i) => (
-                <li key={i}><span className="font-semibold">{i + 1}.</span> {item}</li>
+                <li key={i}>
+                  <a href={`#section-${i + 1}`} className="hover:underline" style={{ color: '#1C3D5A' }}>
+                    <span className="font-semibold">{i + 1}.</span> {item}
+                  </a>
+                </li>
               ))}
             </ol>
           </nav>
@@ -85,7 +87,7 @@ export default function PrivacyPage() {
             <Sub title="Information from third parties">
               <ul>
                 <li><strong>Address data:</strong> We use OpenStreetMap to provide address autocomplete suggestions when you list a property.</li>
-                <li><strong>Payment processing:</strong> Payments are processed by Stripe. We do not store your payment card details. Stripe's privacy policy governs their handling of payment data.</li>
+                <li><strong>Identity verification:</strong> Landlord identity verification is processed by Stripe Identity. We do not store your government ID or biometric data. Stripe's privacy policy governs their handling of verification data.</li>
                 <li><strong>Authentication:</strong> User authentication is handled through Supabase. Please review Supabase's privacy policy for details on how authentication data is handled.</li>
               </ul>
             </Sub>
@@ -98,7 +100,7 @@ export default function PrivacyPage() {
               <li>Publish and display rental listings to prospective tenants</li>
               <li>Process vendor applications and maintain a trusted vendor directory</li>
               <li>Enable community posts, comments, and direct messaging between users</li>
-              <li>Process listing payments through Stripe</li>
+              <li>Verify landlord identity through Stripe Identity to ensure listings are posted by real people</li>
               <li>Send email confirmations, notifications, and account-related communications</li>
               <li>Notify users in real time when someone comments on their post or sends them a direct message</li>
               <li>Respond to support requests and inquiries</li>
@@ -120,7 +122,7 @@ export default function PrivacyPage() {
               <p>We share personal information with trusted service providers who help us operate the Services, including:</p>
               <ul>
                 <li><strong>Supabase</strong> — database, authentication, and file storage</li>
-                <li><strong>Stripe</strong> — payment processing</li>
+                <li><strong>Stripe</strong> — identity verification</li>
                 <li><strong>Vercel</strong> — website hosting and deployment</li>
                 <li><strong>OpenStreetMap / Nominatim</strong> — address lookup</li>
               </ul>
@@ -160,7 +162,7 @@ export default function PrivacyPage() {
               <li>Community posts and comments are retained until you delete them or your account is deleted</li>
               <li>Direct messages are retained until deleted by the user or upon account deletion</li>
               <li>Vendor application records may be retained for legal and compliance purposes</li>
-              <li>Payment records are retained as required by applicable law and accounting standards</li>
+              <li>Identity verification records are retained as required by applicable law and our obligations under Stripe Identity's terms of service</li>
             </ul>
           </Section>
 
@@ -214,9 +216,9 @@ export default function PrivacyPage() {
             <Sub title="Third-party services">
               <p>Our site integrates with the following third-party services that may process data independently under their own privacy policies:</p>
               <ul>
-                <li><strong>Supabase</strong> — authentication and database (<a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>supabase.com/privacy</a>)</li>
-                <li><strong>Vercel</strong> — hosting and analytics (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>vercel.com/legal/privacy-policy</a>)</li>
-                <li><strong>Stripe</strong> — payment processing (<a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>stripe.com/privacy</a>)</li>
+                <li><strong>Supabase</strong> — authentication and database (<a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>supabase.com/privacy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
+                <li><strong>Vercel</strong> — hosting and analytics (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>vercel.com/legal/privacy-policy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
+                <li><strong>Stripe</strong> — identity verification (<a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>stripe.com/privacy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
               </ul>
             </Sub>
           </Section>
@@ -236,7 +238,7 @@ export default function PrivacyPage() {
 
 function Section({ num, title, children }: { num: string; title: string; children: React.ReactNode }) {
   return (
-    <section className="mb-10">
+    <section id={`section-${num}`} className="mb-10 scroll-mt-8">
       <h2 className="text-xl font-bold mb-4 pb-2" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A', borderBottom: '1px solid rgba(201,169,97,0.2)' }}>
         {num}. {title}
       </h2>

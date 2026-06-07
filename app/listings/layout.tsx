@@ -20,10 +20,12 @@ export const metadata: Metadata = {
     'Bakersfield no broker fee rentals',
     'houses for rent by owner Los Angeles CA',
     'direct landlord rentals Los Angeles',
+    'horse property for rent Bakersfield CA',
+    'horse property rental Bakersfield',
+    'horse property Kern County',
+    'equestrian property for rent Bakersfield',
+    'homes with horse facilities Bakersfield',
   ],
-  alternates: {
-    canonical: 'https://bakersfieldrentalhomes.com/listings',
-  },
 }
 
 export default function ListingsLayout({ children }: { children: React.ReactNode }) {
