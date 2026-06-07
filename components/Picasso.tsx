@@ -4,9 +4,9 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 const PHOTOS = [
-  { src: '/picasso/picasso-1.png', alt: 'Picasso the sun conure perched indoors in a bright Bakersfield home' },
-  { src: '/picasso/picasso-2.png', alt: 'Picasso the sun conure outside enjoying a sunny Bakersfield backyard' },
-  { src: '/picasso/picasso-3.png', alt: 'Picasso the sun conure — vibrant close-up portrait' },
+  { src: '/picasso/picasso-1.webp', alt: 'Picasso the sun conure perched indoors in a bright Bakersfield home' },
+  { src: '/picasso/picasso-2.webp', alt: 'Picasso the sun conure outside enjoying a sunny Bakersfield backyard' },
+  { src: '/picasso/picasso-3.webp', alt: 'Picasso the sun conure — vibrant close-up portrait' },
 ]
 
 const CARDS = [

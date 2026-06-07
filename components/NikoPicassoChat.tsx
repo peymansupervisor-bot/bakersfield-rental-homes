@@ -14,6 +14,7 @@ const LINES = [
 export default function NikoPicassoChat() {
   const [visible, setVisible] = useState(-1)
   const [playing, setPlaying] = useState(false)
+  const [blocked, setBlocked] = useState(false) // true when browser blocked autoplay
   const sectionRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const indexRef = useRef(0)
@@ -27,10 +28,15 @@ export default function NikoPicassoChat() {
     indexRef.current = index
     setVisible(index)
     setPlaying(true)
+    setBlocked(false)
 
     const audio = new Audio(LINES[index].audio)
     audioRef.current = audio
-    audio.play().catch(() => {})
+    audio.play().catch(() => {
+      // Browser blocked autoplay — show the tap-to-play prompt
+      setBlocked(true)
+      setPlaying(false)
+    })
     audio.onended = () => playFrom(index + 1)
   }
 
@@ -42,6 +48,7 @@ export default function NikoPicassoChat() {
   function restart() {
     if (audioRef.current) { audioRef.current.onended = null; audioRef.current.pause() }
     if (prefersReducedMotion()) { showAll(); return }
+    setBlocked(false)
     setVisible(-1)
     setTimeout(() => playFrom(0), 300)
   }
@@ -91,6 +98,22 @@ export default function NikoPicassoChat() {
         </button>
       </div>
 
+      {/* Autoplay blocked — show a friendly tap-to-play nudge */}
+      {blocked && (
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={restart}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold animate-pulse"
+            style={{
+              backgroundColor: '#C9A961', color: '#0D1F2D',
+              fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em',
+            }}
+          >
+            🔊 Tap to hear Niko &amp; Picasso
+          </button>
+        </div>
+      )}
+
       <div className="max-w-2xl mx-auto space-y-5" aria-live="polite" aria-label="Niko and Picasso conversation" aria-atomic="false">
         {LINES.map((line, i) => {
           const isNiko = line.speaker === 'niko'
@@ -122,7 +145,7 @@ export default function NikoPicassoChat() {
                 }}
               >
                 <Image
-                  src={isNiko ? '/niko/niko-closeup.jpg' : '/picasso/picasso-3.png'}
+                  src={isNiko ? '/niko/niko-closeup.jpg' : '/picasso/picasso-3.webp'}
                   alt={isNiko ? 'Niko' : 'Picasso'}
                   width={56}
                   height={56}
