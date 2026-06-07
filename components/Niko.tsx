@@ -60,7 +60,7 @@ export default function Niko({ headline, description, photos, cards }: NikoProps
             {displayPhotos.map((p, i) => (
               <Image key={p.src} src={p.src} alt={p.alt}
                 fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover"
-                priority={i === 0}
+                loading="lazy"
                 style={{ opacity: active === i ? 1 : 0, transition: 'opacity 0.3s ease' }} />
             ))}
             <div className="absolute top-5 left-5 px-3 py-1.5 rounded-full text-xs font-semibold"

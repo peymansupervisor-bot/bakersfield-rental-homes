@@ -76,7 +76,7 @@ export default function Picasso() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
-                priority={i === 0}
+                loading="lazy"
                 style={{ opacity: active === i ? 1 : 0, transition: 'opacity 0.4s ease' }}
               />
             ))}

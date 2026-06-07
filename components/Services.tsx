@@ -11,7 +11,7 @@ const services = [
       </svg>
     ),
     title: 'Advertise Your Property',
-    description: 'Landlords: post your Bakersfield rental directly to local tenants for just $1. No commissions, no agents, no middlemen — just your listing in front of real renters.',
+    description: 'Landlords: post your Bakersfield rental directly to local tenants — completely free. No commissions, no agents, no middlemen — just your listing in front of real renters.',
     accent: '#2D7A4F',
   },
   {

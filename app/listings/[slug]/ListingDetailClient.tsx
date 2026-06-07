@@ -556,7 +556,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 Have a property?
               </p>
               <p className="text-sm mb-4" style={{ color: 'rgba(247,245,240,0.8)' }}>
-                List yours for just $1.
+                List yours — completely free.
               </p>
               <Link href="/list"
                 className="inline-block px-5 py-2.5 rounded-xl text-xs font-semibold tracking-widest uppercase transition-all hover:opacity-90"
