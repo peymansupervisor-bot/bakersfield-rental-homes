@@ -24,9 +24,20 @@ export const metadata: Metadata = {
   },
 }
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bakersfieldrentalhomes.com' },
+    { '@type': 'ListItem', position: 2, name: 'Neighborhoods', item: 'https://bakersfieldrentalhomes.com/neighborhoods' },
+  ],
+}
+
 export default function NeighborhoodsIndexPage() {
   return (
-    <main id="main-content" className="max-w-5xl mx-auto px-6 py-16">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <main id="main-content" className="max-w-5xl mx-auto px-6 py-16">
       <div className="text-center mb-14">
         <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#7d6019' }}>
           Direct from Landlords · No Broker Fees
@@ -89,6 +100,7 @@ export default function NeighborhoodsIndexPage() {
           Browse All Listings
         </Link>
       </div>
-    </main>
+      </main>
+    </>
   )
 }

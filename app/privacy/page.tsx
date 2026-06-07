@@ -3,8 +3,6 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Privacy Policy | Bakersfield Rental Homes',
   description: 'How Bakersfield Rental Homes collects, uses, and protects your personal information — CCPA compliant.',
-  alternates: { canonical: 'https://bakersfieldrentalhomes.com/privacy' },
-  robots: { index: false, follow: false },
 }
 
 export default function PrivacyPage() {

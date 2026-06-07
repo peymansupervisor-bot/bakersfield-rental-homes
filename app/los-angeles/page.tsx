@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import type { Listing } from '@/lib/supabase'
 import { statusLabel, statusColor, statusBg } from '@/lib/rentalStatus'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!

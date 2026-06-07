@@ -116,10 +116,19 @@ export default async function ListingsPage() {
       name: l.title,
     })),
   }
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bakersfieldrentalhomes.com' },
+      { '@type': 'ListItem', position: 2, name: 'Listings', item: 'https://bakersfieldrentalhomes.com/listings' },
+    ],
+  }
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <ListingsClient initialListings={listings} laListings={laListings} />
     </>
   )

@@ -21,9 +21,6 @@ export const metadata: Metadata = {
     'houses for rent by owner Los Angeles CA',
     'direct landlord rentals Los Angeles',
   ],
-  alternates: {
-    canonical: 'https://bakersfieldrentalhomes.com/listings',
-  },
 }
 
 export default function ListingsLayout({ children }: { children: React.ReactNode }) {

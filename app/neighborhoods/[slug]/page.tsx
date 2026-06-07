@@ -6,7 +6,7 @@ import type { Listing } from '@/lib/supabase'
 import { NEIGHBORHOODS, getNeighborhood } from '@/lib/neighborhoods'
 import { statusLabel, statusColor } from '@/lib/rentalStatus'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
