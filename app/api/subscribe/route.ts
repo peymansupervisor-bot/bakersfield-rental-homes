@@ -23,7 +23,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 })
   }
 
-  // Send welcome email (on both new signup and re-signup)
+  // Only send welcome email on fresh signups — skip duplicates (23505 = unique violation)
+  if (error?.code === '23505') {
+    return NextResponse.json({ success: true })
+  }
+
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({

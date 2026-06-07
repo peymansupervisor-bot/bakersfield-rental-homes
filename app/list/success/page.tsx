@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useRef, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
@@ -9,6 +9,7 @@ function SuccessContent() {
   const listingId = searchParams.get('listing_id')
   const [ready, setReady] = useState(false)
   const [listingSlug, setListingSlug] = useState<string | null>(null)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Poll until listing is active (webhook may take a second or two)
   useEffect(() => {
@@ -20,12 +21,13 @@ function SuccessContent() {
         if (listing?.status === 'active') {
           setListingSlug(listing.slug ?? listingId)
           setReady(true)
+          if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null }
         }
       } catch {}
     }
     check()
-    const interval = setInterval(check, 2000)
-    return () => clearInterval(interval)
+    intervalRef.current = setInterval(check, 2000)
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
   }, [listingId])
 
   return (
