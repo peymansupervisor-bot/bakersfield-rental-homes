@@ -841,7 +841,7 @@ export default function ListPage() {
           List Your Rental Property in Bakersfield, CA
         </h1>
         <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.87)' }}>
-          Reach Bakersfield renters for just $1
+          We charge a $1 fee to verify that every landlord is real and every listing is legitimate — keeping scammers and fake listings off the platform.
         </p>
       </div>
 
