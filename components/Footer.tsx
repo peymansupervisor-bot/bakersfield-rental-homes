@@ -51,6 +51,15 @@ export default function Footer() {
           <Link href="/direct-landlord-rentals" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Direct Landlord Rentals
           </Link>
+          <Link href="/pet-friendly-rentals-bakersfield" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
+            Pet Friendly Rentals
+          </Link>
+          <Link href="/3-bedroom-houses-for-rent-bakersfield" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
+            3 Bedroom Rentals
+          </Link>
+          <Link href="/horse-property-for-rent-bakersfield" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
+            Horse Property Rentals
+          </Link>
           <Link href="/neighborhoods" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Rentals by Neighborhood
           </Link>

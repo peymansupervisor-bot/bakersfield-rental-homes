@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
 import Stats from '@/components/Stats'
@@ -13,6 +14,20 @@ export const metadata: Metadata = {
   title: 'Bakersfield Rental Homes | Houses & Homes For Rent in Bakersfield CA',
   description:
     'Find houses and homes for rent in Bakersfield, CA. Browse listings posted directly by local landlords — no broker fees, no middlemen. Single-family homes and pet-friendly rentals in Kern County.',
+  keywords: [
+    'houses for rent Bakersfield CA',
+    'homes for rent Bakersfield California',
+    'Bakersfield rental homes',
+    'direct landlord rentals Bakersfield',
+    'no broker fee rentals Bakersfield',
+    'pet friendly rentals Bakersfield CA',
+    '3 bedroom houses for rent Bakersfield CA',
+    'horse property for rent Bakersfield CA',
+    'Kern County rental homes',
+    'rent from owner Bakersfield CA',
+    'single family homes for rent Bakersfield',
+    'long term rentals Bakersfield CA',
+  ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com' },
 }
 
@@ -41,6 +56,46 @@ export default async function Home() {
       />
       <Stats stats={cms?.stats} />
       <Subscribe />
+
+      {/* Popular searches — internal linking hub for SEO */}
+      <section className="py-14 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-labelledby="popular-searches-heading">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#8a6d1f', letterSpacing: '0.2em' }}>
+            Popular Searches
+          </p>
+          <h2 id="popular-searches-heading" className="text-2xl font-bold mb-7"
+            style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+            Find the Right Rental in Bakersfield
+          </h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/listings" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+              style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
+              All Rentals
+            </Link>
+            <Link href="/pet-friendly-rentals-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              Pet Friendly Rentals
+            </Link>
+            <Link href="/3-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              3 Bedroom Houses
+            </Link>
+            <Link href="/horse-property-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              Horse Property Rentals
+            </Link>
+            <Link href="/direct-landlord-rentals" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              Direct Landlord Rentals
+            </Link>
+            <Link href="/neighborhoods" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              Rentals by Neighborhood
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <Community
         headline={cms?.communityHeadline}
         description={cms?.communityDescription}
