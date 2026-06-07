@@ -135,10 +135,15 @@ export default function Hero({ heroHeadline }: HeroProps) {
       {/* Always-present h1 for screen readers and SEO */}
       <h1 className="sr-only">{headline} — Houses for Rent in Bakersfield, CA — Direct from Landlords</h1>
 
-      {/* Scene overlay text — centred */}
+      {/* Scene overlay text — centred, visible only during first scene */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        style={{ zIndex: 5 }}
+        style={{
+          zIndex: 5,
+          opacity: activeOverlay ? 1 : 0,
+          transition: 'opacity 0.7s ease',
+        }}
+        aria-hidden="true"
       >
         <div className="text-center px-6" style={{ maxWidth: '640px' }}>
           <p
