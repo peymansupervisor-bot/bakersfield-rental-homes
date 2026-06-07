@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const DEFAULT_STATS = [
   { value: '$1',   label: 'To List',      sub: 'Identity verification only — keeps scammers off the platform' },
-  { value: '0%',   label: 'Broker Fees',  sub: 'Tenants pay no finder\'s fees, ever' },
+  { value: '0%',   label: 'Broker Fees',  sub: 'No representation offered — no fees charged to tenants' },
   { value: '100%', label: 'Local Owners', sub: 'Every listing comes directly from the landlord' },
 ]
 
