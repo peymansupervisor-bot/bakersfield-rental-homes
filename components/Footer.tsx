@@ -112,6 +112,29 @@ export default function Footer() {
               This website is an informational platform only — listings are posted by independent landlords and no brokerage, agency, or property management services are provided through this site. No content constitutes legal, financial, or professional advice.
             </p>
           </div>
+
+          {/* Fair Housing Notice */}
+          <div className="mt-3 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'rgba(201,169,97,0.9)', fontFamily: 'Inter, sans-serif' }}>
+              Fair Housing Notice
+            </p>
+            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>
+              All properties and rentals advertised on this site are subject to the Fair Housing Act. It is illegal to advertise any preference, limitation, or discrimination because of race, color, religion, sex, handicap, familial status, or national origin, or intention to make any such preference, limitation, or discrimination. All dwellings advertised are available on an equal opportunity basis.
+            </p>
+          </div>
+
+          {/* SMS Consent Notice */}
+          <div className="mt-3 max-w-2xl text-center border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'rgba(201,169,97,0.9)', fontFamily: 'Inter, sans-serif' }}>
+              SMS &amp; Notification Consent
+            </p>
+            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>
+              By providing your phone number and submitting any form on this site, you consent to receive text messages (SMS), notifications, and alerts through automated technology regarding listings and our services. You are responsible for ensuring your consent is knowing and voluntary. Standard message and data rates may apply. We are not liable for any failure to obtain proper consent prior to submitting contact information. Your use of this site is subject to our{' '}
+              <Link href="/privacy" className="underline hover:opacity-80" style={{ color: 'rgba(201,169,97,0.9)' }}>Privacy Policy</Link>
+              {' '}and{' '}
+              <Link href="/terms" className="underline hover:opacity-80" style={{ color: 'rgba(201,169,97,0.9)' }}>Terms of Service</Link>.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
