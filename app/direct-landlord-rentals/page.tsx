@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     'rental listings without realtor Bakersfield',
     'Bakersfield rental homes direct from owner',
     'no middleman rentals Bakersfield',
+    'horse property for rent Bakersfield CA',
+    'horse property rental Bakersfield',
+    'equestrian property rental Kern County',
   ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/direct-landlord-rentals' },
   openGraph: {

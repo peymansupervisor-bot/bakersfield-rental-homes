@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     'long term rentals Bakersfield CA',
     'rent from owner Bakersfield',
     'Bakersfield rental homes',
+    'horse property for rent Bakersfield CA',
+    'horse property rental Kern County',
+    'equestrian rental Bakersfield',
   ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/listings' },
   openGraph: {
