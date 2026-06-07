@@ -72,6 +72,17 @@ export default function NikoPicassoChat() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Stop audio on unmount (user navigates away)
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.onended = null
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [])
+
   return (
     <div
       ref={sectionRef}
