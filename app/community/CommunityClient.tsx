@@ -876,6 +876,7 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
     if (!confirm('Delete this comment?')) return
     await authFetch(`/api/community/comments?id=${commentId}`, { method: 'DELETE' })
     setComments(prev => prev.filter(c => c.id !== commentId))
+    setCommentCount(prev => Math.max(0, prev - 1))
   }
 
   const saveComment = async (commentId: string) => {
@@ -1031,7 +1032,7 @@ function PostCard({ post, currentUser, onDeleted, onMessage }: { post: Post; cur
 
             {currentUser ? (
               <div className="flex gap-2 pt-1">
-                <Avatar name={currentUser.email ?? '?'} size={28} />
+                <Avatar name={currentUser.user_metadata?.display_name ?? currentUser.email ?? '?'} size={28} />
                 <div className="flex-1 flex gap-2">
                   <input
                     className="flex-1 px-3 py-2 rounded-xl text-sm border outline-none focus:border-[#C9A961]"
