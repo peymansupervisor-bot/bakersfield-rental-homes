@@ -276,7 +276,7 @@ export default function VendorsPage() {
           <span aria-hidden="true">🎉</span>
           <p className="text-sm font-semibold" style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}>
             <strong>Apply free until December 31, 2026.</strong>{' '}
-            Applications submitted before January 1, 2027 are <strong>permanently free</strong> — no onboarding fee, ever. A <strong>$95 onboarding fee</strong> applies to applications submitted on or after January 1, 2027.
+            Applications submitted before January 1, 2027 are <strong>permanently free</strong> — no administration fee to have your name and contact information listed in the vendor directory, ever. A <strong>$95 administration fee</strong> to list your name and contact information in the vendor directory <strong>may apply</strong> to applications submitted on or after January 1, 2027.
           </p>
         </div>
       </div>
