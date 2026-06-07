@@ -1135,27 +1135,8 @@ export default function CommunityPage({ initialPosts = [] }: { initialPosts?: Po
       )}
 
       {/* Header */}
-      <div className="relative py-16 px-6 text-center"
+      <div className="py-16 px-6 text-center"
         style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)' }}>
-
-        {/* Niko + Picasso sitting inside the hero, bottom corners */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute bottom-0 left-10 pointer-events-none"
-          style={{ zIndex: 10 }}
-        >
-          <img src="/niko/niko-nobg.png" alt="" width={200}
-            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(0,0,0,0.35))' }} />
-        </div>
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute bottom-0 right-10 pointer-events-none"
-          style={{ zIndex: 10 }}
-        >
-          <img src="/picasso/picasso-1-nobg.png" alt="" width={160}
-            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(220,100,20,0.5))' }} />
-        </div>
-
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           Bakersfield Community Board
