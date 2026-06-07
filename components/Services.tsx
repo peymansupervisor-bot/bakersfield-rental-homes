@@ -44,7 +44,7 @@ const services = [
       </svg>
     ),
     title: 'Local & Community-Driven',
-    description: 'Every landlord and tenant on this platform is part of the Bakersfield community. Real local owners, real available homes — not national corporations or out-of-state investors.',
+    description: 'Every listing on this platform is a real home in Bakersfield — owned by real people, not national corporations or faceless investment funds.',
     accent: '#1C3D5A',
   },
 ]
