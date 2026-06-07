@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.102.0",
     "@sanity/image-url": "^1",
     "@sanity/vision": "^3",
     "@stripe/stripe-js": "^4.1.0",

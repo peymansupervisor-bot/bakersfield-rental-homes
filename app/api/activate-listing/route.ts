@@ -55,6 +55,20 @@ export async function POST(req: NextRequest) {
       warmPhotoCache(fullListing.photos).catch(() => {})
     }
 
+    // Trigger SEO + ADA audit automatically — fire-and-forget, doesn't block the response
+    const auditSecret = process.env.LISTING_AUDIT_SECRET
+    if (auditSecret) {
+      const auditUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bakersfieldrentalhomes.com'}/api/listing-audit`
+      fetch(auditUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-internal-secret': auditSecret,
+        },
+        body: JSON.stringify({ listingId, _internal: true }),
+      }).catch(err => console.error('[activate-listing] audit trigger failed:', err))
+    }
+
     return NextResponse.json({ success: true, listingId })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })
