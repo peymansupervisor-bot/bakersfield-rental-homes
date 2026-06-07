@@ -4,11 +4,11 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
 const LINES = [
-  { speaker: 'niko',    text: "Did you hear? Another landlord just listed on Bakersfield Rental Homes!", audio: '/chat-audio/niko1.mp3' },
-  { speaker: 'picasso', text: "Squawk! Smart human! No broker fees, no middlemen — just real tenants!", audio: '/chat-audio/picasso1.mp3' },
-  { speaker: 'niko',    text: "Local landlords, local renters. Honestly the best decision they've made all year.", audio: '/chat-audio/niko2.mp3' },
-  { speaker: 'picasso', text: "And if it doesn't work out… it WILL work out. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
-  { speaker: 'niko',    text: "Welcome to the family. 🐾", audio: '/chat-audio/niko3.mp3' },
+  { speaker: 'picasso', text: "Hello! Another landlord is here to list on Bakersfield Rental Homes! Squawk!", audio: '/chat-audio/picasso1.mp3' },
+  { speaker: 'niko',    text: "Smart human! No broker fees, no middlemen — just real tenants!", audio: '/chat-audio/niko1.mp3' },
+  { speaker: 'niko',    text: "Yes. Local landlords, local renters. Honestly the best decision they've made all year.", audio: '/chat-audio/niko2.mp3' },
+  { speaker: 'picasso', text: "And if it doesn't work out and your house isn't rented in 3 months… We will refund your $1. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
+  { speaker: 'niko',    text: "Now scroll down to complete the form and join the family. 🐾", audio: '/chat-audio/niko3.mp3' },
 ]
 
 export default function NikoPicassoChat() {
