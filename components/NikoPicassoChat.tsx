@@ -4,87 +4,60 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
 const LINES = [
-  { speaker: 'niko',    text: "Did you hear? Another landlord just listed on Bakersfield Rental Homes!" },
-  { speaker: 'picasso', text: "Squawk! Smart human! No broker fees, no middlemen — just real tenants!" },
-  { speaker: 'niko',    text: "Local landlords, local renters. Honestly the best decision they've made all year." },
-  { speaker: 'picasso', text: "And if it doesn't work out… it WILL work out. Trust the bird!" },
-  { speaker: 'niko',    text: "Welcome to the family." },
+  { speaker: 'niko',    text: "Did you hear? Another landlord just listed on Bakersfield Rental Homes!", audio: '/chat-audio/niko1.mp3' },
+  { speaker: 'picasso', text: "Squawk! Smart human! No broker fees, no middlemen — just real tenants!", audio: '/chat-audio/picasso1.mp3' },
+  { speaker: 'niko',    text: "Local landlords, local renters. Honestly the best decision they've made all year.", audio: '/chat-audio/niko2.mp3' },
+  { speaker: 'picasso', text: "And if it doesn't work out… it WILL work out. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
+  { speaker: 'niko',    text: "Welcome to the family. 🐾", audio: '/chat-audio/niko3.mp3' },
 ]
 
-function speak(text: string, isNiko: boolean) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return
-  window.speechSynthesis.cancel()
-  const utt = new SpeechSynthesisUtterance(text)
-  // Pick a voice if available, fall back to defaults
-  const voices = window.speechSynthesis.getVoices()
-  if (isNiko) {
-    utt.voice = voices.find(v => v.name.includes('Daniel') || v.name.includes('Alex') || v.name.includes('Google UK English Male')) ?? null
-    utt.pitch = 0.85
-    utt.rate = 0.95
-  } else {
-    utt.voice = voices.find(v => v.name.includes('Samantha') || v.name.includes('Google US English') || v.name.includes('Karen')) ?? null
-    utt.pitch = 1.6
-    utt.rate = 1.1
-  }
-  utt.volume = 1
-  window.speechSynthesis.speak(utt)
-}
-
 export default function NikoPicassoChat() {
-  const [started, setStarted] = useState(false)
-  const [visible, setVisible] = useState(0)
+  const [visible, setVisible] = useState(-1)
+  const [playing, setPlaying] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const indexRef = useRef(0)
+  const startedRef = useRef(false)
 
-  useEffect(() => {
-    if (!started) return
-    const line = LINES[indexRef.current]
-    if (!line) return
+  function playFrom(index: number) {
+    if (index >= LINES.length) { setPlaying(false); return }
+    indexRef.current = index
+    setVisible(index)
+    setPlaying(true)
 
-    if (typeof window === 'undefined' || !window.speechSynthesis) return
-    window.speechSynthesis.cancel()
-
-    const voices = window.speechSynthesis.getVoices()
-    const isNiko = line.speaker === 'niko'
-    const utt = new SpeechSynthesisUtterance(line.text)
-    if (isNiko) {
-      utt.voice = voices.find(v => v.name.includes('Daniel') || v.name.includes('Alex') || v.name.includes('Google UK English Male')) ?? null
-      utt.pitch = 0.85
-      utt.rate = 0.95
-    } else {
-      utt.voice = voices.find(v => v.name.includes('Samantha') || v.name.includes('Google US English') || v.name.includes('Karen')) ?? null
-      utt.pitch = 1.6
-      utt.rate = 1.1
-    }
-    utt.volume = 1
-
-    const advance = () => {
-      indexRef.current += 1
-      if (indexRef.current < LINES.length) setVisible(indexRef.current)
-    }
-
-    utt.onend = advance
-
-    // Fallback in case onend doesn't fire (some browsers)
-    const avgMs = line.text.length * 70
-    const fallback = setTimeout(advance, avgMs + 500)
-
-    utt.onend = () => { clearTimeout(fallback); advance() }
-
-    window.speechSynthesis.speak(utt)
-
-    return () => { clearTimeout(fallback); window.speechSynthesis.cancel() }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, started])
-
-  function handleStart() {
-    // Voices may not be loaded yet — wait for them
-    const go = () => { setStarted(true); setVisible(0); indexRef.current = 0 }
-    if (window.speechSynthesis.getVoices().length > 0) { go() }
-    else { window.speechSynthesis.onvoiceschanged = go }
+    const audio = new Audio(LINES[index].audio)
+    audioRef.current = audio
+    audio.play().catch(() => {})
+    audio.onended = () => playFrom(index + 1)
   }
+
+  function restart() {
+    if (audioRef.current) { audioRef.current.onended = null; audioRef.current.pause() }
+    setVisible(-1)
+    setTimeout(() => playFrom(0), 300)
+  }
+
+  // Autoplay when scrolled into view — fires only once
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !startedRef.current) {
+          startedRef.current = true
+          setTimeout(() => playFrom(0), 600)
+        }
+      },
+      { threshold: 0.4 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div
+      ref={sectionRef}
       className="py-10 px-6"
       style={{ background: 'linear-gradient(135deg, #0D1F2D 0%, #1C3D5A 100%)' }}
     >
@@ -93,36 +66,32 @@ export default function NikoPicassoChat() {
           style={{ color: '#C9A961', letterSpacing: '0.2em', fontFamily: 'Inter, sans-serif' }}>
           A word from Niko &amp; Picasso
         </p>
-        {!started ? (
-          <button
-            onClick={handleStart}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-opacity hover:opacity-80"
-            style={{ backgroundColor: '#C9A961', color: '#0D1F2D', fontFamily: 'Inter, sans-serif' }}
-          >
-            ▶ Play
-          </button>
-        ) : (
-          <button
-            onClick={() => { window.speechSynthesis.cancel(); setStarted(false); setVisible(0); indexRef.current = 0 }}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-opacity hover:opacity-80"
-            style={{ backgroundColor: 'rgba(201,169,97,0.15)', color: '#C9A961', border: '1px solid rgba(201,169,97,0.3)', fontFamily: 'Inter, sans-serif' }}
-          >
-            ↺ Replay
-          </button>
-        )}
+        <button
+          onClick={restart}
+          className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-opacity hover:opacity-80"
+          style={{
+            backgroundColor: playing ? 'rgba(201,169,97,0.15)' : '#C9A961',
+            color: playing ? '#C9A961' : '#0D1F2D',
+            border: playing ? '1px solid rgba(201,169,97,0.3)' : 'none',
+            fontFamily: 'Inter, sans-serif',
+          }}
+        >
+          {playing ? '↺ Replay' : '▶ Play'}
+        </button>
       </div>
 
       <div className="max-w-2xl mx-auto space-y-5">
         {LINES.map((line, i) => {
           const isNiko = line.speaker === 'niko'
-          const show = started && i <= visible
+          const show = i <= visible
           return (
             <div
               key={i}
-              className="flex items-end gap-3 transition-all duration-500"
+              className="flex items-end gap-3"
               style={{
                 opacity: show ? 1 : 0,
-                transform: show ? 'translateY(0)' : 'translateY(12px)',
+                transform: show ? 'translateY(0)' : 'translateY(14px)',
+                transition: 'opacity 0.5s ease, transform 0.5s ease',
                 flexDirection: isNiko ? 'row' : 'row-reverse',
               }}
             >
@@ -132,8 +101,12 @@ export default function NikoPicassoChat() {
                 style={{
                   width: 56, height: 56,
                   border: `2px solid ${isNiko ? 'rgba(201,169,97,0.5)' : 'rgba(255,140,0,0.5)'}`,
-                  boxShadow: `0 0 12px ${isNiko ? 'rgba(201,169,97,0.2)' : 'rgba(255,140,0,0.2)'}`,
+                  boxShadow: `0 0 14px ${isNiko ? 'rgba(201,169,97,0.25)' : 'rgba(255,140,0,0.25)'}`,
                   backgroundColor: '#0D1F2D',
+                  // Pulse ring when this line is actively playing
+                  outline: i === visible && playing ? `2px solid ${isNiko ? '#C9A961' : '#FF8C00'}` : '2px solid transparent',
+                  outlineOffset: 3,
+                  transition: 'outline 0.3s ease',
                 }}
               >
                 <Image
