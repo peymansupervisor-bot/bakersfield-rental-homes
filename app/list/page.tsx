@@ -53,6 +53,7 @@ const AMENITY_LIST = [
   'Dishwasher', 'Refrigerator', 'Microwave', 'Pool', 'Spa/Hot Tub',
   'Backyard', 'Patio/Deck', 'Fireplace', 'Hardwood Floors', 'Carpet',
   'High Ceilings', 'Walk-in Closet', 'Storage', 'Gym/Fitness Center',
+  'Horse Property',
 ]
 
 const STEPS = ['Property Details', 'Description', 'Photos', 'Contact & Pay']

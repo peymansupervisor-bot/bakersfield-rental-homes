@@ -173,6 +173,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
   const [sortBy,     setSortBy]     = useState<SortKey>('newest')
   const [petsOnly,   setPetsOnly]   = useState(false)
   const [vacantOnly, setVacantOnly] = useState(false)
+  const [horseOnly,  setHorseOnly]  = useState(false)
 
   const fetchListings = async () => {
     setSearching(true)
@@ -199,13 +200,14 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
     let result = allListings
     if (petsOnly)   result = result.filter(l => l.pets_allowed)
     if (vacantOnly) result = result.filter(l => l.rental_status === 'vacant' || l.rental_status === 'coming_soon')
+    if (horseOnly)  result = result.filter(l => l.amenities?.includes('Horse Property'))
     return sortListings(result, sortBy)
-  }, [allListings, sortBy, petsOnly, vacantOnly])
+  }, [allListings, sortBy, petsOnly, vacantOnly, horseOnly])
 
   const clearAll = () => {
     setMinBeds(''); setMinBaths(''); setMinRent(''); setMaxRent('')
     setZip(''); setDistrict('')
-    setSortBy('newest'); setPetsOnly(false); setVacantOnly(false)
+    setSortBy('newest'); setPetsOnly(false); setVacantOnly(false); setHorseOnly(false)
     setAllListings(initialListings)
   }
 
@@ -438,6 +440,23 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                 />
                 Coming Soon Only
               </button>
+
+              <button
+                type="button"
+                role="switch"
+                aria-checked={horseOnly}
+                onClick={() => setHorseOnly(v => !v)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
+                style={{
+                  border: `1.5px solid ${horseOnly ? '#5a3e1b' : '#e0ddd8'}`,
+                  backgroundColor: horseOnly ? 'rgba(90,62,27,0.08)' : 'white',
+                  color: horseOnly ? '#5a3e1b' : '#555',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                <span aria-hidden="true">🐴</span>
+                Horse Property
+              </button>
             </div>
           </div>
         </div>
@@ -449,7 +468,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
               Showing <strong style={{ color: '#1C3D5A' }}>{displayed.length}</strong> of{' '}
               {allListings.length} {allListings.length === 1 ? 'property' : 'properties'}
             </p>
-            {(petsOnly || vacantOnly || sortBy !== 'newest') && (
+            {(petsOnly || vacantOnly || horseOnly || sortBy !== 'newest') && (
               <div className="flex flex-wrap gap-2">
                 {sortBy !== 'newest' && (
                   <span className="text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1"
@@ -475,6 +494,13 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
                     style={{ backgroundColor: 'rgba(176,58,46,0.08)', color: '#B03A2E' }}>
                     ● Coming Soon
                     <button onClick={() => setVacantOnly(false)} aria-label="Remove coming soon filter" className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-black/10 transition-colors" style={{ color: '#616161', marginLeft: 2 }}>×</button>
+                  </span>
+                )}
+                {horseOnly && (
+                  <span className="text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1"
+                    style={{ backgroundColor: 'rgba(90,62,27,0.08)', color: '#5a3e1b' }}>
+                    🐴 Horse Property
+                    <button onClick={() => setHorseOnly(false)} aria-label="Remove horse property filter" className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-black/10 transition-colors" style={{ color: '#616161', marginLeft: 2 }}>×</button>
                   </span>
                 )}
               </div>
