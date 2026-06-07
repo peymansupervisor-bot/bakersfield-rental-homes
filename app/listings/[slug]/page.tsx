@@ -120,6 +120,7 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
       '@type': 'Offer',
       price: listing.monthly_rent,
       priceCurrency: 'USD',
+      priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       availability: listing.rental_status === 'vacant'
         ? 'https://schema.org/InStock'
         : listing.rental_status === 'pending'

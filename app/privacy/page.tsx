@@ -56,7 +56,11 @@ export default function PrivacyPage() {
                 'Cookies and Similar Technologies',
                 'Changes to This Privacy Policy',
               ].map((item, i) => (
-                <li key={i}><span className="font-semibold">{i + 1}.</span> {item}</li>
+                <li key={i}>
+                  <a href={`#section-${i + 1}`} className="hover:underline" style={{ color: '#1C3D5A' }}>
+                    <span className="font-semibold">{i + 1}.</span> {item}
+                  </a>
+                </li>
               ))}
             </ol>
           </nav>
@@ -234,7 +238,7 @@ export default function PrivacyPage() {
 
 function Section({ num, title, children }: { num: string; title: string; children: React.ReactNode }) {
   return (
-    <section className="mb-10">
+    <section id={`section-${num}`} className="mb-10 scroll-mt-8">
       <h2 className="text-xl font-bold mb-4 pb-2" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A', borderBottom: '1px solid rgba(201,169,97,0.2)' }}>
         {num}. {title}
       </h2>
