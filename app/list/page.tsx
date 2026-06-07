@@ -778,36 +778,28 @@ export default function ListPage() {
     <main className="min-h-screen" id="main-content" style={{ backgroundColor: '#F7F5F0' }}>
       {/* Header */}
       <div
-        className="relative py-16 px-6 text-center"
-        style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)', overflow: 'visible', zIndex: 1 }}
+        className="py-16 px-6 text-center"
+        style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)' }}
       >
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           List Your Rental Property in Bakersfield, CA
         </h1>
-        <p className="text-sm font-light mb-10" style={{ color: 'rgba(247,245,240,0.65)' }}>
+        <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.65)' }}>
           Reach Bakersfield renters for just $1
         </p>
+      </div>
 
-        {/* Niko — bottom straddling the border line */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute pointer-events-none"
-          style={{ bottom: -60, left: 64, zIndex: 20 }}
-        >
-          <img src="/niko/niko-nobg.png" alt="" width={300}
-            style={{ display: 'block', filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.4))' }} />
-        </div>
-
-        {/* Picasso — standing on the border line, right side */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute pointer-events-none"
-          style={{ bottom: -60, right: 64, zIndex: 20 }}
-        >
-          <img src="/picasso/picasso-1-nobg.png" alt="" width={280}
-            style={{ display: 'block', filter: 'drop-shadow(0 6px 20px rgba(220,100,20,0.55))' }} />
-        </div>
+      {/* Mascot overlay — zero-height strip sitting exactly on the border line */}
+      <div
+        aria-hidden="true"
+        className="hidden lg:flex justify-between items-end pointer-events-none px-16"
+        style={{ height: 0, overflow: 'visible', position: 'relative', zIndex: 20 }}
+      >
+        <img src="/niko/niko-nobg.png" alt="" width={300}
+          style={{ display: 'block', transform: 'translateY(-55%)', filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.4))' }} />
+        <img src="/picasso/picasso-1-nobg.png" alt="" width={280}
+          style={{ display: 'block', transform: 'translateY(-55%)', filter: 'drop-shadow(0 6px 20px rgba(220,100,20,0.55))' }} />
       </div>
 
       {/* Step indicator */}
