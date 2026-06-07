@@ -140,15 +140,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
         style={{ zIndex: 5 }}
       >
-        {/* Dark scrim behind text for contrast compliance */}
-        <div
-          className="text-center px-8 py-6 rounded-2xl"
-          style={{
-            maxWidth: '640px',
-            backgroundColor: 'rgba(0,0,0,0.42)',
-            backdropFilter: 'blur(2px)',
-          }}
-        >
+        <div className="text-center px-6" style={{ maxWidth: '640px' }}>
           <p
             style={{
               fontFamily: 'Playfair Display, Georgia, serif',
@@ -158,7 +150,7 @@ export default function Hero({ heroHeadline }: HeroProps) {
               lineHeight: 1.18,
               letterSpacing: '-0.02em',
               whiteSpace: 'pre-line',
-              textShadow: '0 1px 8px rgba(0,0,0,0.5)',
+              textShadow: '0 2px 12px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.5)',
               marginBottom: '14px',
             }}
           >

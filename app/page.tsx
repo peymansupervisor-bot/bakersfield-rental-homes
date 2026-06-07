@@ -35,7 +35,7 @@ export default async function Home() {
 
   return (
     <main id="main-content">
-      <Hero heroHeadline={cms?.heroHeadline} />
+      <Hero heroHeadline="Real landlords.\nReal listings.\nNo broker fees." />
       <Services
         services={cms?.services}
       />
