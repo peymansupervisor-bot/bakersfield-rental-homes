@@ -273,6 +273,23 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
         </div>
       </div>
 
+      {/* $1 verification trust banner */}
+      <div className="max-w-6xl mx-auto px-6 pt-4 pb-0">
+        <div
+          className="flex items-center gap-3 px-5 py-3 rounded-2xl mb-2"
+          style={{
+            backgroundColor: 'white',
+            border: '1px solid rgba(201,169,97,0.25)',
+            boxShadow: '0 2px 12px rgba(28,61,90,0.06)',
+          }}
+        >
+          <span className="text-xl flex-shrink-0" aria-hidden="true">✅</span>
+          <p className="text-xs" style={{ color: '#616161' }}>
+            <span className="font-semibold" style={{ color: '#1C3D5A' }}>We charge a $1 fee</span> to verify that every landlord is real and every listing is legitimate — keeping scammers and fake listings off the platform.
+          </p>
+        </div>
+      </div>
+
       <section className="max-w-6xl mx-auto px-6 py-10" aria-labelledby="bakersfield-listings-heading">
         <h2 id="bakersfield-listings-heading" className="sr-only">Bakersfield Rental Listings</h2>
         {/* ── Filter + Sort Panel ───────────────────────────────── */}
