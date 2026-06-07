@@ -162,7 +162,7 @@ export default function PrivacyPage() {
               <li>Community posts and comments are retained until you delete them or your account is deleted</li>
               <li>Direct messages are retained until deleted by the user or upon account deletion</li>
               <li>Vendor application records may be retained for legal and compliance purposes</li>
-              <li>Payment records are retained as required by applicable law and accounting standards</li>
+              <li>Identity verification records are retained as required by applicable law and our obligations under Stripe Identity's terms of service</li>
             </ul>
           </Section>
 

@@ -89,6 +89,10 @@ export default function Footer() {
             <span aria-hidden="true">📞 </span>(661) 381-1818
           </a>
           <div className="flex items-center gap-3">
+            <Link href="/terms" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
+              Terms of Service
+            </Link>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }} aria-hidden="true">·</span>
             <Link href="/privacy" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Privacy Policy
             </Link>

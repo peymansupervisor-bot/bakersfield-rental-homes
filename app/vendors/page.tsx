@@ -261,7 +261,7 @@ export default function VendorsPage() {
           Vendor Application
         </h1>
         <p className="text-sm font-light max-w-md mx-auto" style={{ color: 'rgba(247,245,240,0.87)' }}>
-          Join our trusted network of licensed professionals. Applications are reviewed within 2–3 business days.
+          Apply to be listed in our vendor directory. Applications are reviewed within 2–3 business days. Vendor license and insurance information is self-reported; we do not independently verify credentials.
         </p>
       </div>
 

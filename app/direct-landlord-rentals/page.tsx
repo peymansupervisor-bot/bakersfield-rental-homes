@@ -114,7 +114,7 @@ const FAQS = [
   },
   {
     q: 'Are direct landlord rentals safe?',
-    a: 'All landlords on Bakersfield Rental Homes are real property owners verified through our listing process. We recommend visiting the property in person before signing any lease and never sending payment before a signed rental agreement is in place.',
+    a: 'We require landlords to complete an identity verification step before their listing goes live, which helps reduce fraudulent postings. However, no platform can guarantee complete elimination of fraud. We strongly recommend visiting any property in person before signing a lease, independently verifying ownership through the Kern County Assessor-Recorder\'s Office, and never sending any payment before a signed rental agreement is in place.',
   },
 ]
 
