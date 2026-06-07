@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
 
 const CATEGORIES = [
@@ -53,60 +53,87 @@ const DOC_CONFIG: { key: DocKey; label: string; description: string; icon: strin
 ]
 
 function UploadBox({
-  docKey, label, description, icon, file, onChange,
+  docKey, label, description, icon, file, onChange, onAnnounce,
 }: {
   docKey: DocKey; label: string; description: string; icon: string
-  file: File | null; onChange: (key: DocKey, file: File | null) => void
+  file: File | null
+  onChange: (key: DocKey, file: File | null) => void
+  onAnnounce: (msg: string) => void
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const hasFile = !!file
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0] ?? null
+    onChange(docKey, f)
+    if (f) onAnnounce(`${label} uploaded: ${f.name}`)
+  }
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onChange(docKey, null)
+    onAnnounce(`${label} removed`)
+    // reset the file input so the same file can be re-selected
+    if (inputRef.current) inputRef.current.value = ''
+  }
+
   return (
-    <div
-      className="relative flex flex-col items-center justify-center p-5 rounded-2xl cursor-pointer transition-all duration-200 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
-      style={{
-        border: hasFile ? '2px solid #C9A961' : '2px dashed #d0cdc8',
-        backgroundColor: hasFile ? 'rgba(201,169,97,0.06)' : 'white',
-        minHeight: 140,
-      }}
-      onClick={() => inputRef.current?.click()}
-      role="button"
-      tabIndex={0}
-      aria-label={`Upload ${label}`}
-      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && inputRef.current?.click()}
-    >
-      <input
-        ref={inputRef}
-        type="file"
-        accept=".pdf,.jpg,.jpeg,.png,.heic"
-        className="hidden"
-        onChange={e => onChange(docKey, e.target.files?.[0] ?? null)}
-        aria-label={label}
-      />
-      {hasFile ? (
-        <>
-          <div className="text-3xl mb-2">✅</div>
-          <p className="text-xs font-semibold mb-1" style={{ color: '#1C3D5A' }}>{label}</p>
-          <p className="text-[10px] truncate max-w-full" style={{ color: '#616161' }}>{file!.name}</p>
-          <button
-            type="button"
-            className="mt-2 text-[10px] underline"
-            style={{ color: '#B03A2E' }}
-            aria-label={`Remove ${label}`}
-            onClick={e => { e.stopPropagation(); onChange(docKey, null) }}
-          >
-            Remove
-          </button>
-        </>
-      ) : (
-        <>
-          <div className="text-3xl mb-2">{icon}</div>
-          <p className="text-xs font-semibold mb-1" style={{ color: '#1C3D5A' }}>{label}</p>
-          <p className="text-[10px] leading-relaxed" style={{ color: '#595959' }}>{description}</p>
-          <p className="text-[10px] mt-2 font-semibold" style={{ color: '#8a6d1f' }}>
-            Click to upload
-          </p>
-        </>
+    <div className="flex flex-col" style={{ minHeight: 140 }}>
+      {/* Upload trigger — real <button> so Enter/Space/focus/click all work natively */}
+      <button
+        type="button"
+        className="relative flex flex-col items-center justify-center p-5 rounded-2xl cursor-pointer transition-all duration-200 text-center w-full h-full"
+        style={{
+          border: hasFile ? '2px solid #C9A961' : '2px dashed #d0cdc8',
+          backgroundColor: hasFile ? 'rgba(201,169,97,0.06)' : 'white',
+          outline: 'none',
+          minHeight: 140,
+        }}
+        aria-label={hasFile ? `Replace ${label} — ${file!.name}` : `Upload ${label}`}
+        onClick={() => inputRef.current?.click()}
+        onFocus={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 0 3px #C9A961' }}
+        onBlur={e => { (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".pdf,.jpg,.jpeg,.png,.heic"
+          className="hidden"
+          onChange={handleChange}
+          tabIndex={-1}
+          aria-hidden="true"
+        />
+        {hasFile ? (
+          <>
+            <div className="text-3xl mb-2" aria-hidden="true">✅</div>
+            <p className="text-xs font-semibold mb-1" style={{ color: '#1C3D5A' }}>{label}</p>
+            <p className="text-[10px] truncate max-w-full" style={{ color: '#616161' }}>{file!.name}</p>
+          </>
+        ) : (
+          <>
+            <div className="text-3xl mb-2" aria-hidden="true">{icon}</div>
+            <p className="text-xs font-semibold mb-1" style={{ color: '#1C3D5A' }}>{label}</p>
+            <p className="text-[10px] leading-relaxed" style={{ color: '#595959' }}>{description}</p>
+            <p className="text-[10px] mt-2 font-semibold" style={{ color: '#8a6d1f' }}>
+              Click or press Enter to upload
+            </p>
+          </>
+        )}
+      </button>
+
+      {/* Remove — separate real <button> outside the upload trigger */}
+      {hasFile && (
+        <button
+          type="button"
+          className="mt-1.5 text-[10px] underline self-center"
+          style={{ color: '#B03A2E', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px' }}
+          aria-label={`Remove ${label}`}
+          onClick={handleRemove}
+          onFocus={e => { (e.currentTarget as HTMLElement).style.outline = '2px solid #B03A2E'; (e.currentTarget as HTMLElement).style.outlineOffset = '2px' }}
+          onBlur={e => { (e.currentTarget as HTMLElement).style.outline = 'none' }}
+        >
+          Remove
+        </button>
       )}
     </div>
   )
@@ -119,6 +146,13 @@ export default function VendorsPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const [uploadAnnouncement, setUploadAnnouncement] = useState('')
+
+  const announce = useCallback((msg: string) => {
+    setUploadAnnouncement('')
+    // brief timeout lets the live region re-trigger if the same message is repeated
+    setTimeout(() => setUploadAnnouncement(msg), 50)
+  }, [])
 
   // Step 1 fields
   const [fullName, setFullName] = useState('')
@@ -179,7 +213,17 @@ export default function VendorsPage() {
     }
   }
 
-  const inputCls = 'w-full px-4 py-3 rounded-xl text-sm border outline-none transition-colors duration-200 focus:border-[#C9A961]'
+  const smoothScroll = () => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: prefersReduced ? 'instant' : 'smooth' })
+  }
+
+  const goStep = (n: Step) => {
+    setStep(n)
+    smoothScroll()
+  }
+
+  const inputCls = 'w-full px-4 py-3 rounded-xl text-sm border outline-none transition-colors duration-200 focus:border-[#C9A961] focus:ring-2 focus:ring-[#C9A961] focus:ring-offset-1'
   const inputStyle = { borderColor: '#e0ddd8', backgroundColor: 'white', color: '#2B2B2B' }
 
   if (submitted) {
@@ -389,9 +433,9 @@ export default function VendorsPage() {
                 <button
                   type="button"
                   disabled={!step1Valid}
-                  onClick={() => setStep(2)}
+                  onClick={() => goStep(2)}
                   aria-label="Continue to upload documents"
-                  className="w-full mt-6 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="w-full mt-6 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
                   style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.1em' }}>
                   Next: Upload Documents →
                 </button>
@@ -410,6 +454,16 @@ export default function VendorsPage() {
                   All four documents are required for approval. Accepted formats: PDF, JPG, PNG.
                 </p>
 
+                {/* Upload live region — announced to screen readers on file add/remove */}
+                <div
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
+                  className="sr-only"
+                >
+                  {uploadAnnouncement}
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                   {DOC_CONFIG.map(d => (
                     <UploadBox
@@ -420,6 +474,7 @@ export default function VendorsPage() {
                       icon={d.icon}
                       file={docs[d.key]}
                       onChange={handleDocChange}
+                      onAnnounce={announce}
                     />
                   ))}
                 </div>
@@ -427,18 +482,18 @@ export default function VendorsPage() {
                 <div className="flex gap-3">
                   <button
                     type="button"
-                    onClick={() => setStep(1)}
+                    onClick={() => goStep(1)}
                     aria-label="Back to contact info"
-                    className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-70"
+                    className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]"
                     style={{ backgroundColor: 'transparent', color: '#616161', border: '1px solid #e0ddd8' }}>
                     ← Back
                   </button>
                   <button
                     type="button"
                     disabled={!step2Valid}
-                    onClick={() => setStep(3)}
+                    onClick={() => goStep(3)}
                     aria-label="Continue to review and submit"
-                    className="flex-1 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
                     style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0', letterSpacing: '0.1em' }}>
                     Next: Review →
                   </button>
@@ -523,9 +578,9 @@ export default function VendorsPage() {
                 <div className="flex gap-3">
                   <button
                     type="button"
-                    onClick={() => setStep(2)}
+                    onClick={() => goStep(2)}
                     aria-label="Back to upload documents"
-                    className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-70"
+                    className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]"
                     style={{ backgroundColor: 'transparent', color: '#616161', border: '1px solid #e0ddd8' }}>
                     ← Back
                   </button>
@@ -534,7 +589,7 @@ export default function VendorsPage() {
                     disabled={submitting}
                     onClick={handleSubmit}
                     aria-disabled={submitting}
-                    className="flex-1 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-60"
+                    className="flex-1 py-3 rounded-xl text-sm font-semibold tracking-widest uppercase transition-all duration-200 hover:opacity-90 disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C3D5A]"
                     style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.1em' }}>
                     {submitting ? 'Submitting…' : 'Submit Application'}
                   </button>
