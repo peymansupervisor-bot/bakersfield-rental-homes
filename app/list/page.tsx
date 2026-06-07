@@ -63,16 +63,23 @@ const inputCls = `
   w-full px-4 py-3 rounded-xl text-sm text-[#2B2B2B]
   border border-[#e0ddd8] bg-white outline-none
   focus:border-[#C9A961] transition-colors duration-200
-  placeholder:text-[#aaa] font-[Inter,sans-serif]
+  placeholder:text-[#767676] font-[Inter,sans-serif]
 `.trim()
 
 const labelCls = 'text-xs font-semibold tracking-widest uppercase text-[#1C3D5A]'
 const sectionCls = 'space-y-6'
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
+function Field({ label, children, group }: { label: string; children: ReactNode; group?: boolean }) {
+  if (group) {
+    return (
+      <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
+        <legend className={`${labelCls} block mb-2`}>{label}</legend>
+        {children}
+      </fieldset>
+    )
+  }
   return (
     <div>
-      {/* Implicit label association: any form control inside <label> is automatically linked */}
       <label className={labelCls} style={{ display: 'block', cursor: 'default' }}>
         <span className="block mb-2">{label}</span>
         {children}
@@ -93,12 +100,16 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
 }) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [open, setOpen] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const listboxId = 'address-listbox'
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false)
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false); setActiveIndex(-1)
+      }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
@@ -106,11 +117,10 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
 
   const lookup = (val: string) => {
     if (timerRef.current) clearTimeout(timerRef.current)
-    if (val.length < 5) { setSuggestions([]); setOpen(false); return }
+    if (val.length < 5) { setSuggestions([]); setOpen(false); setActiveIndex(-1); return }
     timerRef.current = setTimeout(async () => {
       try {
         const query = encodeURIComponent(`${val}, Bakersfield, California, USA`)
-        // viewbox covers Kern County; bounded=0 allows fallback outside the box
         const res = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5&countrycodes=us&viewbox=-119.5,35.2,-118.5,35.6&bounded=0`,
           { headers: { 'Accept-Language': 'en' } }
@@ -130,45 +140,79 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
           .filter((r: Suggestion) => r.address)
         setSuggestions(results)
         setOpen(results.length > 0)
+        setActiveIndex(-1)
       } catch { setSuggestions([]); setOpen(false) }
     }, 350)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!open || suggestions.length === 0) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(i => (i + 1) % suggestions.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(i => (i - 1 + suggestions.length) % suggestions.length)
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault()
+      const s = suggestions[activeIndex]
+      onSelect(s.address, s.city, s.zip)
+      setOpen(false); setActiveIndex(-1)
+    } else if (e.key === 'Escape') {
+      setOpen(false); setActiveIndex(-1)
+    }
+  }
+
   return (
     <div ref={wrapRef} style={{ position: 'relative' }}>
-      <label className="text-xs font-semibold tracking-widest uppercase block mb-2"
+      <label htmlFor="address-input" className="text-xs font-semibold tracking-widest uppercase block mb-2"
         style={{ color: '#1C3D5A', cursor: 'default' }}>
         Street Address
       </label>
       <input
+        id="address-input"
         className={inputCls}
         placeholder="123 Oak Street"
         value={address}
         autoComplete="off"
         onChange={e => { onAddressChange(e.target.value); lookup(e.target.value) }}
         onFocus={() => suggestions.length > 0 && setOpen(true)}
-        aria-label="Street address"
+        onKeyDown={handleKeyDown}
         role="combobox"
         aria-autocomplete="list"
         aria-expanded={open}
         aria-haspopup="listbox"
+        aria-controls={listboxId}
+        aria-activedescendant={activeIndex >= 0 ? `address-option-${activeIndex}` : undefined}
       />
       {open && suggestions.length > 0 && (
         <ul
+          id={listboxId}
           role="listbox"
+          aria-label="Address suggestions"
           className="absolute left-0 right-0 z-50 rounded-xl overflow-hidden shadow-lg mt-1"
           style={{ backgroundColor: 'white', border: '1px solid #e0ddd8', top: '100%' }}
         >
           {suggestions.map((s, i) => (
-            <li key={i} role="option" aria-selected={false}>
+            <li
+              key={i}
+              id={`address-option-${i}`}
+              role="option"
+              aria-selected={i === activeIndex}
+              style={{
+                backgroundColor: i === activeIndex ? '#f7f5f0' : 'white',
+                borderBottom: i < suggestions.length - 1 ? '1px solid #f0ece4' : 'none',
+              }}
+            >
               <button
                 type="button"
-                className="w-full text-left px-4 py-3 text-sm transition-colors hover:bg-[#f7f5f0]"
-                style={{ color: '#2B2B2B', borderBottom: i < suggestions.length - 1 ? '1px solid #f0ece4' : 'none' }}
-                onClick={() => { onSelect(s.address, s.city, s.zip); setOpen(false) }}
+                tabIndex={-1}
+                className="w-full text-left px-4 py-3 text-sm"
+                style={{ color: '#2B2B2B', background: 'none', border: 'none' }}
+                onClick={() => { onSelect(s.address, s.city, s.zip); setOpen(false); setActiveIndex(-1) }}
               >
                 <span className="font-medium">{s.address}</span>
-                <span className="text-xs ml-2" style={{ color: '#aaa' }}>{s.city}{s.zip ? `, ${s.zip}` : ''}</span>
+                <span className="text-xs ml-2" style={{ color: '#767676' }}>{s.city}{s.zip ? `, ${s.zip}` : ''}</span>
               </button>
             </li>
           ))}
@@ -254,7 +298,7 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
         </Field>
       </div>
 
-      <Field label="Listing Status">
+      <Field label="Listing Status" group>
         <div className="flex gap-3 mt-1">
           {([['vacant', 'Available Now'], ['coming_soon', 'Coming Soon']] as const).map(([val, label]) => (
             <button key={val} type="button"
@@ -301,7 +345,7 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
             ))}
           </select>
         </Field>
-        <Field label="Pets Allowed">
+        <Field label="Pets Allowed" group>
           <div className="flex gap-3 mt-1">
             {[true, false].map(v => (
               <button key={String(v)} type="button"
@@ -320,7 +364,7 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
         </Field>
       </div>
 
-      <Field label="Solar Panels">
+      <Field label="Solar Panels" group>
         <div className="flex gap-3 mt-1">
           {[true, false].map(v => (
             <button key={String(v)} type="button"
@@ -567,15 +611,15 @@ function Step4({ form, set, onSubmit, loading }: {
     <div className={sectionCls}>
       {/* Contact info */}
       <Field label="Your Name">
-        <input className={inputCls} placeholder="Jane Smith"
+        <input className={inputCls} placeholder="Jane Smith" autoComplete="name"
           value={form.contact_name} onChange={e => set('contact_name', e.target.value)} />
       </Field>
       <Field label="Email Address">
-        <input className={inputCls} type="email" placeholder="jane@example.com"
+        <input className={inputCls} type="email" placeholder="jane@example.com" autoComplete="email"
           value={form.contact_email} onChange={e => set('contact_email', e.target.value)} />
       </Field>
       <Field label="Phone (optional)">
-        <input className={inputCls} type="tel" placeholder="(661) 555-0100"
+        <input className={inputCls} type="tel" placeholder="(661) 555-0100" autoComplete="tel"
           value={form.contact_phone} onChange={e => set('contact_phone', e.target.value)} />
       </Field>
 
@@ -638,6 +682,7 @@ export default function ListPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const stepHeadingRef = useRef<HTMLHeadingElement>(null)
 
   const set = useCallback((k: keyof FormData, v: any) => {
     setFormData(prev => ({ ...prev, [k]: v }))
@@ -669,18 +714,22 @@ export default function ListPage() {
     return ''
   }
 
+  const advanceStep = (delta: 1 | -1) => {
+    setStep(s => s + delta)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setTimeout(() => stepHeadingRef.current?.focus(), 50)
+  }
+
   const next = () => {
     const err = validate()
     if (err) { setError(err); return }
     setError('')
-    setStep(s => s + 1)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    advanceStep(1)
   }
 
   const back = () => {
     setError('')
-    setStep(s => s - 1)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    advanceStep(-1)
   }
 
   // ── Photo upload via server route (rotates EXIF + resizes before storing) ──
@@ -829,9 +878,13 @@ export default function ListPage() {
       {/* Form card */}
       <div className="max-w-2xl mx-auto px-6 py-8">
         <div className="bg-white rounded-3xl p-8 shadow-sm" style={{ border: '1px solid rgba(201,169,97,0.15)' }}>
-          {/* Step title */}
-          <h2 className="text-2xl font-bold mb-8"
-            style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
+          {/* Step title — receives focus on step change so screen readers announce the new step */}
+          <h2
+            ref={stepHeadingRef}
+            tabIndex={-1}
+            className="text-2xl font-bold mb-8 outline-none"
+            style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}
+          >
             {STEPS[step]}
           </h2>
 
@@ -859,10 +912,19 @@ export default function ListPage() {
           {isUploading && (
             <div className="mt-4">
               <div className="flex justify-between text-xs mb-1" style={{ color: '#616161' }}>
-                <span>Uploading photos…</span>
-                <span>{uploadProgress}%</span>
+                <span id="upload-progress-label">Uploading photos…</span>
+                <span aria-hidden="true">{uploadProgress}%</span>
               </div>
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: '#e0ddd8' }}>
+              <div
+                role="progressbar"
+                aria-valuenow={uploadProgress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-labelledby="upload-progress-label"
+                aria-valuetext={`${uploadProgress}% uploaded`}
+                className="h-1.5 rounded-full overflow-hidden"
+                style={{ backgroundColor: '#e0ddd8' }}
+              >
                 <div
                   className="h-full rounded-full transition-all duration-300"
                   style={{ backgroundColor: '#C9A961', width: `${uploadProgress}%` }}

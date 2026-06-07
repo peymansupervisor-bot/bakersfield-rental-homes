@@ -19,9 +19,9 @@ export default function Hero({ heroHeadline }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const [muted, setMuted] = useState(true)
-  const [playing, setPlaying] = useState(!prefersReducedMotion)
+  const [playing, setPlaying] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
 
   // Detect mobile
@@ -30,6 +30,21 @@ export default function Hero({ heroHeadline }: HeroProps) {
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Reactively track prefers-reduced-motion and pause/play video accordingly
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const apply = (matches: boolean) => {
+      setPrefersReducedMotion(matches)
+      setPlaying(!matches)
+      const video = videoRef.current
+      if (video) matches ? video.pause() : video.play().catch(() => {})
+    }
+    apply(mq.matches)
+    const handler = (e: MediaQueryListEvent) => apply(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
   }, [])
 
   // Fade out scroll indicator on scroll

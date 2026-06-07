@@ -129,13 +129,13 @@ export default function AccessibilityPage() {
                 Bakersfield, California
               </p>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
-                📧{' '}
+                <span aria-hidden="true">📧 </span>
                 <a href="mailto:info@bakersfieldrentalhomes.com" style={{ color: '#1C3D5A', textDecoration: 'underline' }}>
                   info@bakersfieldrentalhomes.com
                 </a>
               </p>
               <p className="text-sm" style={{ color: '#1C3D5A' }}>
-                📞{' '}
+                <span aria-hidden="true">📞 </span>
                 <a href="tel:+16613811818" style={{ color: '#1C3D5A', textDecoration: 'underline' }}>
                   (661) 381-1818
                 </a>

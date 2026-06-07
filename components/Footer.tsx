@@ -42,7 +42,7 @@ export default function Footer() {
         </p>
 
         <p className="text-sm font-light max-w-lg leading-relaxed"
-          style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'Inter, sans-serif' }}>
+          style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Inter, sans-serif' }}>
           Rooted in hard work, driven by pride, and united by the belief that when neighbors lift each other up — the whole city rises.
         </p>
 

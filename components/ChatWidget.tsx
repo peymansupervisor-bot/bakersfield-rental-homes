@@ -295,11 +295,14 @@ export default function ChatWidget() {
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
         )}
-        {unread > 0 && (
-          <span aria-label={`${unread} unread message`} style={{ position: 'absolute', top: '-4px', right: '-4px', width: '20px', height: '20px', backgroundColor: '#e53935', borderRadius: '50%', color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff' }}>
-            {unread}
-          </span>
-        )}
+        <span
+          role="status"
+          aria-live="polite"
+          aria-label={unread > 0 ? `${unread} unread message${unread > 1 ? 's' : ''}` : undefined}
+          style={{ position: 'absolute', top: '-4px', right: '-4px', width: '20px', height: '20px', backgroundColor: '#e53935', borderRadius: '50%', color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, display: unread > 0 ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff' }}
+        >
+          <span aria-hidden="true">{unread}</span>
+        </span>
       </button>
 
       <style>{`
