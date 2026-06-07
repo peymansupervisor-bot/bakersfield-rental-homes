@@ -106,7 +106,7 @@ const FAQS = [
   },
   {
     q: 'Are there really no broker fees?',
-    a: 'Yes. Every listing on Bakersfield Rental Homes is posted by the property owner directly. There are no finder\'s fees or broker commissions charged to tenants.',
+    a: 'Correct. Every listing on Bakersfield Rental Homes is posted by the property owner directly. There are no finder\'s fees or broker commissions charged to tenants.',
   },
   {
     q: 'How do I apply for a direct landlord rental?',
