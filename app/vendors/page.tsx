@@ -216,7 +216,7 @@ export default function VendorsPage() {
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           Vendor Application
         </h1>
-        <p className="text-sm font-light max-w-md mx-auto" style={{ color: 'rgba(247,245,240,0.65)' }}>
+        <p className="text-sm font-light max-w-md mx-auto" style={{ color: 'rgba(247,245,240,0.87)' }}>
           Join our trusted network of licensed professionals. Applications are reviewed within 2–3 business days.
         </p>
       </div>
@@ -239,30 +239,34 @@ export default function VendorsPage() {
 
       <div className="max-w-2xl mx-auto px-6 py-10">
         {/* Step indicator */}
-        <nav aria-label="Application steps" className="flex items-center justify-center gap-3 mb-10">
-          {([1, 2, 3] as Step[]).map((s) => {
-            const stepLabels: Record<number, string> = { 1: 'Contact Info', 2: 'Upload Documents', 3: 'Review & Submit' }
-            return (
-              <div key={s} className="flex items-center gap-3">
-                <div
-                  role="img"
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300"
-                  aria-label={`Step ${s}: ${stepLabels[s]}${step === s ? ' (current)' : step > s ? ' (completed)' : ''}`}
-                  aria-current={step === s ? 'step' : undefined}
-                  style={{
-                    backgroundColor: step >= s ? '#1C3D5A' : '#e0ddd8',
-                    color: step >= s ? '#F7F5F0' : '#555',
-                  }}
-                >
-                  {step > s ? '✓' : s}
-                </div>
-                {s < 3 && (
-                  <div className="w-12 h-0.5 transition-all duration-300"
-                    style={{ backgroundColor: step > s ? '#C9A961' : '#e0ddd8' }} />
-                )}
-              </div>
-            )
-          })}
+        <nav aria-label="Application steps">
+          <ol className="flex items-center justify-center gap-3 mb-10 list-none m-0 p-0">
+            {([1, 2, 3] as Step[]).map((s) => {
+              const stepLabels: Record<number, string> = { 1: 'Contact Info', 2: 'Upload Documents', 3: 'Review & Submit' }
+              return (
+                <li key={s} className="flex items-center gap-3"
+                  aria-current={step === s ? 'step' : undefined}>
+                  <div
+                    aria-hidden="true"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300"
+                    style={{
+                      backgroundColor: step >= s ? '#1C3D5A' : '#e0ddd8',
+                      color: step >= s ? '#F7F5F0' : '#555',
+                    }}
+                  >
+                    {step > s ? '✓' : s}
+                  </div>
+                  <span className="sr-only">
+                    {`Step ${s}: ${stepLabels[s]}${step === s ? ' — current' : step > s ? ' — completed' : ''}`}
+                  </span>
+                  {s < 3 && (
+                    <div className="w-12 h-0.5 transition-all duration-300" aria-hidden="true"
+                      style={{ backgroundColor: step > s ? '#C9A961' : '#e0ddd8' }} />
+                  )}
+                </li>
+              )
+            })}
+          </ol>
         </nav>
 
         <div>
