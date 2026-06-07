@@ -535,7 +535,7 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           onDragOver={e => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={e => { e.preventDefault(); setDragging(false); void addFiles(e.dataTransfer.files) }}
-          className="border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 mb-4"
+          className="border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 mb-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
           style={{
             borderColor: dragging ? '#C9A961' : '#d5d0c8',
             backgroundColor: dragging ? 'rgba(201,169,97,0.05)' : '#faf9f7',
@@ -683,6 +683,7 @@ export default function ListPage() {
   const [loading, setLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const stepHeadingRef = useRef<HTMLHeadingElement>(null)
+  const errorRef = useRef<HTMLParagraphElement>(null)
 
   const set = useCallback((k: keyof FormData, v: any) => {
     setFormData(prev => ({ ...prev, [k]: v }))
@@ -722,7 +723,7 @@ export default function ListPage() {
 
   const next = () => {
     const err = validate()
-    if (err) { setError(err); return }
+    if (err) { setError(err); setTimeout(() => errorRef.current?.focus(), 50); return }
     setError('')
     advanceStep(1)
   }
@@ -899,9 +900,11 @@ export default function ListPage() {
           {/* Error message — role="alert" ensures screen readers announce it */}
           {error && (
             <p
+              ref={errorRef}
               role="alert"
               aria-live="assertive"
-              className="mt-4 text-sm px-4 py-3 rounded-xl card-animate"
+              tabIndex={-1}
+              className="mt-4 text-sm px-4 py-3 rounded-xl card-animate outline-none"
               style={{ backgroundColor: 'rgba(220,53,69,0.08)', color: '#dc3545' }}
             >
               {error}

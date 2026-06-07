@@ -63,7 +63,7 @@ function UploadBox({
 
   return (
     <div
-      className="relative flex flex-col items-center justify-center p-5 rounded-2xl cursor-pointer transition-all duration-200 text-center"
+      className="relative flex flex-col items-center justify-center p-5 rounded-2xl cursor-pointer transition-all duration-200 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
       style={{
         border: hasFile ? '2px solid #C9A961' : '2px dashed #d0cdc8',
         backgroundColor: hasFile ? 'rgba(201,169,97,0.06)' : 'white',

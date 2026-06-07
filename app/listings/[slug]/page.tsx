@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const description = rawDesc
     ? (rawDesc.length < (listing.description?.length ?? 0) ? rawDesc.replace(/\s\S*$/, '…') : rawDesc)
     : `${listing.bedrooms === 0 ? 'Studio' : `${listing.bedrooms} bed`}, ${listing.bathrooms} bath ${propertyWord.toLowerCase()} for rent in ${city}, CA. $${listing.monthly_rent.toLocaleString()}/mo.`
-  const seoTitle = `${bedsLabel} ${propertyWord} for Rent in ${city} CA ${zip} — ${listing.address}`
+  const seoTitle = `${listing.address} — ${bedsLabel} ${propertyWord} for Rent in ${city}, CA ${zip}`
   const ogTitle = `${listing.address} — ${bedsLabel} For Rent in ${city}, CA`
   return {
     title: seoTitle,
