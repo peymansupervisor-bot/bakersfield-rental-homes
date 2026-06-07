@@ -498,19 +498,22 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
             ))}
           </div>
         ) : displayed.length === 0 ? (
-          <div className="text-center py-24">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
-              style={{ backgroundColor: '#f0ece4' }}>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                <path d="M16 4L28 10V28H20V22H12V28H4V10L16 4Z" fill="#C9A961" opacity="0.4"/>
-              </svg>
+          <div className="text-center py-16">
+            <div className="relative inline-block mb-2">
+              <img
+                src="/niko/niko-nobg.png"
+                alt="Niko the dog looking for listings"
+                width={200}
+                height={200}
+                style={{ objectFit: 'contain', filter: 'drop-shadow(0 8px 24px rgba(28,61,90,0.15))' }}
+              />
             </div>
-            <h3 className="text-xl font-semibold mb-2"
+            <h3 className="text-2xl font-semibold mb-2"
               style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-              No properties match
+              Niko looked everywhere…
             </h3>
-            <p className="text-sm mb-6" style={{ color: '#616161' }}>
-              Try adjusting your filters or clearing them to see all listings.
+            <p className="text-sm mb-8" style={{ color: '#616161' }}>
+              No properties match those filters. Try broadening your search.
             </p>
             <button
               onClick={clearAll}

@@ -121,7 +121,7 @@ export default async function NeighborhoodPage({
       <main id="main-content">
         {/* Hero */}
         <section
-          className="relative py-20 px-6 text-center"
+          className="relative py-20 px-6 text-center overflow-visible"
           style={{ backgroundColor: '#1C3D5A' }}
           aria-labelledby="neighborhood-heading"
         >
@@ -148,6 +148,26 @@ export default async function NeighborhoodPage({
                 {h}
               </span>
             ))}
+          </div>
+
+          {/* Picasso perched on the bottom-right of the hero, overlapping into content */}
+          <div
+            aria-hidden="true"
+            className="absolute bottom-0 right-8 hidden md:block pointer-events-none"
+            style={{
+              width: 130,
+              transform: 'translateY(55%)',
+              zIndex: 10,
+              filter: 'drop-shadow(-4px 8px 16px rgba(0,0,0,0.45))',
+            }}
+          >
+            <Image
+              src="/picasso/picasso-2-nobg.png"
+              alt=""
+              width={130}
+              height={190}
+              style={{ objectFit: 'contain', transform: 'scaleX(-1)' }}
+            />
           </div>
         </section>
 
