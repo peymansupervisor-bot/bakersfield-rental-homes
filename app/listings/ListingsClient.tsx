@@ -240,7 +240,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
           aria-atomic="true"
           role="status"
         >
-          {displayed.length} {displayed.length === 1 ? 'property' : 'properties'} found
+          {displayed.length} Bakersfield {displayed.length === 1 ? 'property' : 'properties'} found
         </p>
       </div>
 
