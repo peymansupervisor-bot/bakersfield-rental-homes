@@ -168,8 +168,8 @@ export default async function DirectLandlordRentalsPage() {
             Houses for Rent by Owner in Bakersfield CA
           </h1>
           <p className="text-lg max-w-2xl mx-auto mb-10" style={{ color: 'rgba(247,245,240,0.8)' }}>
-            Every listing on this site comes directly from a local Bakersfield landlord.
-            No broker fees. No property management layers. Faster approvals, better communication.
+            Built for Bakersfield landlords and local renters — no broker fees, no middlemen, no property management layers.
+            Faster approvals, better communication, direct from the owner.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
