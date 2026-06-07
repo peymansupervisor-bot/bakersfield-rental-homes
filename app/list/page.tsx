@@ -663,7 +663,7 @@ function Step4({ form, set, onSubmit, loading }: {
       </button>
 
       <p className="text-xs text-center" style={{ color: '#595959' }}>
-        Secure payment via Stripe. Your listing typically goes live within minutes of payment.
+        We charge a $1 fee to verify that every landlord is real and every listing is legitimate — keeping scammers and fake listings off the platform.
       </p>
     </div>
   )
