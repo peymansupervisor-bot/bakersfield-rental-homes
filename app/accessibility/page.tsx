@@ -22,7 +22,7 @@ export default function AccessibilityPage() {
           Accessibility Statement
         </h1>
         <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.65)' }}>
-          Last updated: June 1, 2026
+          Last updated: June 7, 2026
         </p>
       </div>
 
@@ -80,6 +80,25 @@ export default function AccessibilityPage() {
               <li>Video content in the hero is muted by default and marked decorative</li>
               <li>Map iframes include descriptive <code>title</code> attributes</li>
               <li>Structured data (JSON-LD) included for search engine and assistive technology use</li>
+            </ul>
+          </Section>
+
+          <Section title="June 2026 Accessibility Audit">
+            <p>
+              On June 7, 2026, we completed a thorough manual WCAG 2.1 AA audit of all pages and
+              immediately resolved all findings. The following improvements were implemented:
+            </p>
+            <ul className="list-disc pl-5 space-y-1.5 mt-3 text-sm" style={{ color: '#444' }}>
+              <li><strong>Hero headline contrast</strong> — Added a dark translucent scrim behind the hero text, raising contrast to 5:1+ for WCAG AA compliance</li>
+              <li><strong>Hero screen reader access</strong> — Headline text is now exposed to screen readers via the page's visually-hidden <code>&lt;h1&gt;</code></li>
+              <li><strong>Subscribe section fine print</strong> — Raised text opacity from 35% to 65%, bringing contrast from 1.9:1 to ~4.7:1</li>
+              <li><strong>Footer link contrast</strong> — Gold link color adjusted from <code>#C9A961</code> to <code>#d4b56a</code> to meet the 4.5:1 AA threshold on the dark background</li>
+              <li><strong>Skip link target</strong> — Added <code>id="main-content"</code> to the Terms of Service page so the skip-to-content link functions correctly on all pages</li>
+              <li><strong>Chat widget focus ring</strong> — Added a visible <code>focus-visible</code> outline to the chat toggle button for keyboard users</li>
+              <li><strong>Chat log semantics</strong> — Added <code>role="log"</code> to the messages container for correct screen reader announcement behavior</li>
+              <li><strong>Form label association</strong> — All form inputs now use explicit <code>id</code>/<code>htmlFor</code> pairing, fixing an implicit label association issue in Safari VoiceOver</li>
+              <li><strong>Required field indicators</strong> — Required fields on the "List Your Home" form now display a visible asterisk (*) and carry <code>aria-required="true"</code></li>
+              <li><strong>Contact form focus management</strong> — After successful submission, focus is programmatically moved to the success confirmation message</li>
             </ul>
           </Section>
 
