@@ -87,7 +87,7 @@ export default function PrivacyPage() {
             <Sub title="Information from third parties">
               <ul>
                 <li><strong>Address data:</strong> We use OpenStreetMap to provide address autocomplete suggestions when you list a property.</li>
-                <li><strong>Payment processing:</strong> Payments are processed by Stripe. We do not store your payment card details. Stripe's privacy policy governs their handling of payment data.</li>
+                <li><strong>Identity verification:</strong> Landlord identity verification is processed by Stripe Identity. We do not store your government ID or biometric data. Stripe's privacy policy governs their handling of verification data.</li>
                 <li><strong>Authentication:</strong> User authentication is handled through Supabase. Please review Supabase's privacy policy for details on how authentication data is handled.</li>
               </ul>
             </Sub>
@@ -100,7 +100,7 @@ export default function PrivacyPage() {
               <li>Publish and display rental listings to prospective tenants</li>
               <li>Process vendor applications and maintain a trusted vendor directory</li>
               <li>Enable community posts, comments, and direct messaging between users</li>
-              <li>Process listing payments through Stripe</li>
+              <li>Verify landlord identity through Stripe Identity to ensure listings are posted by real people</li>
               <li>Send email confirmations, notifications, and account-related communications</li>
               <li>Notify users in real time when someone comments on their post or sends them a direct message</li>
               <li>Respond to support requests and inquiries</li>
@@ -122,7 +122,7 @@ export default function PrivacyPage() {
               <p>We share personal information with trusted service providers who help us operate the Services, including:</p>
               <ul>
                 <li><strong>Supabase</strong> — database, authentication, and file storage</li>
-                <li><strong>Stripe</strong> — payment processing</li>
+                <li><strong>Stripe</strong> — identity verification</li>
                 <li><strong>Vercel</strong> — website hosting and deployment</li>
                 <li><strong>OpenStreetMap / Nominatim</strong> — address lookup</li>
               </ul>
@@ -218,7 +218,7 @@ export default function PrivacyPage() {
               <ul>
                 <li><strong>Supabase</strong> — authentication and database (<a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>supabase.com/privacy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
                 <li><strong>Vercel</strong> — hosting and analytics (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>vercel.com/legal/privacy-policy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
-                <li><strong>Stripe</strong> — payment processing (<a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>stripe.com/privacy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
+                <li><strong>Stripe</strong> — identity verification (<a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#7d6019'}}>stripe.com/privacy<span className="sr-only"> (opens in a new tab)</span></a>)</li>
               </ul>
             </Sub>
           </Section>
