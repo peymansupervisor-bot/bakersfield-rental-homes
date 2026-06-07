@@ -8,7 +8,7 @@ const OVERLAYS = [
   {
     start: 0,
     end: 4.2,
-    headline: 'This website connects\ntenants to landlords directly.',
+    headline: 'Real landlords.\nReal listings.\nNo broker fees.',
     sub: '',
   },
 ]
