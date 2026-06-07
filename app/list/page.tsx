@@ -1,5 +1,6 @@
 'use client'
 
+import NikoPicassoChat from '@/components/NikoPicassoChat'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { supabase } from '@/lib/supabase'
@@ -789,6 +790,8 @@ export default function ListPage() {
           Reach Bakersfield renters for just $1
         </p>
       </div>
+
+      <NikoPicassoChat />
 
       {/* Step indicator */}
       <div className="max-w-2xl mx-auto px-6 pt-10 pb-2">
