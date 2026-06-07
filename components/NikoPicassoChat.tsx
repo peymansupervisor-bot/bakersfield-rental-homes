@@ -8,7 +8,7 @@ const LINES = [
   { speaker: 'niko',    text: "Smart human! No broker fees, no middlemen — just real tenants!", audio: '/chat-audio/niko1.mp3' },
   { speaker: 'niko',    text: "Yes. Local landlords, local renters. Honestly the best decision they've made all year.", audio: '/chat-audio/niko2.mp3' },
   { speaker: 'picasso', text: "And if it doesn't work out and your house isn't rented in 3 months… We will refund your $1. Trust the bird!", audio: '/chat-audio/picasso2.mp3' },
-  { speaker: 'niko',    text: "Woff! Now scroll down to complete the form and join the family. 🐾", audio: '/chat-audio/niko3.mp3' },
+  { speaker: 'niko',    text: "Woof! Now scroll down to complete the form and join the family. 🐾", audio: '/chat-audio/niko3.mp3' },
 ]
 
 export default function NikoPicassoChat() {
