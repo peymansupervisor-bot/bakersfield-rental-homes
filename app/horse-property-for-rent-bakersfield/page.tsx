@@ -118,7 +118,7 @@ export default async function HorsePropertyPage() {
           style={{ backgroundColor: '#1C3D5A' }}
           aria-labelledby="horse-heading"
         >
-          <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#C9A961' }}>
+          <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#C9A961' }} aria-hidden="true">
             Bakersfield, CA · Kern County · No Broker Fees
           </p>
           <h1
@@ -173,7 +173,7 @@ export default async function HorsePropertyPage() {
             {listings.length === 0 ? (
               <div className="text-center py-16">
                 <p className="text-base mb-2" style={{ color: '#555' }}>No horse properties are currently listed.</p>
-                <p className="text-sm mb-6" style={{ color: '#777' }}>Browse all available rentals or sign up to be notified when a new equestrian property is posted.</p>
+                <p className="text-sm mb-6" style={{ color: '#595959' }}>Browse all available rentals or sign up to be notified when a new equestrian property is posted.</p>
                 <Link href="/listings" className="px-6 py-3 rounded-full font-semibold text-sm tracking-wider uppercase transition-all hover:opacity-90"
                   style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
                   Browse All Listings
@@ -183,16 +183,18 @@ export default async function HorsePropertyPage() {
               <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0 m-0">
                 {listings.map(l => (
                   <li key={l.id}>
-                    <Link href={`/listings/${l.slug ?? l.id}`} className="block rounded-2xl overflow-hidden transition-all hover:shadow-lg"
+                    <Link href={`/listings/${l.slug ?? l.id}`}
+                      aria-label={`View listing: ${l.title} — ${l.address} — $${l.monthly_rent.toLocaleString()}/mo`}
+                      className="block rounded-2xl overflow-hidden transition-all hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A961]"
                       style={{ border: '1px solid rgba(201,169,97,0.2)', backgroundColor: '#fff' }}>
                       {l.photos?.[0] && (
                         <div className="relative w-full" style={{ paddingTop: '60%', position: 'relative' }}>
-                          <img src={l.photos[0]} alt={l.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                          <img src={l.photos[0]} alt="" role="presentation" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
                       <div className="p-4">
                         <p className="font-semibold text-sm mb-1" style={{ color: '#1C3D5A' }}>{l.title}</p>
-                        <p className="text-xs mb-2" style={{ color: '#777' }}>{l.address}</p>
+                        <p className="text-xs mb-2" style={{ color: '#595959' }}>{l.address}</p>
                         <p className="font-bold text-sm" style={{ color: '#C9A961' }}>${l.monthly_rent.toLocaleString()}/mo</p>
                       </div>
                     </Link>
