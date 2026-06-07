@@ -300,11 +300,12 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       </div>
 
       <Field label="Listing Status" group>
-        <div className="flex gap-3 mt-1">
+        <div role="radiogroup" aria-label="Listing Status" className="flex gap-3 mt-1">
           {([['vacant', 'Available Now'], ['coming_soon', 'Coming Soon']] as const).map(([val, label]) => (
             <button key={val} type="button"
+              role="radio"
+              aria-checked={form.rental_status === val}
               onClick={() => set('rental_status', val)}
-              aria-pressed={form.rental_status === val}
               className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
               style={{
                 backgroundColor: form.rental_status === val
@@ -347,11 +348,12 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
           </select>
         </Field>
         <Field label="Pets Allowed" group>
-          <div className="flex gap-3 mt-1">
+          <div role="radiogroup" aria-label="Pets Allowed" className="flex gap-3 mt-1">
             {[true, false].map(v => (
               <button key={String(v)} type="button"
+                role="radio"
+                aria-checked={form.pets_allowed === v}
                 onClick={() => set('pets_allowed', v)}
-                aria-pressed={form.pets_allowed === v}
                 className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
                 style={{
                   backgroundColor: form.pets_allowed === v ? '#1C3D5A' : 'white',
@@ -366,11 +368,12 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       </div>
 
       <Field label="Solar Panels" group>
-        <div className="flex gap-3 mt-1">
+        <div role="radiogroup" aria-label="Solar Panels" className="flex gap-3 mt-1">
           {[true, false].map(v => (
             <button key={String(v)} type="button"
+              role="radio"
+              aria-checked={form.solar === v}
               onClick={() => set('solar', v)}
-              aria-pressed={form.solar === v}
               className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
               style={{
                 backgroundColor: form.solar === v ? '#1C3D5A' : 'white',
@@ -837,7 +840,7 @@ export default function ListPage() {
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
           List Your Rental Property in Bakersfield, CA
         </h1>
-        <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.65)' }}>
+        <p className="text-sm font-light" style={{ color: 'rgba(247,245,240,0.87)' }}>
           Reach Bakersfield renters for just $1
         </p>
       </div>
@@ -846,34 +849,37 @@ export default function ListPage() {
 
       {/* Step indicator */}
       <div className="max-w-2xl mx-auto px-6 pt-10 pb-2">
-        <nav aria-label="Form progress" className="flex items-center gap-0">
-          {STEPS.map((s, i) => (
-            <div key={s} className="flex items-center flex-1 last:flex-none">
-              <div className="flex flex-col items-center">
-                <div
-                  role="img"
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
-                  aria-current={i === step ? 'step' : undefined}
-                  aria-label={i < step ? `${s} — completed` : i === step ? `${s} — current step` : `${s} — not yet reached`}
-                  style={{
-                    backgroundColor: i < step ? '#2D7A4F' : i === step ? '#C9A961' : '#e0ddd8',
-                    color: i <= step ? '#fff' : '#555',
-                  }}
-                >
-                  <span aria-hidden="true">{i < step ? '✓' : i + 1}</span>
+        <nav aria-label="Form progress">
+          <ol className="flex items-center gap-0 list-none m-0 p-0">
+            {STEPS.map((s, i) => (
+              <li key={s} className="flex items-center flex-1 last:flex-none"
+                aria-current={i === step ? 'step' : undefined}>
+                <div className="flex flex-col items-center">
+                  <div
+                    aria-hidden="true"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
+                    style={{
+                      backgroundColor: i < step ? '#2D7A4F' : i === step ? '#C9A961' : '#e0ddd8',
+                      color: i <= step ? '#fff' : '#555',
+                    }}
+                  >
+                    {i < step ? '✓' : i + 1}
+                  </div>
+                  <span className="text-[10px] mt-1 font-medium whitespace-nowrap hidden sm:block"
+                    style={{ color: i === step ? '#1C3D5A' : '#595959' }}>
+                    {s}
+                  </span>
+                  <span className="sr-only">
+                    {i < step ? `${s} — completed` : i === step ? `${s} — current step` : s}
+                  </span>
                 </div>
-                <span className="text-[10px] mt-1 font-medium whitespace-nowrap hidden sm:block"
-                  aria-hidden="true"
-                  style={{ color: i === step ? '#1C3D5A' : '#595959' }}>
-                  {s}
-                </span>
-              </div>
-              {i < STEPS.length - 1 && (
-                <div className="flex-1 h-px mx-2 transition-all duration-300"
-                  style={{ backgroundColor: i < step ? '#2D7A4F' : '#e0ddd8' }} />
-              )}
-            </div>
-          ))}
+                {i < STEPS.length - 1 && (
+                  <div className="flex-1 h-px mx-2 transition-all duration-300" aria-hidden="true"
+                    style={{ backgroundColor: i < step ? '#2D7A4F' : '#e0ddd8' }} />
+                )}
+              </li>
+            ))}
+          </ol>
         </nav>
       </div>
 
