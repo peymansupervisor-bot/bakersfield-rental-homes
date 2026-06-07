@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Page Not Found | Bakersfield Rental Homes',
+  robots: { index: false },
+}
 
 export default function NotFound() {
   return (
@@ -13,7 +19,7 @@ export default function NotFound() {
         style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
         Page Not Found
       </h1>
-      <p className="text-base max-w-sm mb-10" style={{ color: '#616161', fontFamily: 'Inter, sans-serif', lineHeight: 1.7 }}>
+      <p className="text-base max-w-sm mb-10" style={{ color: '#333333', fontFamily: 'Inter, sans-serif', lineHeight: 1.7 }}>
         The page you're looking for doesn't exist or has been moved.
       </p>
 

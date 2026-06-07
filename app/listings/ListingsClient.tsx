@@ -484,7 +484,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
 
         {/* ── Grid ─────────────────────────────────────────────── */}
         {searching ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" aria-busy="true" aria-label="Loading listings">
+          <div role="status" aria-live="polite" aria-label="Loading listings" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" aria-busy="true">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden animate-pulse"
                 style={{ border: '1px solid rgba(201,169,97,0.12)' }}>
@@ -498,7 +498,7 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
             ))}
           </div>
         ) : displayed.length === 0 ? (
-          <div className="text-center py-24">
+          <div role="status" aria-live="polite" className="text-center py-24">
             <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
               style={{ backgroundColor: '#f0ece4' }}>
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
