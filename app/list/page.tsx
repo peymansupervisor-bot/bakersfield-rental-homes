@@ -778,8 +778,8 @@ export default function ListPage() {
     <main className="min-h-screen" id="main-content" style={{ backgroundColor: '#F7F5F0' }}>
       {/* Header */}
       <div
-        className="relative py-16 px-6 text-center overflow-visible"
-        style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)' }}
+        className="relative py-16 px-6 text-center"
+        style={{ background: 'linear-gradient(to bottom, #1C3D5A 0%, #2a5278 100%)', paddingBottom: '5rem' }}
       >
         <h1 className="text-4xl font-bold mb-3"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
@@ -789,24 +789,22 @@ export default function ListPage() {
           Reach Bakersfield renters for just $1
         </p>
 
-        {/* Niko reviewing the listing form from the bottom-left */}
+        {/* Niko + Picasso inside the hero, sitting on the bottom edge */}
         <div
           aria-hidden="true"
-          className="absolute bottom-0 left-6 hidden md:block pointer-events-none"
-          style={{
-            width: 150,
-            transform: 'translateY(40%)',
-            zIndex: 10,
-            filter: 'drop-shadow(4px 8px 16px rgba(0,0,0,0.3))',
-          }}
+          className="hidden lg:block absolute bottom-0 left-10 pointer-events-none"
+          style={{ zIndex: 10 }}
         >
-          <img
-            src="/niko/niko-nobg.png"
-            alt=""
-            width={150}
-            height={150}
-            style={{ objectFit: 'contain' }}
-          />
+          <img src="/niko/niko-nobg.png" alt="" width={200}
+            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(0,0,0,0.35))' }} />
+        </div>
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute bottom-0 right-10 pointer-events-none"
+          style={{ zIndex: 10 }}
+        >
+          <img src="/picasso/picasso-1-nobg.png" alt="" width={150}
+            style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(220,100,20,0.5))' }} />
         </div>
       </div>
 

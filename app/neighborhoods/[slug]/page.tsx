@@ -150,23 +150,18 @@ export default async function NeighborhoodPage({
             ))}
           </div>
 
-          {/* Picasso perched on the bottom-right of the hero, overlapping into content */}
+          {/* Picasso sitting inside the hero bottom-right */}
           <div
             aria-hidden="true"
-            className="absolute bottom-0 right-8 hidden md:block pointer-events-none"
-            style={{
-              width: 130,
-              transform: 'translateY(55%)',
-              zIndex: 10,
-              filter: 'drop-shadow(-4px 8px 16px rgba(0,0,0,0.45))',
-            }}
+            className="absolute bottom-0 right-10 hidden md:block pointer-events-none"
+            style={{ zIndex: 10 }}
           >
             <Image
-              src="/picasso/picasso-2-nobg.png"
+              src="/picasso/picasso-1-nobg.png"
               alt=""
-              width={130}
-              height={190}
-              style={{ objectFit: 'contain', transform: 'scaleX(-1)' }}
+              width={160}
+              height={230}
+              style={{ display: 'block', filter: 'drop-shadow(0 -4px 16px rgba(220,100,20,0.5))' }}
             />
           </div>
         </section>
