@@ -67,28 +67,28 @@ export default async function Home() {
             style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
             Find the Right Rental in Bakersfield
           </h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/listings" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-3">
+            <Link href="/listings" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
               All Rentals
             </Link>
-            <Link href="/pet-friendly-rentals-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+            <Link href="/pet-friendly-rentals-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               Pet Friendly Rentals
             </Link>
-            <Link href="/3-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+            <Link href="/3-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               3 Bedroom Houses
             </Link>
-            <Link href="/horse-property-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+            <Link href="/horse-property-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               Horse Property Rentals
             </Link>
-            <Link href="/direct-landlord-rentals" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+            <Link href="/direct-landlord-rentals" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               Direct Landlord Rentals
             </Link>
-            <Link href="/neighborhoods" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+            <Link href="/neighborhoods" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               Rentals by Neighborhood
             </Link>

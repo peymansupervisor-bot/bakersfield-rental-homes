@@ -97,7 +97,7 @@ export default function Footer() {
             aria-label="Call us at (661) 381-1818">
             <span aria-hidden="true">📞 </span>(661) 381-1818
           </a>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2">
             <Link href="/terms" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Terms of Service
             </Link>
