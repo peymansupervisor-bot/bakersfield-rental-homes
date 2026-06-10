@@ -1,6 +1,7 @@
 'use client'
 
 import NikoPicassoChat from '@/components/NikoPicassoChat'
+import ListingWalkthrough from '@/components/ListingWalkthrough'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { supabase } from '@/lib/supabase'
@@ -853,6 +854,8 @@ export default function ListPage() {
       </div>
 
       <NikoPicassoChat />
+
+      <ListingWalkthrough />
 
       {/* Step indicator */}
       <div className="max-w-2xl mx-auto px-6 pt-10 pb-2">
