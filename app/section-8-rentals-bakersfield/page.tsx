@@ -332,11 +332,7 @@ export default async function Section8Page() {
                 <span style={{ color: '#C9A961' }}>🌐</span>
                 <span style={{ color: '#2B2B2B' }}>kernha.org</span>
               </div>
-              <div className="flex items-start gap-3">
-                <span style={{ color: '#C9A961' }}>✉️</span>
-                <span style={{ color: '#2B2B2B' }}>Rcampos@kernha.org</span>
-              </div>
-              <div className="flex items-start gap-3">
+<div className="flex items-start gap-3">
                 <span style={{ color: '#C9A961' }}>🕐</span>
                 <span style={{ color: '#2B2B2B' }}>Mon–Fri, 8:00 AM – 5:00 PM</span>
               </div>
