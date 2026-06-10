@@ -542,6 +542,21 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                   {listing.contact_phone}
                 </a>
               )}
+
+              {/* Tenant screening referral */}
+              <div className="mt-4 pt-4" style={{ borderTop: '1px solid #f0ece4' }}>
+                <a
+                  href={`${process.env.NEXT_PUBLIC_RENTSPREE_REFERRAL_URL ?? 'https://rentspree.com'}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-center py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-80"
+                  style={{ backgroundColor: '#f0ece4', color: '#1C3D5A' }}>
+                  Apply &amp; Screen via Rentspree →
+                </a>
+                <p className="text-center text-xs mt-1.5" style={{ color: '#595959' }}>
+                  Instant background &amp; credit check
+                </p>
+              </div>
             </div>
 
             <Link href="/direct-landlord-rentals"
