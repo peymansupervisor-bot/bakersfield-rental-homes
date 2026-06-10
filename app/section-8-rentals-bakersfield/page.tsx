@@ -85,7 +85,7 @@ const faqSchema = {
       name: 'How do I apply for Section 8 in Bakersfield CA?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Applications for the Housing Choice Voucher program in Bakersfield are handled by the Kern County Housing Authority (KCHA) at 2241 White Lane, Bakersfield, CA 93301. You can call them at (661) 631-8500. Note that the waiting list is often closed — check the KCHA website for current status.',
+        text: 'Applications for the Housing Choice Voucher program in Bakersfield are handled by the Kern County Housing Authority at 601 24th Street, Bakersfield, CA 93301. You can call them at (661) 631-8500. Note that the waiting list is often closed — check kernha.org for current status.',
       },
     },
     {
@@ -322,7 +322,7 @@ export default async function Section8Page() {
               style={{ backgroundColor: '#fff', border: '1px solid rgba(201,169,97,0.2)' }}>
               <div className="flex items-start gap-3">
                 <span style={{ color: '#C9A961' }}>📍</span>
-                <span style={{ color: '#2B2B2B' }}>2241 White Lane, Bakersfield, CA 93301</span>
+                <span style={{ color: '#2B2B2B' }}>601 24th Street, Bakersfield, CA 93301</span>
               </div>
               <div className="flex items-start gap-3">
                 <span style={{ color: '#C9A961' }}>📞</span>
@@ -330,7 +330,7 @@ export default async function Section8Page() {
               </div>
               <div className="flex items-start gap-3">
                 <span style={{ color: '#C9A961' }}>🌐</span>
-                <span style={{ color: '#2B2B2B' }}>kernhousing.com</span>
+                <span style={{ color: '#2B2B2B' }}>kernha.org</span>
               </div>
               <div className="flex items-start gap-3">
                 <span style={{ color: '#C9A961' }}>🕐</span>
