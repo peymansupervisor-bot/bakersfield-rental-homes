@@ -69,6 +69,9 @@ export default function Footer() {
           <Link href="/insurance-housing-bakersfield" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Insurance &amp; ALE Housing
           </Link>
+          <Link href="/travel-nurse-housing-bakersfield" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
+            Travel Nurse Housing
+          </Link>
           <Link href="/horse-property-for-rent-bakersfield" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Horse Property Rentals
           </Link>
