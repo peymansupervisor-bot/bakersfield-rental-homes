@@ -97,6 +97,7 @@ export type Listing = {
   available_date: string | null
   lease_term: string
   pets_allowed: boolean
+  section_8: boolean | null
   parking: string
   amenities: string[]
   // Market timing

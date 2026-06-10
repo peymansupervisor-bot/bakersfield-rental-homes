@@ -92,6 +92,10 @@ export default async function Home() {
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               Horse Property Rentals
             </Link>
+            <Link href="/section-8-rentals-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              Section 8 Rentals
+            </Link>
             <Link href="/direct-landlord-rentals" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               Direct Landlord Rentals
