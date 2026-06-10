@@ -45,7 +45,7 @@ const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 async function getSection8Listings(): Promise<Listing[]> {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&city=eq.Bakersfield&section_8=eq.true&order=featured.desc,created_at.desc`,
+      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&city=eq.Bakersfield&section_8=eq.true&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
         next: { revalidate: 60 },
