@@ -25,6 +25,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: 'moving-to-bakersfield-ca',
+    title: 'Moving to Bakersfield, CA: What Renters Need to Know in 2026',
+    excerpt: 'Neighborhoods, rent prices, cost of living, weather, schools, and commute times — everything you need before relocating to Bakersfield, California\'s most affordable large city.',
+    date: 'June 2026',
+    readTime: '7 min read',
+    category: 'Relocation Guide',
+  },
+  {
     slug: 'tenant-rights-california-2026',
     title: 'Tenant Rights in California 2026: A Bakersfield Renter\'s Guide',
     excerpt: 'Security deposits, eviction protections, rent increase limits, and habitability standards — everything Bakersfield renters need to know about California tenant law in 2026.',
