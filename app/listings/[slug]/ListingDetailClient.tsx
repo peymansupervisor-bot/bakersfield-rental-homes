@@ -543,18 +543,18 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                 </a>
               )}
 
-              {/* Tenant screening referral */}
+              {/* Avail referral — tenant screening for independent landlords */}
               <div className="mt-4 pt-4" style={{ borderTop: '1px solid #f0ece4' }}>
                 <a
-                  href={`${process.env.NEXT_PUBLIC_RENTSPREE_REFERRAL_URL ?? 'https://rentspree.com'}`}
+                  href={process.env.NEXT_PUBLIC_AVAIL_REFERRAL_URL ?? 'https://avail.co'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full text-center py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-80"
                   style={{ backgroundColor: '#f0ece4', color: '#1C3D5A' }}>
-                  Apply &amp; Screen via Rentspree →
+                  Screen Tenants via Avail →
                 </a>
                 <p className="text-center text-xs mt-1.5" style={{ color: '#595959' }}>
-                  Instant background &amp; credit check
+                  Background &amp; credit check — free for landlords
                 </p>
               </div>
             </div>
