@@ -127,7 +127,7 @@ export default function LandlordsPage() {
         >
           List My Property — Free →
         </Link>
-        <p className="text-xs mt-4" style={{ color: 'rgba(247,245,240,0.5)' }}>
+        <p className="text-xs mt-4" style={{ color: 'rgba(247,245,240,0.7)' }}>
           Identity-verified landlords only · No credit card required
         </p>
       </section>
@@ -211,9 +211,12 @@ export default function LandlordsPage() {
                 <tr key={row.feature}
                   style={{ backgroundColor: i % 2 === 0 ? 'white' : '#faf9f7', borderBottom: '1px solid #f0ece4' }}>
                   <td className="px-5 py-4 font-medium" style={{ color: '#2B2B2B' }}>{row.feature}</td>
-                  <td className="px-5 py-4 text-center font-bold" style={{ color: '#2D7A4F' }}>{row.us}</td>
-                  <td className="px-5 py-4 text-center" style={{ color: '#595959' }}>{row.zillow}</td>
-                  <td className="px-5 py-4 text-center" style={{ color: '#595959' }}>{row.craigslist}</td>
+                  <td className="px-5 py-4 text-center font-bold" style={{ color: '#2D7A4F' }}
+                    aria-label={row.us === '✓' ? 'Yes' : row.us}>{row.us}</td>
+                  <td className="px-5 py-4 text-center" style={{ color: '#595959' }}
+                    aria-label={row.zillow === '✗' ? 'No' : row.zillow}>{row.zillow}</td>
+                  <td className="px-5 py-4 text-center" style={{ color: '#595959' }}
+                    aria-label={row.craigslist === '✗' ? 'No' : row.craigslist}>{row.craigslist}</td>
                 </tr>
               ))}
             </tbody>
