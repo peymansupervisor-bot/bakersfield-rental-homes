@@ -28,10 +28,10 @@ const SITE_URL = 'https://bakersfieldrentalhomes.com'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Bakersfield Rental Homes | Houses & Homes For Rent in Bakersfield CA',
+    default: 'Houses & Homes For Rent in Bakersfield CA | No Broker Fees',
     template: '%s | Bakersfield Rental Homes',
   },
-  description: 'Find houses and homes for rent in Bakersfield, CA. Browse listings posted directly by local landlords — no broker fees, no middlemen. Single-family homes and pet-friendly rentals in Kern County.',
+  description: 'Browse houses for rent in Bakersfield, CA posted directly by local landlords. No broker fees, no middlemen. Single-family homes, pet-friendly rentals, and long-term leases across Kern County.',
   robots: { index: true, follow: true },
   verification: { google: 'qHesuDsAQNBfL8wULF0DGs-LNlNpAbQ2rrxfg53PDS8' },
   icons: {
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website', locale: 'en_US', url: SITE_URL,
     siteName: 'Bakersfield Rental Homes',
-    title: 'Bakersfield Rental Homes | Houses & Homes For Rent in Bakersfield CA',
-    description: 'Find houses and homes for rent in Bakersfield, CA. Browse listings posted directly by local landlords — no broker fees, no middlemen. Single-family homes and pet-friendly rentals in Kern County.',
+    title: 'Houses & Homes For Rent in Bakersfield CA | No Broker Fees',
+    description: 'Browse houses for rent in Bakersfield, CA posted directly by local landlords. No broker fees, no middlemen. Single-family homes, pet-friendly rentals, and long-term leases across Kern County.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Bakersfield Rental Homes — Houses & Homes For Rent in Bakersfield CA' }],
   },
   twitter: { card: 'summary_large_image', images: ['/opengraph-image'] },

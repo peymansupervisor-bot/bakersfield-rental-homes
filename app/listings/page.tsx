@@ -5,9 +5,9 @@ import ListingsClient from './ListingsClient'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Homes For Rent in Bakersfield CA',
+  title: 'Houses for Rent in Bakersfield CA | Browse Listings — No Broker Fees',
   description:
-    'Browse houses and homes for rent in Bakersfield, CA. Filter by beds, baths, price, and zip. Single-family, pet-friendly, and long-term rentals in Kern County. Rent direct from owner — no broker fees.',
+    'Browse houses and homes for rent in Bakersfield, CA — posted directly by local landlords. No broker fees. Filter by beds, price, ZIP, and pet policy. Single-family homes in every Bakersfield neighborhood.',
   keywords: [
     'houses for rent Bakersfield CA',
     'homes for rent Bakersfield California',
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://bakersfieldrentalhomes.com/listings' },
   openGraph: {
-    title: 'Homes For Rent in Bakersfield CA',
+    title: 'Houses for Rent in Bakersfield CA | No Broker Fees',
     description:
-      'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
+      'Browse houses for rent in Bakersfield, CA — posted directly by local landlords. No broker fees. Filter by beds, price, ZIP, and pet policy.',
     url: 'https://bakersfieldrentalhomes.com/listings',
     siteName: 'Bakersfield Rental Homes',
     type: 'website',
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Homes For Rent in Bakersfield CA',
-    description: 'Browse houses and homes for rent in Bakersfield, CA. Single-family, pet-friendly, and long-term rentals in Kern County. No broker fees.',
+    title: 'Houses for Rent in Bakersfield CA | No Broker Fees',
+    description: 'Browse houses for rent in Bakersfield, CA — direct from owners. No broker fees. Filter by beds, price, ZIP, and pet policy.',
     images: ['/opengraph-image'],
   },
 }
