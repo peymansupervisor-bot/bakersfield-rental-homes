@@ -25,6 +25,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: 'tenant-rights-california-2026',
+    title: 'Tenant Rights in California 2026: A Bakersfield Renter\'s Guide',
+    excerpt: 'Security deposits, eviction protections, rent increase limits, and habitability standards — everything Bakersfield renters need to know about California tenant law in 2026.',
+    date: 'June 2026',
+    readTime: '8 min read',
+    category: 'Renter\'s Guide',
+  },
+  {
     slug: 'average-rent-bakersfield-2026',
     title: 'Average Rent in Bakersfield CA 2026: What Renters Are Actually Paying',
     excerpt: 'A complete breakdown of average rent prices in Bakersfield by bedroom count, neighborhood, and ZIP code — with data updated for 2026.',

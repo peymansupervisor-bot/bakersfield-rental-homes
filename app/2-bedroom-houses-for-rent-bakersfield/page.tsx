@@ -234,6 +234,10 @@ export default async function TwoBedPage() {
               More Rental Searches
             </h2>
             <div className="flex flex-wrap justify-center gap-3">
+              <Link href="/blog/average-rent-bakersfield-2026" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+                style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+                Average Rent Guide 2026
+              </Link>
               <Link href="/3-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
                 3 Bedroom Rentals
