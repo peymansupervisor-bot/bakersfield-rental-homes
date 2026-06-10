@@ -88,6 +88,9 @@ export default function Footer() {
 
         {/* Legal */}
         <div className="flex flex-col items-center gap-1">
+          <p className="text-xs font-semibold tracking-wide" style={{ color: 'rgba(201,169,97,0.9)', fontFamily: 'Inter, sans-serif' }}>
+            Bakersfield Brokers &nbsp;·&nbsp; DRE #01726653
+          </p>
           <p className="text-xs font-light" style={{ color: 'rgba(255,255,255,0.80)' }}>
             © 2026 Bakersfield Rental Homes. All rights reserved.
           </p>
