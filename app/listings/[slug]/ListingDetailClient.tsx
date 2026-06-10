@@ -231,6 +231,12 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 md:px-10 py-8">
+        {listing.featured && listing.featured_until && new Date(listing.featured_until) > new Date() && (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold mb-3"
+            style={{ backgroundColor: 'rgba(201,169,97,0.15)', color: '#8a6914', border: '1px solid rgba(201,169,97,0.4)' }}>
+            <span aria-hidden="true">★</span> Featured Listing
+          </div>
+        )}
         <h1 className="text-2xl font-semibold mb-6"
           style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
           {listing.title.toLowerCase().startsWith(listing.address.toLowerCase())
@@ -549,6 +555,11 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
               </p>
             </Link>
 
+            {/* Boost CTA */}
+            {!(listing.featured && listing.featured_until && new Date(listing.featured_until) > new Date()) && (
+              <BoostButton listingId={listing.id} />
+            )}
+
             <div className="rounded-2xl p-5 text-center"
               style={{ background: 'linear-gradient(135deg, #1C3D5A 0%, #2a5278 100%)' }}>
               <p className="text-xs font-semibold tracking-widest uppercase mb-2"
@@ -635,6 +646,45 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
         </div>
       )}
     </main>
+  )
+}
+
+function BoostButton({ listingId }: { listingId: string }) {
+  const [loading, setLoading] = useState(false)
+
+  const handleBoost = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/create-boost-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listingId }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+    } catch {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="rounded-2xl p-5 text-center"
+      style={{ border: '1.5px solid rgba(201,169,97,0.5)', backgroundColor: 'rgba(201,169,97,0.04)' }}>
+      <p className="text-xs font-semibold tracking-widest uppercase mb-1"
+        style={{ color: '#C9A961', letterSpacing: '0.18em' }}>
+        ★ Boost This Listing
+      </p>
+      <p className="text-sm mb-4" style={{ color: '#595959' }}>
+        Pin to the top of search results for 30 days — $29
+      </p>
+      <button
+        onClick={handleBoost}
+        disabled={loading}
+        className="inline-block px-5 py-2.5 rounded-xl text-xs font-semibold tracking-widest uppercase transition-all hover:opacity-90 disabled:opacity-60"
+        style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.1em' }}>
+        {loading ? 'Redirecting…' : 'Boost — $29'}
+      </button>
+    </div>
   )
 }
 

@@ -62,8 +62,25 @@ export async function POST(req: NextRequest) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
     const listingId = session.metadata?.listing_id
+    const type = session.metadata?.type
 
-    if (listingId) {
+    if (listingId && type === 'boost') {
+      // Boost payment: mark listing as featured for 30 days
+      const db = createServiceClient()
+      const featuredUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+      const { error } = await db
+        .from('listings')
+        .update({ featured: true, featured_until: featuredUntil })
+        .eq('id', listingId)
+
+      if (error) {
+        console.error('Failed to boost listing:', error)
+        return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
+      }
+
+      console.log(`Listing ${listingId} boosted until ${featuredUntil}`)
+    } else if (listingId) {
+      // Standard publish payment: activate listing
       const db = createServiceClient()
       const { data: activated, error } = await db
         .from('listings')

@@ -112,4 +112,7 @@ export type Listing = {
   contact_name: string
   contact_email: string
   contact_phone: string | null
+  // Boost
+  featured: boolean
+  featured_until: string | null
 }

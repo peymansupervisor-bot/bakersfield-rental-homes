@@ -62,8 +62,15 @@ function ListingCard({ listing, index }: { listing: Listing; index: number }) {
                 </svg>
               </div>
             )}
+            {/* Featured badge */}
+            {listing.featured && listing.featured_until && new Date(listing.featured_until) > new Date() && (
+              <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase"
+                style={{ backgroundColor: '#C9A961', color: '#1C3D5A', letterSpacing: '0.1em' }}>
+                ★ Featured
+              </div>
+            )}
             {/* Rent badge */}
-            <div className="absolute top-3 left-3 px-3 py-1.5 rounded-full text-sm font-bold"
+            <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full text-sm font-bold"
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
               ${listing.monthly_rent.toLocaleString()}/mo
             </div>
