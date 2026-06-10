@@ -73,7 +73,7 @@ export default function Niko({ headline, description, photos, cards }: NikoProps
             <div className="grid grid-cols-4 gap-3">
               {displayPhotos.map((p, i) => (
                 <button key={i} onClick={() => switchPhoto(i)} aria-label={`View photo ${i + 1} of Niko`} aria-pressed={active === i}
-                  className="relative rounded-xl overflow-hidden transition-all duration-300"
+                  className="relative rounded-xl overflow-hidden transition-all duration-300 min-h-[44px]"
                   style={{ aspectRatio: '1/1', outline: active === i ? '2.5px solid #C9A961' : '2.5px solid transparent', outlineOffset: '2px', opacity: active === i ? 1 : 0.65, transform: active === i ? 'scale(1.05)' : 'scale(1)' }}>
                   <Image src={p.src} alt={p.alt} fill sizes="80px" className="object-cover" />
                 </button>

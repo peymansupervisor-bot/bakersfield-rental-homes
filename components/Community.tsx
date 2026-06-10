@@ -54,7 +54,7 @@ export default function Community({ headline, description, facebookUrl }: Commun
               ))}
             </h2>
             <p className="text-base md:text-lg font-light mb-8 max-w-lg"
-              style={{ color: 'rgba(247,245,240,0.7)', lineHeight: 1.75 }}>
+              style={{ color: 'rgba(247,245,240,0.88)', lineHeight: 1.75 }}>
               {displayDesc}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -85,7 +85,7 @@ export default function Community({ headline, description, facebookUrl }: Commun
                 style={{ backgroundColor: 'rgba(247,245,240,0.07)', border: '1px solid rgba(201,169,97,0.2)', animationDelay: inView ? `${0.2 + i * 0.1}s` : '0s' }}>
                 <p className="text-2xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#C9A961' }}>{item.value}</p>
                 <p className="text-sm font-semibold mb-0.5" style={{ color: '#F7F5F0' }}>{item.label}</p>
-                <p className="text-xs font-light" style={{ color: 'rgba(247,245,240,0.7)' }}>{item.desc}</p>
+                <p className="text-xs font-light" style={{ color: 'rgba(247,245,240,0.88)' }}>{item.desc}</p>
               </div>
             ))}
           </div>

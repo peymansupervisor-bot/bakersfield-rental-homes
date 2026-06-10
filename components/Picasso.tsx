@@ -52,7 +52,7 @@ export default function Picasso() {
           </h2>
           <p
             className="text-sm font-light max-w-xl mx-auto leading-relaxed"
-            style={{ color: '#B0A898', fontFamily: 'Inter, sans-serif' }}
+            style={{ color: '#C8BFB4', fontFamily: 'Inter, sans-serif' }}
           >
             A sun conure with 5 years of Bakersfield wisdom. Picasso brings vivid color and joy to every home he visits — and he reminds us that the best spaces feel alive, warm, and full of personality.
           </p>
@@ -105,7 +105,7 @@ export default function Picasso() {
                   onClick={() => setActive(i)}
                   aria-label={`View photo ${i + 1} of Picasso`}
                   aria-pressed={active === i}
-                  className="relative rounded-xl overflow-hidden transition-all duration-300"
+                  className="relative rounded-xl overflow-hidden transition-all duration-300 min-h-[44px]"
                   style={{
                     aspectRatio: '1/1',
                     outline: active === i ? '2.5px solid #E8A030' : '2.5px solid rgba(232,160,48,0.2)',
@@ -140,7 +140,7 @@ export default function Picasso() {
                   >
                     {card.title}
                   </h3>
-                  <p className="text-xs leading-relaxed" style={{ color: '#8A9BAA' }}>
+                  <p className="text-xs leading-relaxed" style={{ color: '#A8B8C4' }}>
                     {card.desc}
                   </p>
                 </div>
@@ -152,7 +152,7 @@ export default function Picasso() {
               className="text-sm italic leading-relaxed pl-4"
               style={{
                 borderLeft: '3px solid #E8A030',
-                color: '#B0A898',
+                color: '#C8BFB4',
                 fontFamily: 'Playfair Display, Georgia, serif',
               }}
             >

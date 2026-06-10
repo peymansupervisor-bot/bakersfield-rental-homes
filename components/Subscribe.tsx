@@ -118,6 +118,7 @@ export default function Subscribe() {
                 autoComplete="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
+                className="input-dark"
                 style={inputStyle}
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.2)')}
@@ -133,6 +134,7 @@ export default function Subscribe() {
                 autoComplete="tel"
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
+                className="input-dark"
                 style={inputStyle}
                 onFocus={e => (e.target.style.borderColor = '#C9A961')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.2)')}

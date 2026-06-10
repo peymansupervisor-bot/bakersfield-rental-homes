@@ -204,6 +204,7 @@ function AddressAutocomplete({ inputCls, address, onAddressChange, onSelect }: {
               id={`address-option-${i}`}
               role="option"
               aria-selected={i === activeIndex}
+              aria-label={`${s.address}${s.city ? `, ${s.city}` : ''}${s.zip ? ` ${s.zip}` : ''}`}
               style={{
                 backgroundColor: i === activeIndex ? '#f7f5f0' : 'white',
                 borderBottom: i < suggestions.length - 1 ? '1px solid #f0ece4' : 'none',
@@ -593,8 +594,8 @@ function Step3({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
                   type="button"
                   aria-label={`Remove photo ${i + 1}`}
                   onClick={() => removePhoto(i)}
-                  className="absolute top-1 right-1 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '12px' }}
+                  className="absolute top-0 right-0 w-11 h-11 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '14px' }}
                 >
                   <span aria-hidden="true">×</span>
                 </button>
