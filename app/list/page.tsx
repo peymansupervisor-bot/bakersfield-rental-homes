@@ -242,7 +242,7 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
       </Field>
 
       <p className="text-xs px-3 py-2 rounded-lg mb-1" style={{ backgroundColor: 'rgba(201,169,97,0.1)', color: '#8a6d1f' }}>
-        🏡 California properties only
+        🏡 Kern County, CA properties only
       </p>
       <AddressAutocomplete
         inputCls={inputCls}

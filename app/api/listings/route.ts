@@ -59,6 +59,39 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Kern County-only restriction
+    const KERN_COUNTY_ZIPS = new Set([
+      '93201','93203','93204','93205','93206','93207','93208','93215','93216',
+      '93220','93222','93224','93225','93226','93230','93232','93234','93238',
+      '93239','93240','93241','93242','93243','93244','93245','93246','93247',
+      '93249','93250','93251','93252','93255','93256','93257','93258','93260',
+      '93261','93262','93263','93265','93267','93268','93270','93271','93272',
+      '93274','93275','93276','93277','93278','93279','93280','93281','93282',
+      '93283','93285','93286','93287','93291','93292','93301','93302','93303',
+      '93304','93305','93306','93307','93308','93309','93310','93311','93312',
+      '93313','93314','93380','93381','93382','93383','93384','93385','93386',
+      '93387','93388','93389','93390','93501','93502','93505','93516','93518',
+      '93519','93523','93524','93527','93528','93531','93532','93534','93535',
+      '93536','93553','93554','93555','93556','93558','93560','93561','93562',
+      '93563','93581','93596',
+    ])
+    const KERN_COUNTY_CITIES = new Set([
+      'bakersfield','delano','ridgecrest','tehachapi','wasco','shafter',
+      'mcfarland','arvin','taft','california city','maricopa','lamont',
+      'rosamond','boron','frazier park','lake isabella','mojave','stallion springs',
+      'buttonwillow','lost hills','mettler','oildale','rancheria',
+      'keene','glennville','kernville','onyx','weldon','inyokern',
+    ])
+    const zip = (body.zip ?? '').trim()
+    const city = (body.city ?? '').trim().toLowerCase()
+    const inKern = (zip && KERN_COUNTY_ZIPS.has(zip)) || KERN_COUNTY_CITIES.has(city)
+    if (!inKern) {
+      return NextResponse.json(
+        { error: 'This platform only accepts properties located in Kern County, CA.' },
+        { status: 400 }
+      )
+    }
+
     if (!Array.isArray(body.photos) || body.photos.length < 10) {
       return NextResponse.json({ error: 'Minimum 10 photos required' }, { status: 400 })
     }
