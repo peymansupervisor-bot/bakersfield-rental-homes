@@ -5,33 +5,32 @@ import type { Listing } from '@/lib/supabase'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: '4 Bedroom Houses for Rent in Bakersfield CA',
+  title: '1 Bedroom Houses for Rent in Bakersfield CA',
   description:
-    'Find 4 bedroom houses for rent in Bakersfield, CA. Browse 4-bed rental homes posted directly by local landlords — no broker fees, no middlemen. Spacious single-family homes, pet-friendly options, and long-term leases in Kern County.',
+    'Find 1 bedroom houses for rent in Bakersfield, CA. Browse 1-bed rental homes posted directly by local landlords — no broker fees, no middlemen. Single-family homes and long-term leases across Kern County.',
   keywords: [
-    '4 bedroom houses for rent Bakersfield CA',
-    '4 bed homes for rent Bakersfield',
-    'four bedroom rental Bakersfield CA',
-    '4 bedroom rental Kern County',
-    '4 bedroom home for rent Bakersfield CA',
-    'four bed house Bakersfield no broker fee',
-    'direct landlord 4 bedroom Bakersfield',
-    'large family home for rent Bakersfield CA',
-    'spacious rental homes Bakersfield',
+    '1 bedroom houses for rent Bakersfield CA',
+    '1 bed homes for rent Bakersfield',
+    'one bedroom rental Bakersfield CA',
+    '1 bedroom rental Kern County',
+    '1 bedroom home for rent Bakersfield CA',
+    'one bed house Bakersfield no broker fee',
+    'direct landlord 1 bedroom Bakersfield',
+    'single family 1 bedroom Bakersfield rental',
   ],
-  alternates: { canonical: 'https://bakersfieldrentalhomes.com/4-bedroom-houses-for-rent-bakersfield' },
+  alternates: { canonical: 'https://bakersfieldrentalhomes.com/1-bedroom-houses-for-rent-bakersfield' },
   openGraph: {
-    title: '4 Bedroom Houses for Rent in Bakersfield CA',
-    description: 'Browse 4-bedroom rental homes in Bakersfield, CA. Rent directly from local landlords — no broker fees.',
-    url: 'https://bakersfieldrentalhomes.com/4-bedroom-houses-for-rent-bakersfield',
+    title: '1 Bedroom Houses for Rent in Bakersfield CA',
+    description: 'Browse 1-bedroom rental homes in Bakersfield, CA. Rent directly from local landlords — no broker fees.',
+    url: 'https://bakersfieldrentalhomes.com/1-bedroom-houses-for-rent-bakersfield',
     siteName: 'Bakersfield Rental Homes',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: '4 bedroom houses for rent in Bakersfield CA' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: '1 bedroom houses for rent in Bakersfield CA' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '4 Bedroom Houses for Rent in Bakersfield CA',
-    description: 'Browse 4-bedroom rental homes in Bakersfield, CA. No broker fees.',
+    title: '1 Bedroom Houses for Rent in Bakersfield CA',
+    description: 'Browse 1-bedroom rental homes in Bakersfield, CA. No broker fees.',
     images: ['/opengraph-image'],
   },
 }
@@ -39,10 +38,10 @@ export const metadata: Metadata = {
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-async function get4BedListings(): Promise<Listing[]> {
+async function get1BedListings(): Promise<Listing[]> {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&bedrooms=eq.4&city=eq.Bakersfield&order=created_at.desc`,
+      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&bedrooms=eq.1&city=eq.Bakersfield&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
         next: { revalidate: 60 },
@@ -60,7 +59,7 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bakersfieldrentalhomes.com' },
-    { '@type': 'ListItem', position: 2, name: '4 Bedroom Houses for Rent Bakersfield', item: 'https://bakersfieldrentalhomes.com/4-bedroom-houses-for-rent-bakersfield' },
+    { '@type': 'ListItem', position: 2, name: '1 Bedroom Houses for Rent Bakersfield', item: 'https://bakersfieldrentalhomes.com/1-bedroom-houses-for-rent-bakersfield' },
   ],
 }
 
@@ -70,31 +69,31 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'How much does a 4 bedroom house cost to rent in Bakersfield CA?',
+      name: 'How much does a 1 bedroom house cost to rent in Bakersfield CA?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'As of 2026, 4-bedroom houses for rent in Bakersfield, CA typically range from $1,900 to $2,800 per month depending on neighborhood, condition, and amenities. Larger homes in newer developments like Seven Oaks or Northwest Bakersfield tend toward the higher end. Browse current listings for up-to-date pricing.',
+        text: 'As of 2026, 1-bedroom houses for rent in Bakersfield, CA typically range from $900 to $1,300 per month depending on neighborhood, condition, and amenities. Bakersfield remains one of California\'s most affordable rental markets.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What neighborhoods in Bakersfield have 4 bedroom homes for rent?',
+      name: 'What neighborhoods in Bakersfield have 1 bedroom homes for rent?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '4-bedroom rental homes are available across Bakersfield including Northwest Bakersfield, Seven Oaks, Stockdale, Southwest Bakersfield, and newer master-planned communities. These larger homes are popular with families and groups of roommates. Browse listings and filter by zip code to find the right area.',
+        text: '1-bedroom rental homes are available across Bakersfield including East Bakersfield, Oleander-Sunset, Downtown, and parts of Southwest Bakersfield. Browse listings and filter by zip code to find the right fit.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Are there pet-friendly 4 bedroom rentals in Bakersfield?',
+      name: 'Are 1 bedroom rentals in Bakersfield pet friendly?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. Many 4-bedroom rentals in Bakersfield allow pets, and larger homes often come with fenced yards. Use the Pets Allowed filter on our listings page, or contact landlords directly to confirm their pet policy.',
+        text: 'Some 1-bedroom rentals in Bakersfield allow pets. Use the Pets Allowed filter on our listings page, or contact landlords directly to confirm their pet policy.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Do I need to pay a broker fee to rent a 4-bedroom home in Bakersfield?',
+      name: 'Do I need to pay a broker fee to rent a 1-bedroom home in Bakersfield?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Not through Bakersfield Rental Homes. Every listing is posted directly by the property owner. There are no broker commissions or finder\'s fees charged to tenants.',
@@ -104,14 +103,14 @@ const faqSchema = {
 }
 
 const STATS = [
-  { value: '4 Beds', label: 'Ideal for large families and groups' },
-  { value: '$1,900–$2,800', label: 'Typical monthly rent range' },
+  { value: '1 Bed', label: 'Great for singles and couples' },
+  { value: '$900–$1,300', label: 'Typical monthly rent range' },
   { value: 'No Fees', label: 'Rent direct from the owner' },
   { value: 'All Areas', label: 'Every Bakersfield neighborhood' },
 ]
 
-export default async function FourBedPage() {
-  const listings = await get4BedListings()
+export default async function OneBedPage() {
+  const listings = await get1BedListings()
 
   return (
     <>
@@ -124,20 +123,20 @@ export default async function FourBedPage() {
         <section
           className="relative py-24 px-6 text-center overflow-hidden"
           style={{ backgroundColor: '#1C3D5A' }}
-          aria-labelledby="four-bed-heading"
+          aria-labelledby="one-bed-heading"
         >
           <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#C9A961' }} aria-hidden="true">
             Bakersfield, CA · No Broker Fees · Direct from Owner
           </p>
           <h1
-            id="four-bed-heading"
+            id="one-bed-heading"
             className="text-4xl md:text-5xl font-bold mb-5 max-w-3xl mx-auto"
             style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}
           >
-            4 Bedroom Houses for Rent in Bakersfield CA
+            1 Bedroom Houses for Rent in Bakersfield CA
           </h1>
           <p className="text-lg max-w-2xl mx-auto mb-10" style={{ color: 'rgba(247,245,240,0.8)' }}>
-            Browse spacious 4-bedroom rental homes across Bakersfield — posted directly by local landlords.
+            Browse 1-bedroom rental homes across Bakersfield — posted directly by local landlords.
             No broker fees, no middlemen.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -159,7 +158,7 @@ export default async function FourBedPage() {
         </section>
 
         {/* Stats */}
-        <section className="py-14 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-label="Key facts about 4-bedroom rentals in Bakersfield">
+        <section className="py-14 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-label="Key facts about 1-bedroom rentals in Bakersfield">
           <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
             {STATS.map(s => (
               <div key={s.value} className="text-center">
@@ -174,12 +173,12 @@ export default async function FourBedPage() {
         <section className="py-16 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-labelledby="listings-heading">
           <div className="max-w-5xl mx-auto">
             <h2 id="listings-heading" className="text-2xl font-bold mb-8 text-center" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-              4-Bedroom Rentals Available Now
+              1-Bedroom Rentals Available Now
             </h2>
             {listings.length === 0 ? (
               <div className="text-center py-16">
-                <p className="text-base mb-2" style={{ color: '#555' }}>No 4-bedroom listings are currently available.</p>
-                <p className="text-sm mb-6" style={{ color: '#595959' }}>Browse all listings and filter by bedrooms, or sign up for alerts when a new 4-bedroom home is posted.</p>
+                <p className="text-base mb-2" style={{ color: '#555' }}>No 1-bedroom listings are currently available.</p>
+                <p className="text-sm mb-6" style={{ color: '#595959' }}>Browse all listings and filter by bedrooms, or sign up for alerts when a new 1-bedroom home is posted.</p>
                 <Link href="/listings" className="px-6 py-3 rounded-full font-semibold text-sm tracking-wider uppercase transition-all hover:opacity-90"
                   style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
                   Browse All Listings
@@ -195,7 +194,12 @@ export default async function FourBedPage() {
                       style={{ border: '1px solid rgba(201,169,97,0.2)', backgroundColor: '#fff' }}>
                       {l.photos?.[0] && (
                         <div style={{ position: 'relative', paddingTop: '60%' }}>
-                          <img src={l.photos[0]} alt={`${l.title} — ${l.bedrooms === 0 ? "Studio" : `${l.bedrooms} bed`} house for rent in ${l.city}, CA`} role="presentation" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                          <img
+                            src={l.photos[0]}
+                            alt={`${l.title} — 1 bed house for rent in ${l.city}, CA`}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy"
+                          />
                         </div>
                       )}
                       <div className="p-4">
@@ -235,10 +239,6 @@ export default async function FourBedPage() {
               More Rental Searches
             </h2>
             <div className="flex flex-wrap justify-center gap-3">
-              <Link href="/blog/average-rent-bakersfield-2026" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
-                style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
-                Average Rent Guide 2026
-              </Link>
               <Link href="/2-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
                 2 Bedroom Rentals
@@ -251,10 +251,6 @@ export default async function FourBedPage() {
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
                 Pet Friendly Rentals
               </Link>
-              <Link href="/horse-property-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
-                style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
-                Horse Property Rentals
-              </Link>
               <Link href="/direct-landlord-rentals" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
                 Direct Landlord Rentals
@@ -263,6 +259,10 @@ export default async function FourBedPage() {
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
                 Rentals by Neighborhood
               </Link>
+              <Link href="/blog/average-rent-bakersfield-2026" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+                style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+                Average Rent Guide 2026
+              </Link>
             </div>
           </div>
         </section>
@@ -270,7 +270,7 @@ export default async function FourBedPage() {
         {/* CTA */}
         <section className="py-20 px-6 text-center" style={{ backgroundColor: '#1C3D5A' }}>
           <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
-            Have a 4-Bedroom Home to Rent?
+            Have a 1-Bedroom Home to Rent?
           </h2>
           <p className="text-base mb-8 max-w-xl mx-auto" style={{ color: 'rgba(247,245,240,0.8)' }}>
             List your home directly and connect with qualified tenants in Bakersfield — no broker fees, no commissions.

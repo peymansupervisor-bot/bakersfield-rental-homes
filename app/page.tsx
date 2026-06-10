@@ -72,6 +72,14 @@ export default async function Home() {
               style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
               All Rentals
             </Link>
+            <Link href="/studio-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              Studios
+            </Link>
+            <Link href="/1-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
+              style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
+              1 Bedroom Houses
+            </Link>
             <Link href="/pet-friendly-rentals-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold text-center transition-all hover:opacity-80"
               style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
               Pet Friendly Rentals

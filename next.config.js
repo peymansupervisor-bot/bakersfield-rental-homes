@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      { source: '/los-angeles', destination: '/listings', permanent: true },
+    ]
+  },
   devIndicators: { buildActivity: false, appIsrStatus: false },
   images: {
     remotePatterns: [

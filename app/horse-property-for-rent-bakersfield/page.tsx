@@ -189,7 +189,7 @@ export default async function HorsePropertyPage() {
                       style={{ border: '1px solid rgba(201,169,97,0.2)', backgroundColor: '#fff' }}>
                       {l.photos?.[0] && (
                         <div className="relative w-full" style={{ paddingTop: '60%', position: 'relative' }}>
-                          <img src={l.photos[0]} alt="" role="presentation" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                          <img src={l.photos[0]} alt={`${l.title} — ${l.bedrooms === 0 ? "Studio" : `${l.bedrooms} bed`} house for rent in ${l.city}, CA`} role="presentation" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
                       <div className="p-4">
