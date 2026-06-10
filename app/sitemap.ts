@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic listing pages
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&select=slug,id,created_at`,
+      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&city=eq.Bakersfield&select=slug,id,created_at`,
       {
         headers: {
           apikey: SUPABASE_KEY,
