@@ -7,15 +7,15 @@ export const revalidate = 60
 export const metadata: Metadata = {
   title: 'Section 8 Rentals in Bakersfield CA | Housing Voucher Accepted',
   description:
-    'Find Section 8 rentals in Bakersfield, CA. Browse houses for rent that accept Housing Choice Vouchers — posted directly by local landlords. No broker fees. Kern County Housing Authority approved properties.',
+    'Find Section 8 rentals in Bakersfield, CA. Browse houses for rent that accept Housing Choice Vouchers — posted directly by local landlords. No broker fees. Housing Authority of the County of Kern approved properties.',
   keywords: [
     'section 8 rentals Bakersfield CA',
     'section 8 houses for rent Bakersfield',
     'housing voucher rentals Bakersfield CA',
     'housing choice voucher Bakersfield',
     'HCV rentals Bakersfield CA',
-    'KCHA approved rentals Bakersfield',
-    'Kern County Housing Authority rentals',
+    'HACK approved rentals Bakersfield',
+    'Housing Authority of the County of Kern rentals',
     'section 8 landlords Bakersfield CA',
     'low income rentals Bakersfield CA',
     'affordable housing Bakersfield CA',
@@ -77,7 +77,7 @@ const faqSchema = {
       name: 'What is Section 8 housing in Bakersfield CA?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Section 8 is the federal Housing Choice Voucher (HCV) program administered locally by the Kern County Housing Authority (KCHA). It helps low-income families, seniors, and disabled individuals pay rent by covering a portion of the monthly rent directly to the landlord. Tenants pay the difference between the actual rent and the voucher amount.',
+        text: 'Section 8 is the federal Housing Choice Voucher (HCV) program administered locally by the Housing Authority of the County of Kern (HACK). It helps low-income families, seniors, and disabled individuals pay rent by covering a portion of the monthly rent directly to the landlord. Tenants pay the difference between the actual rent and the voucher amount.',
       },
     },
     {
@@ -85,7 +85,7 @@ const faqSchema = {
       name: 'How do I apply for Section 8 in Bakersfield CA?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Applications for the Housing Choice Voucher program in Bakersfield are handled by the Kern County Housing Authority at 601 24th Street, Bakersfield, CA 93301. You can call them at (661) 631-8500. Note that the waiting list is often closed — check kernha.org for current status.',
+        text: 'Applications for the Housing Choice Voucher program in Bakersfield are handled by the Housing Authority of the County of Kern at 601 24th Street, Bakersfield, CA 93301. You can call them at (661) 631-8500. Note that the waiting list is often closed — check kernha.org for current status.',
       },
     },
     {
@@ -93,7 +93,7 @@ const faqSchema = {
       name: 'How do I find Section 8 landlords in Bakersfield?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Browse listings on this page — these are Bakersfield landlords who accept Housing Choice Vouchers. You can also search the KCHA\'s approved landlord list or use the HUD resource locator at hud.gov. When contacting a landlord, let them know upfront that you have a housing voucher so they can confirm their property qualifies.',
+        text: 'Browse listings on this page — these are Bakersfield landlords who accept Housing Choice Vouchers. You can also search the HACK\'s approved landlord list or use the HUD resource locator at hud.gov. When contacting a landlord, let them know upfront that you have a housing voucher so they can confirm their property qualifies.',
       },
     },
     {
@@ -109,7 +109,7 @@ const faqSchema = {
       name: 'What are the payment standards for Section 8 in Bakersfield CA?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The Kern County Housing Authority sets Fair Market Rents (FMR) that determine how much the voucher covers. As of 2025, FMRs for Bakersfield are approximately $1,100–$1,300 for a 1-bedroom, $1,350–$1,600 for a 2-bedroom, and $1,750–$2,100 for a 3-bedroom. Contact KCHA at (661) 631-8500 for current payment standards.',
+        text: 'The Housing Authority of the County of Kern sets Fair Market Rents (FMR) that determine how much the voucher covers. As of 2025, FMRs for Bakersfield are approximately $1,100–$1,300 for a 1-bedroom, $1,350–$1,600 for a 2-bedroom, and $1,750–$2,100 for a 3-bedroom. Contact HACK at (661) 631-8500 for current payment standards.',
       },
     },
     {
@@ -117,7 +117,7 @@ const faqSchema = {
       name: 'How long does it take to rent a home with a Section 8 voucher in Bakersfield?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Once you have your voucher, you typically have 60–120 days to find a unit. KCHA must inspect and approve the property before you can move in — this inspection usually takes 1–2 weeks after a landlord agrees to rent to you. Finding a willing landlord quickly is the most important step.',
+        text: 'Once you have your voucher, you typically have 60–120 days to find a unit. HACK must inspect and approve the property before you can move in — this inspection usually takes 1–2 weeks after a landlord agrees to rent to you. Finding a willing landlord quickly is the most important step.',
       },
     },
   ],
@@ -126,7 +126,7 @@ const faqSchema = {
 const STATS = [
   { value: 'Vouchers OK', label: 'Housing Choice Vouchers accepted' },
   { value: 'No Broker Fee', label: 'Rent direct from the owner' },
-  { value: 'KCHA Eligible', label: 'Kern County Housing Authority area' },
+  { value: 'HACK Eligible', label: 'Housing Authority of the County of Kern area' },
   { value: 'CA Law', label: 'Landlords cannot refuse vouchers in CA' },
 ]
 
@@ -134,7 +134,7 @@ const HOW_IT_WORKS = [
   {
     step: '1',
     title: 'Get Your Voucher',
-    body: 'Apply through the Kern County Housing Authority (KCHA). Once approved, you\'ll receive a voucher that covers a portion of your rent.',
+    body: 'Apply through the Housing Authority of the County of Kern (HACK). Once approved, you\'ll receive a voucher that covers a portion of your rent.',
   },
   {
     step: '2',
@@ -143,13 +143,13 @@ const HOW_IT_WORKS = [
   },
   {
     step: '3',
-    title: 'Schedule a KCHA Inspection',
-    body: 'Once a landlord agrees, KCHA inspects the unit to make sure it meets HUD housing quality standards. This usually takes 1–2 weeks.',
+    title: 'Schedule a HACK Inspection',
+    body: 'Once a landlord agrees, HACK inspects the unit to make sure it meets HUD housing quality standards. This usually takes 1–2 weeks.',
   },
   {
     step: '4',
     title: 'Move In',
-    body: 'After KCHA approves the unit, you sign your lease. KCHA pays the landlord directly each month. You pay only your share.',
+    body: 'After HACK approves the unit, you sign your lease. HACK pays the landlord directly each month. You pay only your share.',
   },
 ]
 
@@ -223,7 +223,7 @@ export default async function Section8Page() {
               Section 8 Rentals Available Now
             </h2>
             <p className="text-sm text-center mb-8" style={{ color: '#616161' }}>
-              These landlords have indicated they accept Housing Choice Vouchers. Contact them directly to confirm availability and start the KCHA approval process.
+              These landlords have indicated they accept Housing Choice Vouchers. Contact them directly to confirm availability and start the HACK approval process.
             </p>
             {listings.length === 0 ? (
               <div className="text-center py-16 rounded-2xl" style={{ backgroundColor: '#fff', border: '1px solid rgba(201,169,97,0.15)' }}>
@@ -309,14 +309,14 @@ export default async function Section8Page() {
           </div>
         </section>
 
-        {/* KCHA contact info */}
+        {/* HACK contact info */}
         <section className="py-14 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-labelledby="kcha-heading">
           <div className="max-w-2xl mx-auto text-center">
             <h2 id="kcha-heading" className="text-xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-              Kern County Housing Authority (KCHA)
+              Housing Authority of the County of Kern (HACK)
             </h2>
             <p className="text-sm mb-6" style={{ color: '#595959' }}>
-              The KCHA administers the Housing Choice Voucher program for Bakersfield and Kern County.
+              HACK administers the Housing Choice Voucher program for Bakersfield and Kern County.
             </p>
             <div className="inline-flex flex-col gap-3 text-sm p-6 rounded-2xl text-left"
               style={{ backgroundColor: '#fff', border: '1px solid rgba(201,169,97,0.2)' }}>
@@ -402,7 +402,7 @@ export default async function Section8Page() {
             Landlord? Accept Section 8 Tenants.
           </h2>
           <p className="text-base mb-3 max-w-xl mx-auto" style={{ color: 'rgba(247,245,240,0.8)' }}>
-            Housing voucher tenants are reliable — KCHA pays their portion of rent directly to you every month. List your Bakersfield property and reach this large, underserved community.
+            Housing voucher tenants are reliable — HACK pays their portion of rent directly to you every month. List your Bakersfield property and reach this large, underserved community.
           </p>
           <p className="text-sm mb-8 max-w-lg mx-auto" style={{ color: 'rgba(247,245,240,0.55)' }}>
             Under California SB 329, you are already required to accept vouchers. List your property and let tenants find you.
