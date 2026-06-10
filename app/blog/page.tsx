@@ -25,6 +25,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: 'moving-from-texas-to-bakersfield',
+    title: 'Moving from Texas to Bakersfield, CA: Oil & Gas, Cost of Living & Housing',
+    excerpt: 'Oil & gas transfers, cost of living vs. Midland and Houston, the California income tax reality, climate comparison, and the best neighborhoods for Texas transplants.',
+    date: 'June 2026',
+    readTime: '6 min read',
+    category: 'Relocation Guide',
+  },
+  {
     slug: 'moving-to-bakersfield-ca',
     title: 'Moving to Bakersfield, CA: What Renters Need to Know in 2026',
     excerpt: 'Neighborhoods, rent prices, cost of living, weather, schools, and commute times — everything you need before relocating to Bakersfield, California\'s most affordable large city.',
