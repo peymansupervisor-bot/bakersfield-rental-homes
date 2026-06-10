@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
     .from('listings')
     .select('*')
     .eq('status', 'active')
+    .eq('city', 'Bakersfield')
     .order('created_at', { ascending: false })
 
   if (minBeds)  query = query.gte('bedrooms', parseInt(minBeds))
