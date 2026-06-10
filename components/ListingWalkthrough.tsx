@@ -106,8 +106,8 @@ export default function ListingWalkthrough() {
         >
           <div className="rounded-3xl overflow-hidden shadow-sm"
             style={{ border: '1px solid rgba(201,169,97,0.2)' }}>
-            {/* Mockup area */}
-            <div className="px-6 pt-6 pb-4" style={{ backgroundColor: '#f8f6f2' }}>
+            {/* Mockup area — decorative illustration, hidden from screen readers */}
+            <div className="px-6 pt-6 pb-4" style={{ backgroundColor: '#f8f6f2' }} aria-hidden="true">
               {s.mockup}
             </div>
 
@@ -138,13 +138,13 @@ export default function ListingWalkthrough() {
               <button
                 key={j}
                 onClick={() => goTo(j)}
+                tabIndex={-1}
                 className="rounded-full transition-all duration-300"
                 style={{
                   width: j === active ? 20 : 6,
                   height: 6,
                   backgroundColor: j === active ? '#C9A961' : '#d5d0c8',
                 }}
-                aria-label={`Go to step ${j + 1}`}
               />
             ))}
           </div>
@@ -161,7 +161,7 @@ function MockInput({ label, placeholder, wide }: { label: string; placeholder: s
     <div className={wide ? 'col-span-2' : ''}>
       <p className="text-[9px] font-bold tracking-widest uppercase mb-1" style={{ color: '#1C3D5A' }}>{label}</p>
       <div className="rounded-lg px-3 py-2 text-[11px]"
-        style={{ border: '1px solid #e0ddd8', backgroundColor: 'white', color: '#aaa' }}>
+        style={{ border: '1px solid #e0ddd8', backgroundColor: 'white', color: '#767676' }}>
         {placeholder}
       </div>
     </div>
@@ -175,7 +175,7 @@ function MockSelect({ label, value }: { label: string; value: string }) {
       <div className="rounded-lg px-3 py-2 text-[11px] flex justify-between items-center"
         style={{ border: '1px solid #e0ddd8', backgroundColor: 'white', color: '#2B2B2B' }}>
         <span>{value}</span>
-        <span style={{ color: '#aaa' }}>▾</span>
+        <span style={{ color: '#767676' }}>▾</span>
       </div>
     </div>
   )
@@ -246,7 +246,7 @@ function Step3Mockup() {
           <span style={{ color: '#C9A961', fontSize: 18 }}>+</span>
         </div>
         <p className="text-[11px] font-medium" style={{ color: '#1C3D5A' }}>Click or drag photos here</p>
-        <p className="text-[10px] mt-0.5" style={{ color: '#aaa' }}>JPG, PNG, WEBP — multiple at once</p>
+        <p className="text-[10px] mt-0.5" style={{ color: '#767676' }}>JPG, PNG, WEBP — multiple at once</p>
       </div>
       {/* Photo grid */}
       <div className="grid grid-cols-6 gap-1.5">
