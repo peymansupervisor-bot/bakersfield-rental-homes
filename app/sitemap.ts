@@ -32,6 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/blog/moving-from-texas-to-bakersfield`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/insurance-housing-bakersfield`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/travel-nurse-housing-bakersfield`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/bakersfield-condors-player-housing`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     ...NEIGHBORHOODS.map(n => ({
       url: `${SITE_URL}/neighborhoods/${n.slug}`,
       lastModified: new Date(),
