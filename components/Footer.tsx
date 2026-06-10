@@ -30,7 +30,7 @@ export default function Footer() {
             </p>
             <p className="text-xs tracking-wider uppercase"
               style={{ color: '#d4b56a', fontFamily: 'Inter, sans-serif' }}>
-              Brokers
+              Rental Homes
             </p>
           </div>
         </div>
