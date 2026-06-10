@@ -70,9 +70,9 @@ export default function Navbar() {
                 <p className="text-xs font-semibold tracking-widest uppercase"
                   style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
                 <p className="text-xs tracking-wider uppercase"
-                  style={{ color: logoGoldColor, fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
-                <p className="text-[9px] tracking-wider"
-                  style={{ color: logoGoldColor, fontFamily: 'Inter, sans-serif', opacity: 0.8 }}>Bakersfield Brokers</p>
+                  style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>Rental Homes</p>
+                <p className="text-xs tracking-wider"
+                  style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>Bakersfield Brokers</p>
               </div>
             </Link>
           </div>
