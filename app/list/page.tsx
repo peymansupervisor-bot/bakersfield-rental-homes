@@ -25,6 +25,7 @@ type FormData = {
   available_date: string
   lease_term: string
   pets_allowed: boolean
+  section_8: boolean
   solar: boolean
   parking: string
   // Step 2 — Description & amenities
@@ -43,7 +44,7 @@ const INITIAL: FormData = {
   title: '', address: '', city: '', state: 'CA', zip: '',
   bedrooms: '', bathrooms: '', living_area_sqft: '', lot_size_sqft: '',
   monthly_rent: '', deposit: '',
-  rental_status: 'vacant', available_date: '', lease_term: '12 Months', pets_allowed: false, solar: false, parking: 'Street',
+  rental_status: 'vacant', available_date: '', lease_term: '12 Months', pets_allowed: false, section_8: false, solar: false, parking: 'Street',
   description: '', amenities: [],
   photoFiles: [], photoPreviewUrls: [],
   contact_name: '', contact_email: '', contact_phone: '',
@@ -367,6 +368,25 @@ function Step1({ form, set }: { form: FormData; set: (k: keyof FormData, v: any)
                   backgroundColor: form.pets_allowed === v ? '#1C3D5A' : 'white',
                   color: form.pets_allowed === v ? '#F7F5F0' : '#2B2B2B',
                   border: `1px solid ${form.pets_allowed === v ? '#1C3D5A' : '#e0ddd8'}`,
+                }}>
+                {v ? 'Yes' : 'No'}
+              </button>
+            ))}
+          </div>
+        </Field>
+
+        <Field label="Section 8 / Housing Voucher Accepted" group>
+          <div role="radiogroup" aria-label="Section 8 accepted" className="flex gap-3 mt-1">
+            {[true, false].map(v => (
+              <button key={String(v)} type="button"
+                role="radio"
+                aria-checked={form.section_8 === v}
+                onClick={() => set('section_8', v)}
+                className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
+                style={{
+                  backgroundColor: form.section_8 === v ? '#1C3D5A' : 'white',
+                  color: form.section_8 === v ? '#F7F5F0' : '#2B2B2B',
+                  border: `1px solid ${form.section_8 === v ? '#1C3D5A' : '#e0ddd8'}`,
                 }}>
                 {v ? 'Yes' : 'No'}
               </button>
@@ -796,6 +816,7 @@ export default function ListPage() {
           available_date: form.available_date || null,
           lease_term: form.lease_term,
           pets_allowed: form.pets_allowed,
+          section_8: form.section_8,
           parking: form.parking,
           amenities: form.solar ? [...form.amenities, 'Solar'] : form.amenities,
           photos: photoUrls,

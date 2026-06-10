@@ -164,6 +164,7 @@ export async function POST(req: NextRequest) {
         available_date:   body.available_date ?? null,
         lease_term:       body.lease_term ?? null,
         pets_allowed:     body.pets_allowed ?? false,
+        section_8:        body.section_8 ?? false,
         parking:          body.parking ?? null,
         amenities:        body.amenities ?? [],
         photos:           body.photos,
