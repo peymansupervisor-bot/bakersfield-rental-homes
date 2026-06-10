@@ -5,32 +5,32 @@ import type { Listing } from '@/lib/supabase'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: '3 Bedroom Houses for Rent in Bakersfield CA',
+  title: '2 Bedroom Houses for Rent in Bakersfield CA',
   description:
-    'Find 3 bedroom houses for rent in Bakersfield, CA. Browse 3-bed rental homes posted directly by local landlords — no broker fees, no middlemen. Single-family homes, pet-friendly options, and long-term leases in Kern County.',
+    'Find 2 bedroom houses for rent in Bakersfield, CA. Browse 2-bed rental homes posted directly by local landlords — no broker fees, no middlemen. Single-family homes, pet-friendly options, and long-term leases in Kern County.',
   keywords: [
-    '3 bedroom houses for rent Bakersfield CA',
-    '3 bed homes for rent Bakersfield',
-    'three bedroom rental Bakersfield CA',
-    '3 bedroom rental Kern County',
-    '3 bedroom home for rent Bakersfield CA',
-    'three bed house Bakersfield no broker fee',
-    'direct landlord 3 bedroom Bakersfield',
-    'single family 3 bedroom Bakersfield rental',
+    '2 bedroom houses for rent Bakersfield CA',
+    '2 bed homes for rent Bakersfield',
+    'two bedroom rental Bakersfield CA',
+    '2 bedroom rental Kern County',
+    '2 bedroom home for rent Bakersfield CA',
+    'two bed house Bakersfield no broker fee',
+    'direct landlord 2 bedroom Bakersfield',
+    'single family 2 bedroom Bakersfield rental',
   ],
-  alternates: { canonical: 'https://bakersfieldrentalhomes.com/3-bedroom-houses-for-rent-bakersfield' },
+  alternates: { canonical: 'https://bakersfieldrentalhomes.com/2-bedroom-houses-for-rent-bakersfield' },
   openGraph: {
-    title: '3 Bedroom Houses for Rent in Bakersfield CA',
-    description: 'Browse 3-bedroom rental homes in Bakersfield, CA. Rent directly from local landlords — no broker fees.',
-    url: 'https://bakersfieldrentalhomes.com/3-bedroom-houses-for-rent-bakersfield',
+    title: '2 Bedroom Houses for Rent in Bakersfield CA',
+    description: 'Browse 2-bedroom rental homes in Bakersfield, CA. Rent directly from local landlords — no broker fees.',
+    url: 'https://bakersfieldrentalhomes.com/2-bedroom-houses-for-rent-bakersfield',
     siteName: 'Bakersfield Rental Homes',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: '3 bedroom houses for rent in Bakersfield CA' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: '2 bedroom houses for rent in Bakersfield CA' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '3 Bedroom Houses for Rent in Bakersfield CA',
-    description: 'Browse 3-bedroom rental homes in Bakersfield, CA. No broker fees.',
+    title: '2 Bedroom Houses for Rent in Bakersfield CA',
+    description: 'Browse 2-bedroom rental homes in Bakersfield, CA. No broker fees.',
     images: ['/opengraph-image'],
   },
 }
@@ -38,10 +38,10 @@ export const metadata: Metadata = {
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-async function get3BedListings(): Promise<Listing[]> {
+async function get2BedListings(): Promise<Listing[]> {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&bedrooms=eq.3&city=eq.Bakersfield&order=created_at.desc`,
+      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&bedrooms=eq.2&city=eq.Bakersfield&order=created_at.desc`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
         next: { revalidate: 60 },
@@ -59,7 +59,7 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bakersfieldrentalhomes.com' },
-    { '@type': 'ListItem', position: 2, name: '3 Bedroom Houses for Rent Bakersfield', item: 'https://bakersfieldrentalhomes.com/3-bedroom-houses-for-rent-bakersfield' },
+    { '@type': 'ListItem', position: 2, name: '2 Bedroom Houses for Rent Bakersfield', item: 'https://bakersfieldrentalhomes.com/2-bedroom-houses-for-rent-bakersfield' },
   ],
 }
 
@@ -69,31 +69,31 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'How much does a 3 bedroom house cost to rent in Bakersfield CA?',
+      name: 'How much does a 2 bedroom house cost to rent in Bakersfield CA?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'As of 2026, 3-bedroom houses for rent in Bakersfield, CA typically range from $1,500 to $2,200 per month depending on neighborhood, condition, and amenities. Bakersfield remains one of California\'s most affordable rental markets. Browse current listings for up-to-date pricing.',
+        text: 'As of 2026, 2-bedroom houses for rent in Bakersfield, CA typically range from $1,100 to $1,600 per month depending on neighborhood, condition, and amenities. Bakersfield remains one of California\'s most affordable rental markets. Browse current listings for up-to-date pricing.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What neighborhoods in Bakersfield have 3 bedroom homes for rent?',
+      name: 'What neighborhoods in Bakersfield have 2 bedroom homes for rent?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: '3-bedroom rental homes are available across Bakersfield including Northwest Bakersfield, Southwest Bakersfield, Rosedale, East Bakersfield, and the Oleander-Sunset area. Each neighborhood has different price points and character — browse listings and filter by zip code to find the right fit.',
+        text: '2-bedroom rental homes are available across Bakersfield including Northwest Bakersfield, Southwest Bakersfield, Rosedale, East Bakersfield, and the Oleander-Sunset area. Browse listings and filter by zip code to find the right fit for your budget.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Are there pet-friendly 3 bedroom rentals in Bakersfield?',
+      name: 'Are there pet-friendly 2 bedroom rentals in Bakersfield?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. Several 3-bedroom rentals in Bakersfield allow pets. Use the Pets Allowed filter on our listings page, or contact landlords directly to confirm their pet policy.',
+        text: 'Yes. Several 2-bedroom rentals in Bakersfield allow pets. Use the Pets Allowed filter on our listings page, or contact landlords directly to confirm their pet policy.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Do I need to pay a broker fee to rent a 3-bedroom home in Bakersfield?',
+      name: 'Do I need to pay a broker fee to rent a 2-bedroom home in Bakersfield?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Not through Bakersfield Rental Homes. Every listing is posted directly by the property owner. There are no broker commissions or finder\'s fees charged to tenants.',
@@ -103,14 +103,14 @@ const faqSchema = {
 }
 
 const STATS = [
-  { value: '3 Beds', label: 'Ideal for families and roommates' },
-  { value: '$1,500–$2,200', label: 'Typical monthly rent range' },
+  { value: '2 Beds', label: 'Perfect for couples and small families' },
+  { value: '$1,100–$1,600', label: 'Typical monthly rent range' },
   { value: 'No Fees', label: 'Rent direct from the owner' },
   { value: 'All Areas', label: 'Every Bakersfield neighborhood' },
 ]
 
-export default async function ThreeBedPage() {
-  const listings = await get3BedListings()
+export default async function TwoBedPage() {
+  const listings = await get2BedListings()
 
   return (
     <>
@@ -123,20 +123,20 @@ export default async function ThreeBedPage() {
         <section
           className="relative py-24 px-6 text-center overflow-hidden"
           style={{ backgroundColor: '#1C3D5A' }}
-          aria-labelledby="three-bed-heading"
+          aria-labelledby="two-bed-heading"
         >
           <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#C9A961' }} aria-hidden="true">
             Bakersfield, CA · No Broker Fees · Direct from Owner
           </p>
           <h1
-            id="three-bed-heading"
+            id="two-bed-heading"
             className="text-4xl md:text-5xl font-bold mb-5 max-w-3xl mx-auto"
             style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}
           >
-            3 Bedroom Houses for Rent in Bakersfield CA
+            2 Bedroom Houses for Rent in Bakersfield CA
           </h1>
           <p className="text-lg max-w-2xl mx-auto mb-10" style={{ color: 'rgba(247,245,240,0.8)' }}>
-            Browse 3-bedroom rental homes across Bakersfield — posted directly by local landlords.
+            Browse 2-bedroom rental homes across Bakersfield — posted directly by local landlords.
             No broker fees, no middlemen.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -158,7 +158,7 @@ export default async function ThreeBedPage() {
         </section>
 
         {/* Stats */}
-        <section className="py-14 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-label="Key facts about 3-bedroom rentals in Bakersfield">
+        <section className="py-14 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-label="Key facts about 2-bedroom rentals in Bakersfield">
           <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
             {STATS.map(s => (
               <div key={s.value} className="text-center">
@@ -173,12 +173,12 @@ export default async function ThreeBedPage() {
         <section className="py-16 px-6 md:px-10" style={{ backgroundColor: '#F7F5F0' }} aria-labelledby="listings-heading">
           <div className="max-w-5xl mx-auto">
             <h2 id="listings-heading" className="text-2xl font-bold mb-8 text-center" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>
-              3-Bedroom Rentals Available Now
+              2-Bedroom Rentals Available Now
             </h2>
             {listings.length === 0 ? (
               <div className="text-center py-16">
-                <p className="text-base mb-2" style={{ color: '#555' }}>No 3-bedroom listings are currently available.</p>
-                <p className="text-sm mb-6" style={{ color: '#595959' }}>Browse all listings and filter by bedrooms, or sign up for alerts when a new 3-bedroom home is posted.</p>
+                <p className="text-base mb-2" style={{ color: '#555' }}>No 2-bedroom listings are currently available.</p>
+                <p className="text-sm mb-6" style={{ color: '#595959' }}>Browse all listings and filter by bedrooms, or sign up for alerts when a new 2-bedroom home is posted.</p>
                 <Link href="/listings" className="px-6 py-3 rounded-full font-semibold text-sm tracking-wider uppercase transition-all hover:opacity-90"
                   style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
                   Browse All Listings
@@ -234,9 +234,9 @@ export default async function ThreeBedPage() {
               More Rental Searches
             </h2>
             <div className="flex flex-wrap justify-center gap-3">
-              <Link href="/2-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
+              <Link href="/3-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
-                2 Bedroom Rentals
+                3 Bedroom Rentals
               </Link>
               <Link href="/4-bedroom-houses-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
@@ -245,10 +245,6 @@ export default async function ThreeBedPage() {
               <Link href="/pet-friendly-rentals-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
                 Pet Friendly Rentals
-              </Link>
-              <Link href="/horse-property-for-rent-bakersfield" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
-                style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
-                Horse Property Rentals
               </Link>
               <Link href="/direct-landlord-rentals" className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-80"
                 style={{ backgroundColor: '#fff', color: '#1C3D5A', border: '1px solid rgba(28,61,90,0.2)' }}>
@@ -265,7 +261,7 @@ export default async function ThreeBedPage() {
         {/* CTA */}
         <section className="py-20 px-6 text-center" style={{ backgroundColor: '#1C3D5A' }}>
           <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#F7F5F0' }}>
-            Have a 3-Bedroom Home to Rent?
+            Have a 2-Bedroom Home to Rent?
           </h2>
           <p className="text-base mb-8 max-w-xl mx-auto" style={{ color: 'rgba(247,245,240,0.8)' }}>
             List your home directly and connect with qualified tenants in Bakersfield — no broker fees, no commissions.
