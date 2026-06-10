@@ -25,6 +25,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: 'section-8-housing-bakersfield',
+    title: 'Section 8 Housing in Bakersfield CA: Complete 2026 Guide',
+    excerpt: 'How to apply for a Housing Choice Voucher through HACK, find a Section 8 landlord, pass inspection, and rent in Bakersfield — plus your rights under California SB 329.',
+    date: 'June 2026',
+    readTime: '9 min read',
+    category: 'Renter\'s Guide',
+  },
+  {
     slug: 'moving-from-texas-to-bakersfield',
     title: 'Moving from Texas to Bakersfield, CA: Oil & Gas, Cost of Living & Housing',
     excerpt: 'Oil & gas transfers, cost of living vs. Midland and Houston, the California income tax reality, climate comparison, and the best neighborhoods for Texas transplants.',
