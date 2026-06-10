@@ -169,7 +169,7 @@ function sortListings(listings: Listing[], sortBy: SortKey): Listing[] {
   }
 }
 
-export default function ListingsClient({ initialListings, laListings = [] }: { initialListings: Listing[], laListings?: Listing[] }) {
+export default function ListingsClient({ initialListings }: { initialListings: Listing[] }) {
   // Listings start populated from SSR — no loading spinner on first visit
   const [allListings, setAllListings] = useState<Listing[]>(initialListings)
   const [searching, setSearching]     = useState(false)
@@ -585,37 +585,6 @@ export default function ListingsClient({ initialListings, laListings = [] }: { i
         )}
       </section>
 
-      {/* LA listings — only rendered if data exists */}
-      {laListings.length > 0 && (
-        <section
-          className="max-w-6xl mx-auto px-6 md:px-10 py-16 border-t"
-          style={{ borderColor: 'rgba(201,169,97,0.15)' }}
-          aria-labelledby="la-listings-heading"
-        >
-          <div className="mb-8">
-            <p className="text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: '#7d6019' }}>
-              Also Available · Los Angeles, CA
-            </p>
-            <h2
-              id="la-listings-heading"
-              className="text-2xl font-bold mb-2"
-              style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}
-            >
-              Direct Landlord Rentals in Los Angeles
-            </h2>
-            <p className="text-sm max-w-xl" style={{ color: '#616161' }}>
-              A select number of properties in Los Angeles are listed here — rented directly by the owner, no broker fees.
-            </p>
-          </div>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-            {laListings.map((l, i) => (
-              <li key={l.id}>
-                <ListingCard listing={l} index={i} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
     </main>
   )
 }

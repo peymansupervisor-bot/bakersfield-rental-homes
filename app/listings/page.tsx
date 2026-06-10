@@ -67,22 +67,6 @@ async function getListings(): Promise<Listing[]> {
   }
 }
 
-async function getLAListings(): Promise<Listing[]> {
-  try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?select=*&status=eq.active&city=in.(Los Angeles,West Hollywood)&order=created_at.desc`,
-      {
-        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
-        next: { revalidate: 60 },
-      }
-    )
-    if (!res.ok) return []
-    return res.json()
-  } catch {
-    return []
-  }
-}
-
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -97,15 +81,13 @@ const localBusinessSchema = {
   },
   areaServed: [
     { '@type': 'City', name: 'Bakersfield', containedInPlace: { '@type': 'State', name: 'California' } },
-    { '@type': 'City', name: 'Los Angeles', containedInPlace: { '@type': 'State', name: 'California' } },
-    { '@type': 'City', name: 'West Hollywood', containedInPlace: { '@type': 'State', name: 'California' } },
   ],
-  description: 'Direct landlord rentals in Bakersfield and Los Angeles, CA. No broker fees, no middlemen.',
+  description: 'Direct landlord rentals in Bakersfield, CA. No broker fees, no middlemen.',
   sameAs: ['https://bakersfieldrentalhomes.com/listings'],
 }
 
 export default async function ListingsPage() {
-  const [listings, laListings] = await Promise.all([getListings(), getLAListings()])
+  const listings = await getListings()
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -132,7 +114,7 @@ export default async function ListingsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <ListingsClient initialListings={listings} laListings={laListings} />
+      <ListingsClient initialListings={listings} />
     </>
   )
 }
