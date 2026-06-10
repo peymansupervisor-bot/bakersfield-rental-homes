@@ -144,6 +144,7 @@ export async function POST(req: NextRequest) {
       .insert({
         slug,
         status: 'pending',
+        rental_status: 'draft',
         listed_date: today,
         // Whitelisted fields only — never spread the full body
         title:            body.title,
@@ -160,7 +161,7 @@ export async function POST(req: NextRequest) {
         bathrooms:        body.bathrooms,
         living_area_sqft: body.living_area_sqft,
         lot_size_sqft:    body.lot_size_sqft ?? null,
-        rental_status:    body.rental_status ?? 'vacant',
+        rental_status:    body.rental_status === 'active' ? 'draft' : (body.rental_status ?? 'draft'),
         available_date:   body.available_date ?? null,
         lease_term:       body.lease_term ?? null,
         pets_allowed:     body.pets_allowed ?? false,
