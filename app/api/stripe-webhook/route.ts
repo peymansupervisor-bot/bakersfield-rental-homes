@@ -58,14 +58,12 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Keep supporting legacy $1 payment flow during transition
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
     const listingId = session.metadata?.listing_id
     const type = session.metadata?.type
 
     if (listingId && type === 'boost') {
-      // Boost payment: mark listing as featured for 30 days
       const db = createServiceClient()
       const featuredUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
       const { error } = await db
@@ -79,26 +77,6 @@ export async function POST(req: NextRequest) {
       }
 
       console.log(`Listing ${listingId} boosted until ${featuredUntil}`)
-    } else if (listingId) {
-      // Standard publish payment: activate listing
-      const db = createServiceClient()
-      const { data: activated, error } = await db
-        .from('listings')
-        .update({ status: 'active' })
-        .eq('id', listingId)
-        .select('photos')
-        .single()
-
-      if (error) {
-        console.error('Failed to activate listing:', error)
-        return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
-      }
-
-      console.log(`Listing ${listingId} activated after payment ${session.id}`)
-
-      if (activated?.photos?.length) {
-        warmPhotoCache(activated.photos).catch(() => {})
-      }
     }
   }
 
