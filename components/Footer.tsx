@@ -48,6 +48,9 @@ export default function Footer() {
 
         {/* Key SEO pages */}
         <nav aria-label="Key pages" className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+          <Link href="/blog" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
+            Renter's Blog
+          </Link>
           <Link href="/direct-landlord-rentals" className="text-xs transition-all hover:opacity-80" style={{ color: 'rgba(247,245,240,0.80)' }}>
             Direct Landlord Rentals
           </Link>

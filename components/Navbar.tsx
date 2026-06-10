@@ -89,6 +89,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
+              <Link href="/blog"
+                className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
+                style={{ color: textColor, letterSpacing: '0.15em' }}>Blog</Link>
+            </li>
+            <li>
               <Link href="/vendors"
                 className="text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:opacity-90 hover:underline underline-offset-4 decoration-2"
                 style={{ color: textColor, letterSpacing: '0.15em' }}>Vendors</Link>
@@ -154,6 +159,11 @@ export default function Navbar() {
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
               style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
               Neighborhoods
+            </Link>
+            <Link href="/blog" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
+              className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
+              style={{ color: '#1C3D5A', borderColor: 'rgba(201,169,97,0.15)', letterSpacing: '0.15em' }}>
+              Blog
             </Link>
             <Link href="/vendors" onClick={() => setMenuOpen(false)} tabIndex={menuOpen ? 0 : -1}
               className="text-sm font-semibold tracking-widest uppercase py-2 border-b transition-colors duration-200 hover:text-[#C9A961]"
