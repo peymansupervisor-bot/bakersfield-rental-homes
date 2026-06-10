@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 async function getActiveListings(): Promise<Listing[]> {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&rental_status=neq.rented&order=created_at.desc&limit=6`,
+      `${SUPABASE_URL}/rest/v1/listings?status=eq.active&city=eq.Bakersfield&rental_status=neq.rented&order=created_at.desc&limit=6`,
       {
         headers: {
           apikey: SUPABASE_KEY,
