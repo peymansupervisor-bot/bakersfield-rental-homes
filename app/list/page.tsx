@@ -828,8 +828,16 @@ export default function ListPage() {
       const { id, error: listErr } = await res.json()
       if (listErr || !id) throw new Error(listErr || 'Failed to create listing')
 
-      // Listing goes live immediately — redirect to success
-      window.location.href = `/list/success?listing_id=${id}`
+      // Identity verification — free to landlord, activates listing on completion
+      const ckRes = await fetch('/api/create-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listingId: id }),
+      })
+      const { url, error: ckErr } = await ckRes.json()
+      if (ckErr || !url) throw new Error(ckErr || 'Failed to create verification session')
+
+      window.location.href = url
     } catch (e: any) {
       setError(e.message || 'Something went wrong. Please try again.')
       setLoading(false)
