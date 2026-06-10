@@ -144,7 +144,6 @@ export async function POST(req: NextRequest) {
       .insert({
         slug,
         status: 'pending',
-        rental_status: 'draft',
         listed_date: today,
         // Whitelisted fields only — never spread the full body
         title:            body.title,

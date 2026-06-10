@@ -76,7 +76,7 @@ export type Listing = {
   created_at: string
   status: 'pending' | 'active'
   stripe_session_id: string | null
-  rental_status: 'active' | 'rented' | 'paused' | 'draft' | null
+  rental_status: 'active' | 'rented' | 'paused' | 'draft' | 'coming_soon' | 'pending' | 'vacant' | null
   // Location
   address: string
   city: string
