@@ -52,13 +52,15 @@ export const metadata: Metadata = {
 
 const localBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Bakersfield Rental Homes',
+  '@type': 'RealEstateAgent',
+  name: 'Bakersfield Brokers',
+  alternateName: 'Bakersfield Rental Homes',
   url: 'https://bakersfieldrentalhomes.com',
   logo: 'https://bakersfieldrentalhomes.com/og-image.jpg',
   image: 'https://bakersfieldrentalhomes.com/og-image.jpg',
-  description: 'Find quality houses and homes for rent in Bakersfield, CA. Single-family rentals, pet-friendly homes, and long-term leases in Kern County.',
+  description: 'Bakersfield Brokers (DRE #01726653) operates BakersfieldRentalHomes.com — connecting renters with quality houses and homes for rent in Bakersfield, CA. Single-family rentals, pet-friendly homes, and long-term leases in Kern County. No broker fees.',
   telephone: '+16613811818',
+  identifier: { '@type': 'PropertyValue', name: 'DRE License', value: '01726653' },
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Bakersfield',
