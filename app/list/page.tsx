@@ -828,27 +828,8 @@ export default function ListPage() {
       const { id, error: listErr } = await res.json()
       if (listErr || !id) throw new Error(listErr || 'Failed to create listing')
 
-      // 3. Attempt owner bypass — server decides if email qualifies, no secret on client
-      const bypassRes = await fetch('/api/activate-listing', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listingId: id, contactEmail: form.contact_email }),
-      })
-      if (bypassRes.ok) {
-        window.location.href = `/list/success?listing_id=${id}`
-        return
-      }
-
-      // 3b. Standard flow — Stripe Identity verification
-      const ckRes = await fetch('/api/create-verification', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listingId: id }),
-      })
-      const { url, error: ckErr } = await ckRes.json()
-      if (ckErr || !url) throw new Error(ckErr || 'Failed to create verification session')
-
-      window.location.href = url
+      // Listing goes live immediately — redirect to success
+      window.location.href = `/list/success?listing_id=${id}`
     } catch (e: any) {
       setError(e.message || 'Something went wrong. Please try again.')
       setLoading(false)

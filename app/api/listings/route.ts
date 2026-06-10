@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient, generateSlug } from '@/lib/supabase'
+import { warmPhotoCache } from '@/lib/warmPhotoCache'
 
 export const dynamic = 'force-dynamic'
 
@@ -143,7 +144,7 @@ export async function POST(req: NextRequest) {
       .from('listings')
       .insert({
         slug,
-        status: 'pending',
+        status: 'active',
         listed_date: today,
         // Whitelisted fields only — never spread the full body
         title:            body.title,
@@ -176,6 +177,22 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // Warm photo cache so first visitor sees photos instantly
+    if (data && body.photos?.length) {
+      warmPhotoCache(body.photos).catch(() => {})
+    }
+
+    // Trigger SEO + ADA audit — fire-and-forget
+    const auditSecret = process.env.LISTING_AUDIT_SECRET
+    if (auditSecret && data?.id) {
+      fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bakersfieldrentalhomes.com'}/api/listing-audit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-internal-secret': auditSecret },
+        body: JSON.stringify({ listingId: data.id, _internal: true }),
+      }).catch(() => {})
+    }
+
     return NextResponse.json({ id: data.id, slug: data.slug })
   } catch {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
