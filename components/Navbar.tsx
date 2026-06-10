@@ -70,7 +70,7 @@ export default function Navbar() {
                 <p className="text-xs font-semibold tracking-widest uppercase"
                   style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>Bakersfield</p>
                 <p className="text-xs tracking-wider uppercase"
-                  style={{ color: '#1C3D5A', fontFamily: 'Inter, sans-serif' }}>Brokers</p>
+                  style={{ color: scrolled || menuOpen ? '#1C3D5A' : '#F7F5F0', fontFamily: 'Inter, sans-serif' }}>Brokers</p>
               </div>
             </Link>
           </div>
