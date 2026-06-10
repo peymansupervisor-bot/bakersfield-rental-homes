@@ -198,7 +198,7 @@ export default function CondorsPlayerHousingPage() {
               ].map(s => (
                 <div key={s.label} className="text-center p-4 rounded-xl" style={{ backgroundColor: '#fff', border: '1px solid rgba(201,169,97,0.2)' }}>
                   <p className="text-xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>{s.value}</p>
-                  <p className="text-xs" style={{ color: '#888' }}>{s.label}</p>
+                  <p className="text-xs" style={{ color: '#595959' }}>{s.label}</p>
                 </div>
               ))}
             </div>

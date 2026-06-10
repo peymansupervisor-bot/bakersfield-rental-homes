@@ -227,7 +227,7 @@ export default function TravelNurseHousingPage() {
                   'Single-family homes with private yards — not apartment-style units',
                 ].map(item => (
                   <li key={item} className="flex items-start gap-2 text-sm" style={{ color: '#444' }}>
-                    <span style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
+                    <span aria-hidden="true" style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
                     {item}
                   </li>
                 ))}
@@ -257,7 +257,7 @@ export default function TravelNurseHousingPage() {
                   'Low furnishing cost: $3,000–$6,000 pays off after one placement',
                 ].map(item => (
                   <li key={item} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(247,245,240,0.85)' }}>
-                    <span style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
+                    <span aria-hidden="true" style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
                     {item}
                   </li>
                 ))}
@@ -291,7 +291,7 @@ export default function TravelNurseHousingPage() {
                     <span className="text-xs px-3 py-1 rounded-full font-semibold flex-shrink-0"
                       style={{ backgroundColor: 'rgba(201,169,97,0.15)', color: '#7d6019' }}>{h.beds}</span>
                   </div>
-                  <p className="text-xs font-semibold mb-2" style={{ color: '#888' }}>{h.type} · {h.location}</p>
+                  <p className="text-xs font-semibold mb-2" style={{ color: '#595959' }}>{h.type} · {h.location}</p>
                   <p className="text-sm leading-relaxed mb-2" style={{ color: '#555' }}>{h.notes}</p>
                   <p className="text-xs font-semibold" style={{ color: '#1C3D5A' }}>Drive time: <span style={{ color: '#C9A961' }}>{h.driveTime}</span></p>
                 </div>
@@ -313,9 +313,9 @@ export default function TravelNurseHousingPage() {
               <table className="w-full text-sm border-collapse" aria-label="Furnishing checklist for travel nurse rentals">
                 <thead>
                   <tr style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
-                    <th className="text-left p-3 font-semibold rounded-tl-lg">Item</th>
-                    <th className="text-left p-3 font-semibold">Priority</th>
-                    <th className="text-left p-3 font-semibold rounded-tr-lg">Why It Matters</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tl-lg">Item</th>
+                    <th scope="col" className="text-left p-3 font-semibold">Priority</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tr-lg">Why It Matters</th>
                   </tr>
                 </thead>
                 <tbody>

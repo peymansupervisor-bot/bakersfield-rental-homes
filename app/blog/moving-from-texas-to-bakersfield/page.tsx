@@ -169,7 +169,7 @@ export default function TexasToBakersfieldPage() {
                 'No broker fees on listings at BakersfieldRentalHomes.com — rent direct from landlords',
               ].map(item => (
                 <li key={item} className="flex items-start gap-2 text-sm" style={{ color: '#333' }}>
-                  <span style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
+                  <span aria-hidden="true" style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
                   {item}
                 </li>
               ))}
@@ -217,9 +217,9 @@ export default function TexasToBakersfieldPage() {
               <table className="w-full text-xs border-collapse" aria-label="Oil field comparison: San Joaquin Valley vs Permian Basin">
                 <thead>
                   <tr style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
-                    <th className="text-left p-3 font-semibold rounded-tl-lg">Factor</th>
-                    <th className="text-left p-3 font-semibold">Bakersfield / San Joaquin</th>
-                    <th className="text-left p-3 font-semibold rounded-tr-lg">Permian Basin (TX)</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tl-lg">Factor</th>
+                    <th scope="col" className="text-left p-3 font-semibold">Bakersfield / San Joaquin</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tr-lg">Permian Basin (TX)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -255,11 +255,11 @@ export default function TexasToBakersfieldPage() {
               <table className="w-full text-xs border-collapse" aria-label="Cost of living comparison: Bakersfield vs Texas cities">
                 <thead>
                   <tr style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
-                    <th className="text-left p-3 font-semibold rounded-tl-lg">Category</th>
-                    <th className="text-left p-3 font-semibold">Bakersfield CA</th>
-                    <th className="text-left p-3 font-semibold">Midland TX</th>
-                    <th className="text-left p-3 font-semibold">Austin TX</th>
-                    <th className="text-left p-3 font-semibold rounded-tr-lg">Houston TX</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tl-lg">Category</th>
+                    <th scope="col" className="text-left p-3 font-semibold">Bakersfield CA</th>
+                    <th scope="col" className="text-left p-3 font-semibold">Midland TX</th>
+                    <th scope="col" className="text-left p-3 font-semibold">Austin TX</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tr-lg">Houston TX</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -275,7 +275,7 @@ export default function TexasToBakersfieldPage() {
                 </tbody>
               </table>
             </div>
-            <p className="text-xs mt-3" style={{ color: '#888' }}>Housing costs are rental market estimates as of 2026. Tax rates are approximate.</p>
+            <p className="text-xs mt-3" style={{ color: '#595959' }}>Housing costs are rental market estimates as of 2026. Tax rates are approximate.</p>
           </div>
         </section>
 
@@ -298,7 +298,7 @@ export default function TexasToBakersfieldPage() {
                 <div key={h.type} className="p-4 rounded-xl" style={{ backgroundColor: '#F7F5F0', border: '1px solid rgba(201,169,97,0.15)' }}>
                   <p className="font-semibold text-sm mb-1" style={{ color: '#1C3D5A' }}>{h.type}</p>
                   <p className="font-bold text-sm mb-1" style={{ color: '#C9A961' }}>{h.range}</p>
-                  <p className="text-xs" style={{ color: '#888' }}>{h.note}</p>
+                  <p className="text-xs" style={{ color: '#595959' }}>{h.note}</p>
                 </div>
               ))}
             </div>
@@ -342,7 +342,7 @@ export default function TexasToBakersfieldPage() {
                 <div key={t.label} className="flex items-start justify-between gap-4 p-4 rounded-xl" style={{ backgroundColor: '#fff', border: '1px solid rgba(28,61,90,0.08)' }}>
                   <div>
                     <p className="text-sm font-semibold" style={{ color: '#1C3D5A' }}>{t.label}</p>
-                    <p className="text-xs mt-0.5" style={{ color: '#888' }}>{t.note}</p>
+                    <p className="text-xs mt-0.5" style={{ color: '#595959' }}>{t.note}</p>
                   </div>
                   <span className="font-bold text-sm flex-shrink-0" style={{ color: '#C9A961' }}>{t.value}</span>
                 </div>
@@ -394,7 +394,7 @@ export default function TexasToBakersfieldPage() {
                   <h3 className="font-bold text-sm mb-3" style={{ color: '#1C3D5A' }}>{c.title}</h3>
                   <p className="text-xs mb-1"><span className="font-semibold" style={{ color: '#1C3D5A' }}>Bakersfield: </span><span style={{ color: '#444' }}>{c.bfield}</span></p>
                   <p className="text-xs mb-2"><span className="font-semibold" style={{ color: '#555' }}>Texas: </span><span style={{ color: '#444' }}>{c.texas}</span></p>
-                  <p className="text-xs italic" style={{ color: '#888' }}>{c.verdict}</p>
+                  <p className="text-xs italic" style={{ color: '#595959' }}>{c.verdict}</p>
                 </div>
               ))}
             </div>

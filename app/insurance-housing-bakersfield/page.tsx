@@ -208,7 +208,7 @@ export default function InsuranceHousingPage() {
                   'Move-in ready homes — landlords respond quickly',
                 ].map(item => (
                   <li key={item} className="flex items-start gap-2 text-sm" style={{ color: '#444' }}>
-                    <span style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
+                    <span aria-hidden="true" style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
                     {item}
                   </li>
                 ))}
@@ -238,7 +238,7 @@ export default function InsuranceHousingPage() {
                   'List your property for free on BakersfieldRentalHomes.com',
                 ].map(item => (
                   <li key={item} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(247,245,240,0.85)' }}>
-                    <span style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
+                    <span aria-hidden="true" style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
                     {item}
                   </li>
                 ))}
@@ -311,7 +311,7 @@ export default function InsuranceHousingPage() {
                 </span>
               ))}
             </div>
-            <p className="text-xs mt-5" style={{ color: '#999' }}>
+            <p className="text-xs mt-5" style={{ color: '#696969' }}>
               Many carriers also work through third-party ALE housing specialists such as Temporary Accommodations, Renters Reference, and Premier Corporate Relocation.
             </p>
           </div>

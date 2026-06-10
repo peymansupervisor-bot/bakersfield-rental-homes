@@ -207,7 +207,7 @@ export default function MovingToBakersfieldPage() {
                 'I-5 and Hwy 99 put LA about 1.5–2 hours away',
               ].map(item => (
                 <li key={item} className="flex items-start gap-2 text-sm" style={{ color: '#333' }}>
-                  <span style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
+                  <span aria-hidden="true" style={{ color: '#C9A961', flexShrink: 0 }}>✓</span>
                   {item}
                 </li>
               ))}
@@ -274,7 +274,7 @@ export default function MovingToBakersfieldPage() {
                     <h3 className="text-lg font-bold" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: '#1C3D5A' }}>{n.name}</h3>
                     <span className="text-sm font-semibold px-3 py-1 rounded-full" style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#7d6019' }}>{n.rent}</span>
                   </div>
-                  <p className="text-xs mb-3 italic" style={{ color: '#888' }}>{n.vibe}</p>
+                  <p className="text-xs mb-3 italic" style={{ color: '#595959' }}>{n.vibe}</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs" style={{ color: '#444' }}>
                     <div><span className="font-semibold" style={{ color: '#1C3D5A' }}>Schools: </span>{n.schools}</div>
                     <div><span className="font-semibold" style={{ color: '#2a7a2a' }}>Pros: </span>{n.pros}</div>
@@ -302,10 +302,10 @@ export default function MovingToBakersfieldPage() {
               <table className="w-full text-sm border-collapse" aria-label="Cost of living comparison">
                 <thead>
                   <tr style={{ backgroundColor: '#1C3D5A', color: '#F7F5F0' }}>
-                    <th className="text-left p-3 font-semibold rounded-tl-lg">Category</th>
-                    <th className="text-left p-3 font-semibold">Bakersfield</th>
-                    <th className="text-left p-3 font-semibold">Los Angeles</th>
-                    <th className="text-left p-3 font-semibold rounded-tr-lg">San Francisco</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tl-lg">Category</th>
+                    <th scope="col" className="text-left p-3 font-semibold">Bakersfield</th>
+                    <th scope="col" className="text-left p-3 font-semibold">Los Angeles</th>
+                    <th scope="col" className="text-left p-3 font-semibold rounded-tr-lg">San Francisco</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -320,7 +320,7 @@ export default function MovingToBakersfieldPage() {
                 </tbody>
               </table>
             </div>
-            <p className="text-xs mt-4" style={{ color: '#888' }}>Note: utilities are higher in Bakersfield due to summer cooling costs — AC runs 5–6 months a year.</p>
+            <p className="text-xs mt-4" style={{ color: '#595959' }}>Note: utilities are higher in Bakersfield due to summer cooling costs — AC runs 5–6 months a year.</p>
             <div className="mt-6 p-5 rounded-xl" style={{ backgroundColor: 'rgba(201,169,97,0.1)', border: '1px solid rgba(201,169,97,0.3)' }}>
               <p className="text-sm font-semibold mb-1" style={{ color: '#1C3D5A' }}>The bottom line on rent</p>
               <p className="text-sm" style={{ color: '#444' }}>
@@ -407,7 +407,7 @@ export default function MovingToBakersfieldPage() {
                 <div key={d.district} className="flex items-center justify-between p-4 rounded-xl gap-4" style={{ backgroundColor: '#fff', border: '1px solid rgba(201,169,97,0.15)' }}>
                   <div>
                     <p className="font-semibold text-sm" style={{ color: '#1C3D5A' }}>{d.district}</p>
-                    <p className="text-xs" style={{ color: '#888' }}>{d.area}</p>
+                    <p className="text-xs" style={{ color: '#595959' }}>{d.area}</p>
                   </div>
                   <span className="text-xs px-3 py-1 rounded-full font-semibold flex-shrink-0" style={{ backgroundColor: 'rgba(201,169,97,0.12)', color: '#7d6019' }}>{d.rating}</span>
                 </div>
@@ -442,7 +442,7 @@ export default function MovingToBakersfieldPage() {
                     <p className="font-semibold text-sm" style={{ color: '#1C3D5A' }}>{c.dest}</p>
                     <span className="text-xs font-bold" style={{ color: '#C9A961' }}>{c.time}</span>
                   </div>
-                  <p className="text-xs" style={{ color: '#888' }}>{c.note}</p>
+                  <p className="text-xs" style={{ color: '#595959' }}>{c.note}</p>
                 </div>
               ))}
             </div>
