@@ -25,6 +25,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: 'how-to-manage-your-rental-property',
+    title: 'How to Manage Your Own Rental Property',
+    excerpt: 'Managing your rental property is not difficult — but it starts with the right values, not the right paperwork. A practical guide on maintenance, tenant rights, and what makes a truly good landlord.',
+    date: 'June 2026',
+    readTime: '8 min read',
+    category: 'Landlord Guide',
+  },
+  {
     slug: 'how-to-prevent-squatters-vacant-rental-property',
     title: 'How to Prevent Squatters in Your Vacant Rental Property',
     excerpt: 'Security cameras, smart locks, and the legal steps every Bakersfield landlord should take before a property goes vacant — plus a Vivint installation credit through Bakersfield Brokers.',

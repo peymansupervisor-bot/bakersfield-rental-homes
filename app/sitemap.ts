@@ -30,6 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.75 },
     { url: `${SITE_URL}/blog/average-rent-bakersfield-2026`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/blog/how-to-prevent-squatters-vacant-rental-property`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/how-to-manage-your-rental-property`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/blog/section-8-housing-bakersfield`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/blog/tenant-rights-california-2026`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/blog/moving-to-bakersfield-ca`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
