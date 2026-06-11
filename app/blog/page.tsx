@@ -25,6 +25,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: 'how-to-prevent-squatters-vacant-rental-property',
+    title: 'How to Prevent Squatters in Your Vacant Rental Property',
+    excerpt: 'Security cameras, smart locks, and the legal steps every Bakersfield landlord should take before a property goes vacant — plus a Vivint installation credit through Bakersfield Brokers.',
+    date: 'June 2026',
+    readTime: '7 min read',
+    category: 'Landlord Guide',
+  },
+  {
     slug: 'section-8-housing-bakersfield',
     title: 'Section 8 Housing in Bakersfield CA: Complete 2026 Guide',
     excerpt: 'How to apply for a Housing Choice Voucher through HACK, find a Section 8 landlord, pass inspection, and rent in Bakersfield — plus your rights under California SB 329.',
